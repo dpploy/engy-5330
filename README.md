@@ -10,9 +10,9 @@
    + [Dept. of Chemical Engineering](https://www.uml.edu/Engineering/Chemical/) (Nuclear Program)
    + [Prof. Valmor F. de Almeida](https://www.uml.edu/Engineering/Chemical/faculty/de-Almeida-Valmor.aspx) (valmor_dealmeida@uml.edu)
 
-The goal of this course is to present to students of (nuclear) chemical engineering an interconnected set of computational methods needed in the core undergraduate chemical engineering curriculum. In particular, methods that assist the students in solving problems in the core areas of chemical reaction equilibria, separations, unit operations, and chemical reactor engineering with applications in nuclear and biochemical engineering.
+The goal of this course is to present an unified treatment of continuum transport phenomena using computational finite element methods. Therefore serving as a foundation for simulation of coupled fluid flow (multiphase), thermo-mechanics, heat transfer, radiation, reactive mass transfer and electromagnetics. The computational framework used is open source and based on MOOSE: Multiphysics Object-Oriented Simulation Environment. Time-dependent, three-dimensional models will be the end-target of this course, therefore necessary topics in parallel computing will be covered. Basic knowledge of transport phenomena is required in addition to computer programming skills of one or more object oriented languages (*e.g.* C++ or/and Python).
 
-This three-credit lecture course (and one additional contact hour) over fifteen weeks, consists of Jupyter notebooks used for lectures (numbered 01 to 21) and laboratory work (labwork-01 to 14) for students to practice their skills in computer-aided problem solving (see `notebooks/`). The assumption is that students have little computer pragramming experience and are currently taking the core courses in chemical engineering up to the second semester of the junior year. Therefore this course is a mix of computational methods and computer programming (in python language) aimed at helping students in the remaining portion of their curriculum course work. 
+This three-credit lecture course over fifteen weeks, consists of Jupyter notebooks used for lectures (see `notebooks/`).
 
 Feedback and collaboration to improve this course are welcome through GitHub `pull requests` and `issues` or direct email. 
 
