@@ -1,10 +1,10 @@
 # Engy-5310 Computational Continuum Transport Phenomena
 
-[![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/tree/main/notebooks)
+[![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/tree/main/notebooks/)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/chen-3170/master)
 
-![Website](https://img.shields.io/website/https/github.com/dpploy/chen-3170.svg)
-[![Size](https://img.shields.io/github/repo-size/dpploy/chen-3170.svg?label=size&style=flat)](https://github.com/dpploy/chen-3170)
+![Website](https://img.shields.io/website/https/github.com/dpploy/engy-5310.svg)
+[![Size](https://img.shields.io/github/repo-size/dpploy/engy-5310.svg?label=size&style=flat)](https://github.com/dpploy/engy-5310)
 
    + [University of Massachusetts Lowell](https://www.uml.edu/), Spring 2021
    + [Dept. of Chemical Engineering](https://www.uml.edu/Engineering/Chemical/) (Nuclear Program)
@@ -19,7 +19,7 @@ Feedback and collaboration to improve this course are welcome through GitHub `pu
 This course uses Jupyter Notebooks in Python programming language. The content can be accessed in
 the following ways:
 + Static HTML version of the notebooks will be displayed on the current browser if a 
-notebook file listed in the code repository, `notebook/` is clicked on. This will not allow for rendering mathematical formulae. Alternatively you can render the notebooks on [NBViewer](http://nbviewer.jupyter.org/) by **clicking on the [![NBViewer](https://github.com/jupyter/design/blob/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/chen-3170/tree/master/notebooks/) badge above**.
+notebook file listed in the code repository, `notebook/` is clicked on. This will not allow for rendering mathematical formulae. Alternatively you can render the notebooks on [NBViewer](http://nbviewer.jupyter.org/) by **clicking on the [![NBViewer](https://github.com/jupyter/design/blob/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/tree/main/notebooks/) badge above**.
 + Click on the `launch/binder` badge above to launch a Jupyter Notebook server for the
 course notebooks. There will be a delay for the Binder cloud server to build a 
 Python (Anaconda) programming environment for you. However once it is done, it will 
