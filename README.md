@@ -1,7 +1,7 @@
 # Engy-5310 Computational Continuum Transport Phenomena
 
 [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/tree/main/notebooks/)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/chen-3170/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/main)
 
 ![Website](https://img.shields.io/website/https/github.com/dpploy/engy-5310.svg)
 [![Size](https://img.shields.io/github/repo-size/dpploy/engy-5310.svg?label=size&style=flat)](https://github.com/dpploy/engy-5310)
