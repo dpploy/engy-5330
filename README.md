@@ -27,6 +27,10 @@ start a Jupyter Notebook server on your web browser with all notebooks listed. U
 clicking on individual notebook files, you will access the live course notebooks.
 + Use the green `Code` button above on the right upper side of the page and either download the repository using **GitHub Desktop** or download a **ZIP archive** to your local machine. Unzip the archive. Then use your own Jupyter Notebook server (*see Syllabus or Introduction notebooks on how to install Anaconda*) to navigate to the directory created by the unzip or GitHub Desktop operation and upload the notebook files. In the case of a ZIP download, the files will not be updated on your local machine and you will need to return to the repository for getting new files or updated versions of previously downloaded files as the course progresses. If you use GitHub Desktop, the repository will be in sync.
 
+> *Students will profit from either taking or self-studying a [companion course](https://github.com/dpploy/chen-3170) 
+> that explains many of the computational aspects of using Jupyter notebooks, Python language programming, and methods 
+> in computational engineering.*
+
 Thanks in advance for inputs to improve this course.\
 Regards,\
 Prof. Valmor F. de Almeida
