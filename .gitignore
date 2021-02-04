@@ -3,6 +3,8 @@
 *.png
 *.svg
 toolkit.py
+*solution*
+.swp*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
