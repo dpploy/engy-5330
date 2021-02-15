@@ -5,6 +5,7 @@
 toolkit.py
 *solution*
 *.swp
+p*moose*
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
