@@ -40,13 +40,15 @@ EquationTerm::EquationTerm(const InputParameters & parameters) : Kernel(paramete
 Real
 EquationTerm::computeQpResidual()
 {
+  // Implement the return
   // e.g. return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
-  return 0.0
+  return 0.0 // remove this line
 }
 
 Real
 EquationTerm::computeQpJacobian()
 {
+  // Implement the return
   // e.g. return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-  return 0.0
+  return 0.0 // remove this line
 }
