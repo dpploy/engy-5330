@@ -9,7 +9,7 @@
 
 #include "EquationFluxBC.h"
 
-egisterMooseObject("Engy5310PXApp", EquationFluxBC);
+registerMooseObject("Engy5310PXApp", EquationFluxBC);
 
 defineLegacyParams(EquationFluxBC);
 
