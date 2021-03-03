@@ -15,7 +15,7 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("Engy5310PXApp", EquationTerm);
+registerMooseObject("Engy5310PXApp-FIXME", EquationTerm);
 
 /**
  * This function defines the valid parameters for
@@ -42,7 +42,7 @@ EquationTerm::computeQpResidual()
 {
   // Implement the return
   // e.g. return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
-  return 0.0 // remove this line
+  FIXME return 0.0 // remove this line
 }
 
 Real
@@ -50,5 +50,5 @@ EquationTerm::computeQpJacobian()
 {
   // Implement the return
   // e.g. return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-  return 0.0 // remove this line
+  FIXME return 0.0 // remove this line
 }

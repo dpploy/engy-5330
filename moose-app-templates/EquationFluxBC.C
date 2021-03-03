@@ -9,7 +9,7 @@
 
 #include "EquationFluxBC.h"
 
-registerMooseObject("Engy5310PXApp", EquationFluxBC);
+registerMooseObject("Engy5310PXApp-FIXME", EquationFluxBC);
 
 defineLegacyParams(EquationFluxBC);
 
@@ -36,7 +36,7 @@ EquationFluxBC::computeQpResidual()
 {
  // Implement the return:
  // e.g. return _param1 * (_u[_qp] - _param2) * _test[_i][_qp];
-  return 0.0; // remove this line
+  FIXME return 0.0; // remove this line
 }
 
 Real
@@ -44,5 +44,5 @@ EquationFluxBC::computeQpJacobian()
 {
  // Implement the return:
  // e.g. return _param1 * _phi[_j][_qp] * _test[_i][_qp];
-  return 0.0; // remove this line
+  FIXME return 0.0; // remove this line
 }
