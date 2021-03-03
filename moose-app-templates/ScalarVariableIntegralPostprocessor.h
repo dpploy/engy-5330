@@ -14,12 +14,12 @@
 // Forward Declarations
 // none
 
-class VariableIntegralPostprocessor : public ElementIntegralPostprocessor
+class ScalarVariableIntegralPostprocessor : public ElementIntegralPostprocessor
 {
 public:
   static InputParameters validParams();
 
-  VariableIntegralPostprocessor(const InputParameters & parameters);
+  ScalarVariableIntegralPostprocessor(const InputParameters & parameters);
   virtual Real getValue();
 
 protected:

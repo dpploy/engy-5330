@@ -8,40 +8,41 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 // Template includes
-#include "VariableIntegralPostprocessor.h"
+#include "ScalarVariableIntegralPostprocessor.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", VariableIntegralPostprocessor);
+registerMooseObject("Engy5310PXApp-FIXME", ScalarVariableIntegralPostprocessor);
 
 InputParameters
-VariableIntegralPostprocessor::validParams()
+ScalarVariableIntegralPostprocessor::validParams()
 {
   InputParameters params = ElementIntegralPostprocessor::validParams();
-  params.addClassDescription("Computes entropy error.");
+  params.addClassDescription("Computes a volume integral of a scalar variable.");
   params.addRequiredParam<Real>("param1", "Parameter 1 meaning");
   params.addRequiredParam<Real>("param2", "Parameter 2 meaning");
-  params.addRequiredCoupledVar("variableName1", "meaning of variable 1");
-  params.addRequiredCoupledVar("variableName2", "meaning of variable 2");
+  // Add a "coupling variable" to get a variable from the input file.
+  params.addRequiredCoupledVar("variable1", "Variable to be used");
+  params.addRequiredCoupledVar("variable2", "Variable to be used");
 
   return params;
 }
 
-VariableIntegralPostprocessor::VariableIntegralPostprocessor(const InputParameters & parameters)
+ScalarVariableIntegralPostprocessor::ScalarVariableIntegralPostprocessor(const InputParameters & parameters)
   : ElementIntegralPostprocessor(parameters),
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2")),
-    _variableName1(coupledValue("variableName1")),
-    _variableName2(coupledValue("variableName2"))
+    _variableName1(coupledValue("variable1")),
+    _variableName2(coupledValue("variable2"))
 {
 }
 
 Real
-VariableIntegralPostprocessor::getValue()
+ScalarVariableIntegralPostprocessor::getValue()
 {
   return ElementIntegralPostprocessor::getValue();
 }
 
 Real
-VariableIntegralPostprocessor::computeQpIntegral()
+ScalarVariableIntegralPostprocessor::computeQpIntegral()
 {
  // e.g. Real integrand = (_variableName1[_qp] / _param1) * std::pow(_param1 / _variableName2[_qp], 1.4) - 1.;
  FIXME return integrand;
