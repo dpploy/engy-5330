@@ -11,15 +11,20 @@
 
 #include "AuxKernel.h"
 
+class VectorFlux;
+
+template <>
+InputParameters validParams<VectorFlux>();
+
 /**
  * Auxiliary kernel responsible for computing the flux of a variable.
  */
-class Flux : public VectorAuxKernel
+class VectorFlux : public VectorAuxKernel
 {
 public:
   static InputParameters validParams();
 
-  Flux(const InputParameters & parameters);
+  VectorFlux(const InputParameters & parameters);
 
 protected:
   /**
@@ -30,7 +35,7 @@ protected:
   virtual RealVectorValue computeValue() override;
 
   /// The gradient of a coupled variable
-  const VariableGradient & _variableName_gradient;
+  const VariableGradient & _gradientVariableName;
 
   /// Add here other parameters needed
   Real _param1;

@@ -28,11 +28,11 @@ template <>
 InputParameters validParams<EquationTerm>();
 
 /**
- * This kernel implements the Laplacian operator:
+ * This kernel implements the following operator:
  *
- * $\nabla u \cdot \nabla v$
+ * $ u ... v $
  *
- * where v is test function and u is an admissible solution
+ * where v is a test function and u is an admissible solution
  */
 
 /// EquationTerm class inherits from Kernel class

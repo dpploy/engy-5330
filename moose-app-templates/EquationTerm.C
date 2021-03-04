@@ -25,8 +25,7 @@ template<>
 InputParameters validParams<EquationTerm>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($\ldots$), with the weak "
-                             "form of $\ldots$.");
+  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
   params.addParam<Real>("equationTermCoeff",1.0,"Equation Term Coefficient");
   return params;
 }

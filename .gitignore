@@ -8,6 +8,7 @@ toolkit.py
 p*moose*
 engy5310p*
 test*
+*.csv
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

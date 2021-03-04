@@ -7,12 +7,12 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "Flux.h"
+#include "VectorFlux.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", Flux);
+registerMooseObject("Engy5310PXApp-FIXME", VectorFlux);
 
 InputParameters
-Flux::validParams()
+VectorFlux::validParams()
 {
   InputParameters params = VectorAuxKernel::validParams();
   params.addClassDescription("Computes the flux of a variable.");
@@ -25,10 +25,10 @@ Flux::validParams()
   return params;
 }
 
-Flux::Flux(const InputParameters & parameters)
+VectorFlux::VectorFlux(const InputParameters & parameters)
   : VectorAuxKernel(parameters),
     // Initialize variable gradient
-    _variableName_gradient(coupledGradient("variableName")),
+    _gradVariableName(coupledGradient("variableName")),
     // Initialize parameters
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2"))
@@ -36,10 +36,10 @@ Flux::Flux(const InputParameters & parameters)
 }
 
 RealVectorValue
-Flux::computeValue()
+VectorFlux::computeValue()
 {
   // Access the gradient of the variable at this quadrature point, then pull out the 
   // "component" of it requested (x, y or z). Note, that getting a particular component 
   // of a gradient is done using the parenthesis operator.
-  FIXME return - _param1 * _param2 * _variableName_gradient[_qp];
+  FIXME return - _param1 * _param2 * _gradVariableName[_qp];
 }
