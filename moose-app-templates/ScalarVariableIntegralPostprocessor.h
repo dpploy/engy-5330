@@ -23,7 +23,7 @@ public:
   virtual Real getValue();
 
 protected:
-  virtual Real computeQpIntegral();
+  virtual Real computeQpIntegral() override;
 
   Real _param1;
   Real _param2;
