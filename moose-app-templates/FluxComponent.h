@@ -11,6 +11,11 @@
 
 #include "AuxKernel.h"
 
+class FluxComponent;
+
+template <>
+InputParameters validParams<FluxComponent>();
+
 /**
  * Auxiliary kernel responsible for computing the flux of a variable.
  */

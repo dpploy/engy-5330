@@ -11,6 +11,8 @@
 
 registerMooseObject("Engy5310PXApp-FIXME", FluxComponent);
 
+defineLegacyParams(FluxComponent);
+
 InputParameters
 VectorFlux::validParams()
 {
@@ -31,7 +33,7 @@ VectorFlux::VectorFlux(const InputParameters & parameters)
   : VectorAuxKernel(parameters),
     _component(getParam<MooseEnum>("component")),
     // Initialize variable gradient
-    _gradVariableName_component(coupledGradient("variableName")),
+    _gradVariableName_component(coupledGradient("field")),
     // Initialize parameters
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2"))
