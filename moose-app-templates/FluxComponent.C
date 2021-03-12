@@ -29,8 +29,8 @@ VectorFlux::validParams()
   return params;
 }
 
-VectorFlux::VectorFlux(const InputParameters & parameters)
-  : VectorAuxKernel(parameters),
+FluxComponent::FluxComponent(const InputParameters & parameters)
+  : AuxKernel(parameters),
     _component(getParam<MooseEnum>("component")),
     // Initialize variable gradient
     _gradVariableName_component(coupledGradient("field")),
@@ -41,7 +41,7 @@ VectorFlux::VectorFlux(const InputParameters & parameters)
 }
 
 Real
-VectorFlux::computeValue()
+FluxComponent::computeValue()
 {
   // Access the gradient of the variable at this quadrature point, then pull out the 
   // "component" of it requested (x, y or z). Note, that getting a particular component 
