@@ -1,11 +1,11 @@
-#include "Engy5310P1App.h"
+#include "NeutronBallApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
 
 InputParameters
-Engy5310P1App::validParams()
+NeutronBallApp::validParams()
 {
   InputParameters params = MooseApp::validParams();
 
@@ -18,39 +18,39 @@ Engy5310P1App::validParams()
   return params;
 }
 
-Engy5310P1App::Engy5310P1App(InputParameters parameters) : MooseApp(parameters)
+NeutronBallApp::NeutronBallApp(InputParameters parameters) : MooseApp(parameters)
 {
-  Engy5310P1App::registerAll(_factory, _action_factory, _syntax);
+  NeutronBallApp::registerAll(_factory, _action_factory, _syntax);
 }
 
-Engy5310P1App::~Engy5310P1App() {}
+NeutronBallApp::~NeutronBallApp() {}
 
 void
-Engy5310P1App::registerAll(Factory & f, ActionFactory & af, Syntax & s)
+NeutronBallApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
   ModulesApp::registerAll(f, af, s);
-  Registry::registerObjectsTo(f, {"Engy5310P1App"});
-  Registry::registerActionsTo(af, {"Engy5310P1App"});
+  Registry::registerObjectsTo(f, {"NeutronBallApp"});
+  Registry::registerActionsTo(af, {"NeutronBallApp"});
 
   /* register custom execute flags, action syntax, etc. here */
 }
 
 void
-Engy5310P1App::registerApps()
+NeutronBallApp::registerApps()
 {
-  registerApp(Engy5310P1App);
+  registerApp(NeutronBallApp);
 }
 
 /***************************************************************************************************
  *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
  **************************************************************************************************/
 extern "C" void
-Engy5310P1App__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+NeutronBallApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
-  Engy5310P1App::registerAll(f, af, s);
+  NeutronBallApp::registerAll(f, af, s);
 }
 extern "C" void
-Engy5310P1App__registerApps()
+NeutronBallApp__registerApps()
 {
-  Engy5310P1App::registerApps();
+  NeutronBallApp::registerApps();
 }
