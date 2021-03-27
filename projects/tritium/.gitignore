@@ -1,4 +1,8 @@
 *~
+.C
+.c
+.cxx
+.h
 .libs
 *.la
 *.lo
