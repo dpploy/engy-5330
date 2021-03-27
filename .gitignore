@@ -9,6 +9,14 @@ p*moose*
 engy5310p*
 test*
 *.csv
+projects/tritium/*.C
+projects/tritium/*.c
+projects/tritium/*.cxx
+projects/tritium/*.h
+projects/xenon-removal/*.C
+projects/xenon-removal/*.c
+projects/xenon-removal/*.cxx
+projects/xenon-removal/*.h
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
