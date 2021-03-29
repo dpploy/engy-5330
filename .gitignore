@@ -95,7 +95,7 @@ temp_print_trace.*
 *.svg
 *.gif
 *.tif
-*.jpg
+#*.jpg
 *.tiff
 *.ps
 *.bmp
