@@ -16,7 +16,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |  |
 |:---:|
 | <img width="380" src="pics/steaming.jpg" title="Two-Phase Pipe Flow"> |
-| <p style="text-align:center;"><b>Developing two-phase flow in a heat exchanger.</b></p> |
+| <p style="text-align:center;"><b>Developing two-phase fluid flow in a nuclear heat exchanger.</b></p> |
 
 
 References:
