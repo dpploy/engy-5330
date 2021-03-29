@@ -4,9 +4,9 @@ UMass Lowell Fall 2020 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
 Engy-4390: Nuclear Systems Design and Analysis
 
-View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-4390/blob/main/projects/sm-pwr/project-report.ipynb)
+View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/blob/main/projects/steamer/report.ipynb)
 
-Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-4390/HEAD?filepath=projects%2Fsm-pwr%2Fproject-report.ipynb)
+Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Fsteamer%2Freport.ipynb)
 
  >[Jack Kennedy](https://github.com/xxxx), [Nik Kemper](https://github.com/xxxx) and [Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
  >[Dept. of Chemical Engineering (Nuclear Program)](https://www.uml.edu/Engineering/Chemical/faculty/de-Almeida-Valmor.aspx) <br>
