@@ -15,7 +15,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/steaming.jpg" title="The steamer is steaming!"> |
+| <img width="380" src="pics/steaming.jpg" title="Steaming the Steamer"> |
 | <p style="text-align:center;"><b>Developing two-phase fluid flow in a nuclear heat exchanger.</b></p> |
 
 
