@@ -15,7 +15,7 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("Engy5310P1App", DiffusionTerm);
+registerMooseObject("SteamerApp", DiffusionTerm);
 
 /**
  * This function defines the valid parameters for
@@ -41,12 +41,10 @@ Real
 DiffusionTerm::computeQpResidual()
 {
   return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
-
 }
 
 Real
 DiffusionTerm::computeQpJacobian()
 {
 	return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-
 }

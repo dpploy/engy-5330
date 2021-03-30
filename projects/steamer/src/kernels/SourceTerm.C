@@ -17,7 +17,7 @@
  */
 
 /// Forward Declarations
-registerMooseObject("Engy5310P1App", SourceTerm);
+registerMooseObject("SteamerApp", SourceTerm);
 
 
 /**
@@ -44,7 +44,6 @@ Real
 SourceTerm::computeQpResidual()
 {
   return  _sourceS *_test[_i][_qp] ;
-
 }
 
 Real
