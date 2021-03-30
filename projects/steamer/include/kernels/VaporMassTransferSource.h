@@ -18,14 +18,14 @@
  */
 
 /// Forward Declarations
-class SourceTerm;
+class VaporMassTransferSource;
 
 /**
  * validParams returns the parameters that this Kernel accepts / needs
  * The actual body of the function MUST be in the .C file.
  */
 template <>
-InputParameters validParams<SourceTerm>();
+InputParameters validParams<VaporMassTransferSource>();
 
 /**
  * This kernel implements the Laplacian operator:
@@ -35,8 +35,8 @@ InputParameters validParams<SourceTerm>();
  * where v is a test function and u is an admissible solution
  */
 
-/// SourceTerm class inherits from Kernel class
-class SourceTerm : public Kernel
+/// VaporMassTransferSource class inherits from Kernel class
+class VaporMassTransferSource : public Kernel
 {
 public:
 
@@ -45,7 +45,7 @@ public:
    * InputParameters object, just like other
    * Kernel-derived classes.
    */
-  SourceTerm(const InputParameters & parameters);
+  VaporMassTransferSource(const InputParameters & parameters);
 
 protected:
   /// Required residual for standard kernels in MOOSE
@@ -57,6 +57,6 @@ protected:
    */
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the SourceTerm coefficient
+  /// The variables which holds the value for the VaporMassTransferSource coefficient
   const Real _sourceS;
 };

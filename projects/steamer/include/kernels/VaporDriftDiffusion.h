@@ -18,14 +18,14 @@
  */
 
 /// Forward Declarations
-class DiffusionTerm;
+class VaporDriftDiffusion;
 
 /**
  * validParams returns the parameters that this Kernel accepts / needs
  * The actual body of the function MUST be in the .C file.
  */
 template <> 
-InputParameters validParams<DiffusionTerm>();
+InputParameters validParams<VaporDriftDiffusion>();
 
 /**
  * This kernel implements the following operator:
@@ -35,8 +35,8 @@ InputParameters validParams<DiffusionTerm>();
  * where v is a test function and u is an admissible solution
  */
 
-/// DiffusionTerm class inherits from Kernel class
-class DiffusionTerm : public Kernel
+/// VaporDriftDiffusion class inherits from Kernel class
+class VaporDriftDiffusion : public Kernel
 {
 public:
 
@@ -45,7 +45,7 @@ public:
    * InputParameters object, just like other
    * Kernel-derived classes.
    */
-  DiffusionTerm(const InputParameters & parameters);
+  VaporDriftDiffusion(const InputParameters & parameters);
 
 protected:
   /// Required residual for standard kernels in MOOSE
@@ -57,6 +57,6 @@ protected:
    */
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the DiffusionTerm coefficient
+  /// The variables which holds the value for the VaporDriftDiffusion coefficient
   const Real _diffCoeff;
 };

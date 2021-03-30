@@ -20,35 +20,50 @@ source_s = 1.00000e-03
 []
 
 [Variables]
-  [u]
+  [velocityMixture]
+    order = first
+    family = lagrange
+  []
+  [fractionVapor]
     order = first
     family = lagrange
   []
 []
 
 [Kernels]
-  [diffusion-term]
-    type = DiffusionTerm
-    variable = u     # produced quantity
+  [mixture-mass-balance-divergence]
+    type = MixtureMassBalDivergence
+    variable = velocityMixture     # produced quantity
     diffCoeff = ${replace diff_coeff}
   []
-  [source-term]
-    type = SourceTerm
-    variable = u     # add to produced quantity
+  [vapor-drift-flux]
+    type = VaporDriftDiffusion
+    variable = fractionVapor     # produced quantity
+    diffCoeff = ${replace diff_coeff}
+  []
+  [vapor-mass-transfer-source]
+    type = VaporMassTransferSource
+    variable = fractionVapor     # add to produced quantity
     sourceS = ${replace source_s}
   []
 []
 
 [BCs]
-  [entry]
+  [entry-vapor-fraction]
     type = DirichletBC
-    variable = u
+    variable = fractionVapor
     boundary = left
     value = 3.00000e+00
   []
-  [exit]
+  [entry-mixture-velocity]
     type = DirichletBC
-    variable = u
+    variable = velocityMixture
+    boundary = left
+    value = 0.00000e+00
+  []
+  [exit]
+    type = NeumannBC
+    variable = fractionVapor
     boundary = right
     value = 0.00000e+00
   []
@@ -66,7 +81,7 @@ source_s = 1.00000e-03
   [x-data]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'u'    # output data
+    variable = 'velocityMixture fractionVapor'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
     num_points = 20

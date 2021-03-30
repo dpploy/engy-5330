@@ -7,7 +7,7 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "DiffusionTerm.h"
+#include "VaporDriftDiffusion.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
@@ -15,14 +15,14 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("SteamerApp", DiffusionTerm);
+registerMooseObject("SteamerApp", VaporDriftDiffusion);
 
 /**
  * This function defines the valid parameters for
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<DiffusionTerm>()
+InputParameters validParams<VaporDriftDiffusion>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($\ldots$), with the weak "
@@ -31,20 +31,20 @@ InputParameters validParams<DiffusionTerm>()
   return params;
 }
 
-DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parameters),
+VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
     _diffCoeff(getParam<Real>("diffCoeff"))
 {
 }
 
 Real
-DiffusionTerm::computeQpResidual()
+VaporDriftDiffusion::computeQpResidual()
 {
   return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
 }
 
 Real
-DiffusionTerm::computeQpJacobian()
+VaporDriftDiffusion::computeQpJacobian()
 {
 	return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
 }

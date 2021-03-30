@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "SourceTerm.h"
+#include "VaporMassTransferSource.h"
 /**
  * The forward declaration is so that we can declare the validParams() function
  * before we actually define the class... that way the definition isn't lost
@@ -17,7 +17,7 @@
  */
 
 /// Forward Declarations
-registerMooseObject("SteamerApp", SourceTerm);
+registerMooseObject("SteamerApp", VaporMassTransferSource);
 
 
 /**
@@ -25,7 +25,7 @@ registerMooseObject("SteamerApp", SourceTerm);
  * The actual body of the function MUST be in the .C file.
  */
 template <> 
-InputParameters validParams<SourceTerm>()
+InputParameters validParams<VaporMassTransferSource>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($\ldots$), with the weak "
@@ -34,20 +34,20 @@ InputParameters validParams<SourceTerm>()
   return params;
 }
 
-SourceTerm::SourceTerm(const InputParameters & parameters) : Kernel(parameters),
+VaporMassTransferSource::VaporMassTransferSource(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
     _sourceS(getParam<Real>("sourceS"))
 {
 }
 
 Real
-SourceTerm::computeQpResidual()
+VaporMassTransferSource::computeQpResidual()
 {
   return  _sourceS *_test[_i][_qp] ;
 }
 
 Real
-SourceTerm::computeQpJacobian()
+VaporMassTransferSource::computeQpJacobian()
 {
   return 0.0;
 }
