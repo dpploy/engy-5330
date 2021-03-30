@@ -4,13 +4,14 @@
   dim = 1
   xmin = 0
   xmax = 25
-  nx = 3
+  nx = 10
+  elem_type = edge3
  []
 []
 
 [Variables]
  [u]                                 # our unknown variable to be related to below
-  order = first
+  order = second
   family = lagrange
  []
 []
@@ -21,10 +22,15 @@
   variable = u                       # our unknown variable from the [Variables] block
   diffCoeff = 1.00000e-01            # our defined diffusion coefficient C++ variable
  []
+ [absorption-term]
+  type = AbsorptionTerm              # our name for the diffusion kernel C++ class
+  variable = u                       # our unknown variable from the [Variables] block
+  sigmaA = 1.00000e-02               # our defined diffusion coefficient C++ variable
+ []
  [source-term]                       # our source term kernel implemented in the app
   type = SourceTerm                  # our name for the source kernel C++ class
   variable = u                       # our unknown variable from the [Variables] block
-  sourceS = 1.00000e-03              # our defined source constant C++ variable
+  sourceS = 0.00000e-03              # our defined source constant C++ variable
  []
 []
 
@@ -57,7 +63,7 @@
   variable = 'u'                     # our unknown variable from the [Variables] block
   start_point = '0.00000e+00 0 0'
   end_point = '2.50000e+01 0 0'
-  num_points = 7
+  num_points = 100
   sort_by = id
  []
 []
