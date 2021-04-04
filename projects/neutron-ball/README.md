@@ -1,4 +1,4 @@
-# Title of Project
+# Neutron Diffusion on a Spherical Domain in Vacuum
 
 UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
