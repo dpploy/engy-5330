@@ -1,4 +1,4 @@
-# Steamer
+# A Diffusion Drift-Flux Model for Two-Phase Mixture Flow
 
 UMass Lowell Fall 2020 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
@@ -16,7 +16,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |  |
 |:---:|
 | <img width="380" src="pics/steaming.jpg" title="Steaming the Steamer"> |
-| <p style="text-align:center;"><b>Developing two-phase fluid flow in a nuclear heat exchanger.</b></p> |
+| <p style="text-align:center;"><b>Two-phase fluid flow development in a nuclear heat exchanger.</b></p> |
 
 
 References:
