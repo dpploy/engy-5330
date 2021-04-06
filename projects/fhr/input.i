@@ -47,8 +47,8 @@ xmax = 230
     variable = diffFluxU_x
     field = u
     component = x
-    param1 = 1800
-    param2 = -1.13
+    param1 = 18
+    param2 = 1
   []
 []
 
