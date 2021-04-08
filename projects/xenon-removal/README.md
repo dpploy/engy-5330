@@ -1,4 +1,4 @@
-# Removal of Xe-135 from Molten Salt Reactor by Circulation He Bubbles
+# Removal of Xe-135 from Molten Salt Reactor by Circulation He Bubbles on MOOSE
 
 UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
