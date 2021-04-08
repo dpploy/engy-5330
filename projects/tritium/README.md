@@ -1,4 +1,4 @@
-# Title of Project
+# Tritium Calculation for MSR
 
 UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
