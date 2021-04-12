@@ -8,7 +8,7 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Ftritium%2Freport.ipynb)
 
- >[Name](https://github.com/xxxx), and [Name](https://github.com/xxx) <br>
+ >[Anthony G. Bowers](https://github.com/xxxx), and [Prof. Subash L. Sharma](https://github.com/SubashSharma1008) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
