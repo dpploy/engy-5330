@@ -9,6 +9,7 @@ p*moose*
 engy5310p*
 test*
 *.csv
+cubit
 projects/tritium/*.C
 projects/tritium/*.c
 projects/tritium/*.cxx
