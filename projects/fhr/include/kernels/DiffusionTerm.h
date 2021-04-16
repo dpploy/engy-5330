@@ -12,6 +12,22 @@
 #include "Kernel.h"
 
 /**
+ * The forward declaration is so that we can declare the validParams() function
+ * before we actually define the class... that way the definition isn't lost
+ * at the bottom of the file.
+ */
+
+/// Forward Declarations
+class DiffusionTerm;
+
+/**
+ * validParams returns the parameters that this Kernel accepts / needs
+ * The actual body of the function MUST be in the .C file.
+ */
+template <> 
+InputParameters validParams<DiffusionTerm>();
+
+/**
  * This kernel implements the following operator:
  *
  * $ u ... v $
@@ -20,7 +36,7 @@
  */
 
 /// EquationTerm class inherits from Kernel class
-class EquationTerm : public Kernel
+class DiffusionTerm : public Kernel
 {
 public:
 
@@ -29,9 +45,8 @@ public:
    * InputParameters object, just like other
    * Kernel-derived classes.
    */
-  EquationTerm(const InputParameters & parameters);
+  DiffusionTerm(const InputParameters & parameters);
 
-protected:
   /// Required residual for standard kernels in MOOSE
   virtual Real computeQpResidual() override;
 
@@ -42,5 +57,5 @@ protected:
   virtual Real computeQpJacobian() override;
 
   /// The variables which holds the value for the EquationTerm coefficient
-  const Real _equationTermCoeff;
+  Real diffCoeff;
 };

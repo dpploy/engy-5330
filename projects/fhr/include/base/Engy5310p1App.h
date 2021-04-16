@@ -11,14 +11,15 @@
 
 #include "MooseApp.h"
 
-class NeutronBallApp : public MooseApp
+class Engy5310p1App : public MooseApp
 {
 public:
   static InputParameters validParams();
 
-  NeutronBallApp(InputParameters parameters);
-  virtual ~NeutronBallApp();
+  Engy5310p1App(InputParameters parameters);
+  virtual ~Engy5310p1App();
 
   static void registerApps();
   static void registerAll(Factory & f, ActionFactory & af, Syntax & s);
 };
+

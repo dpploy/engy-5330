@@ -7,14 +7,14 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "FluxComponent.h"
+#include "DiffusionFluxComponent.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", FluxComponent);
+registerMooseObject("Engy5310p1App", DiffusionFluxComponent);
 
-defineLegacyParams(FluxComponent);
+defineLegacyParams(DiffusionFluxComponent);
 
 InputParameters
-FluxComponent::validParams()
+DiffusionFluxComponent::validParams()
 {
   InputParameters params = AuxKernel::validParams();
   MooseEnum component("x y z");
@@ -29,7 +29,7 @@ FluxComponent::validParams()
   return params;
 }
 
-FluxComponent::FluxComponent(const InputParameters & parameters)
+DiffusionFluxComponent::DiffusionFluxComponent(const InputParameters & parameters)
   : AuxKernel(parameters),
     _component(getParam<MooseEnum>("component")),
     // Initialize variable gradient
@@ -41,10 +41,10 @@ FluxComponent::FluxComponent(const InputParameters & parameters)
 }
 
 Real
-FluxComponent::computeValue()
+DiffusionFluxComponent::computeValue()
 {
   // Access the gradient of the variable at this quadrature point, then pull out the 
   // "component" of it requested (x, y or z). Note, that getting a particular component 
   // of a gradient is done using the parenthesis operator.
-  FIXME return - _param1 * _param2 * _gradVariableName_component[_qp](_component);
+  return - _param1 * _param2 * _gradVariableName_component[_qp](_component);
 }

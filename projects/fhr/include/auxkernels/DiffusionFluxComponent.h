@@ -11,15 +11,20 @@
 
 #include "AuxKernel.h"
 
+class DiffusionFluxComponent;
+
+template <>
+InputParameters validParams<DiffusionFluxComponent>();
+
 /**
  * Auxiliary kernel responsible for computing the flux of a variable.
  */
-class VectorFlux : public VectorAuxKernel
+class DiffusionFluxComponent : public AuxKernel
 {
 public:
   static InputParameters validParams();
 
-  VectorFlux(const InputParameters & parameters);
+  DiffusionFluxComponent(const InputParameters & parameters);
 
 protected:
   /**
@@ -27,10 +32,13 @@ protected:
    * every quadrature point.  For Nodal Auxiliary variables those quadrature
    * points coincide with the nodes.
    */
-  virtual RealVectorValue computeValue() override;
+  virtual Real computeValue() override;
+  
+  /// Will hold 0, 1, or 2 corresponding to x, y, or z.
+  int _component;
 
-  /// The gradient of a coupled variable
-  const VariableGradient & _gradientVariableName;
+  /// The derivative of a coupled variable
+  const VariableGradient & _gradVariableName_component;
 
   /// Add here other parameters needed
   Real _param1;
