@@ -34,8 +34,8 @@ InputParameters validParams<MixtureMassBalDivergence>()
 
 MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    _rho_v(getParam<Real>("rho_v"));
-	_rho_l(getParam<Real>("rho_l"));
+    _rho_v(getParam<Real>("rho_v")),
+	_rho_l(getParam<Real>("rho_l"))
 {
 }
 
