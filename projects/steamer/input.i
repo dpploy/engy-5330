@@ -36,16 +36,22 @@ rho_l = 1000
     type = MixtureMassBalDivergence
     variable = velocityMixture     # produced quantity
     diffCoeff = ${replace diff_coeff}
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
   [vapor-drift-flux]
     type = VaporDriftDiffusion
     variable = fractionVapor     # produced quantity
     diffCoeff = ${replace diff_coeff}
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
     variable = fractionVapor     # add to produced quantity
     sourceS = ${replace source_s}
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
 []
 
