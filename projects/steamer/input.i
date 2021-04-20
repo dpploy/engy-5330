@@ -34,17 +34,17 @@ rho_l = 1000
 [Kernels]
   [mixture-mass-balance-divergence]
     type = MixtureMassBalDivergence
-    variable = velocityMixture     # produced quantity
+    variable = 'velocityMixture fractionVapor'     # produced quantity
     diffCoeff = ${replace diff_coeff}
   []
   [vapor-drift-flux]
     type = VaporDriftDiffusion
-    variable = fractionVapor     # produced quantity
+    variable = 'velocityMixture fractionVapor'     # produced quantity
     diffCoeff = ${replace diff_coeff}
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
-    variable = fractionVapor     # add to produced quantity
+    variable = 'velocityMixture fractionVapor'     # add to produced quantity
     sourceS = ${replace source_s}
   []
 []

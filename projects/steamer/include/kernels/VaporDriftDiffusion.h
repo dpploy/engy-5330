@@ -60,5 +60,7 @@ protected:
   /// The variables which holds the value for the VaporDriftDiffusion coefficient
   const Real _diffCoeff;
   const Real _rho_v;
-  const Real _rho_l;
+  const Real _rho_l;  
+  const VariableValue & _fractionVapor;
+  const VariableGradient & _grad_fractionVapor;
 };
