@@ -59,8 +59,11 @@ protected:
 
   /// The variables which holds the value for the VaporDriftDiffusion coefficient
   const Real _diffCoeff;
-  const Real _rho_v;
-  const Real _rho_l;  
   const VariableValue & _fractionVapor;
   const VariableGradient & _grad_fractionVapor;
+  const VariableValue & _velocityMixture;
+  const VariableGradient & _grad_velocityMixture;
+  /// The variables which holds the value for the MixtureMassBalDivergence coefficient
+  const Real _rho_v;
+  const Real _rho_l;
 };
