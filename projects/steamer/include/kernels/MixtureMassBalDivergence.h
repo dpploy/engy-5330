@@ -24,7 +24,7 @@ class MixtureMassBalDivergence;
  * validParams returns the parameters that this Kernel accepts / needs
  * The actual body of the function MUST be in the .C file.
  */
-template <> 
+template <>
 InputParameters validParams<MixtureMassBalDivergence>();
 
 /**
@@ -58,5 +58,5 @@ protected:
   virtual Real computeQpJacobian() override;
 
   /// The variables which holds the value for the MixtureMassBalDivergence coefficient
-  const Real _diffCoeff;
+  const VariableGradient & _grad_velocity_variable;
 };
