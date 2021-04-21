@@ -10,9 +10,9 @@
 #include "MixtureMassBalDivergence.h"
 
 /**
- * All MOOSE based object classes you create must be registered using this macro. 
- * The first argument is the name of the App you entered in when running the stork.sh 
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
+ * All MOOSE based object classes you create must be registered using this macro.
+ * The first argument is the name of the App you entered in when running the stork.sh
+ * script with an "App" suffix. If you ran "stork.sh Example", then the argument here
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
 registerMooseObject("SteamerApp", MixtureMassBalDivergence);
@@ -46,7 +46,7 @@ MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & param
 Real
 MixtureMassBalDivergence::computeQpResidual()
 {
-  return (_grad_fractionVapor[_qp](0) *(_rho_v-_rho_l)*_velocityMixture[_qp] + (_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*_grad_velocityMixture[_qp]) *_test[_i][_qp];
+  return (_grad_fractionVapor[_qp] *(_rho_v-_rho_l)*_velocityMixture[_qp]+(_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*_grad_velocityMixture[_qp])*_test[_i][_qp];
 }
 
 Real
