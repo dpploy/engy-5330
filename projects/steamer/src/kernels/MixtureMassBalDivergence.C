@@ -27,24 +27,33 @@ InputParameters validParams<MixtureMassBalDivergence>()
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($\ldots$), with the weak "
                              "form of $\ldots$.");
-  params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
+  params.addParam<Real>("rhoV",1.0,"Vapor density");
+  params.addParam<Real>("rhoL",1.0,"liquid density");
+  params.addRequiredCoupledVar("some_variable", "The gradient of this variable will be used as the velocity vector.");
   return params;
 }
 
 MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    _diffCoeff(getParam<Real>("diffCoeff"))
+  _rho_v(getParam<Real>("rhoV")),
+	_rho_l(getParam<Real>("rhoL")),
+	//_fractionVapor(coupledValue("fractionVapor")),
+	_velocityMixture(coupledValue("some_variable")),
+	//_grad_fractionVapor(coupledGradient("fractionVapor")),
+	_grad_velocityMixture(coupledGradient("some_variable"))
 {
 }
 
 Real
 MixtureMassBalDivergence::computeQpResidual()
 {
-  return _grad_u2[_qp](0) * _test[_i][_qp];
+  return ((_grad_u[_qp] *(_rho_v-_rho_l)*_velocityMixture[_qp])+ _grad_velocityMixture[_qp]*(_u[_qp]*_rho_v+_rho_l-_u[_qp]*_rho_l))*_test[_i][_qp];
 }
 
 Real
 MixtureMassBalDivergence::computeQpJacobian()
 {
-	return _grad_phi[_j][_qp](0) * _test[_i][_qp];
+	return ((_grad_phi[_j][_qp] *(_rho_v-_rho_l)*_velocityMixture[_qp])+ _grad_velocityMixture[_qp]*(_u[_qp]*_rho_v+_rho_l-_phi[_j][_qp]*_rho_l))*_test[_i][_qp];
+
+
 }

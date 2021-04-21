@@ -10,6 +10,7 @@ engy5310p*
 test*
 *.csv
 cubit
+*vista*
 projects/tritium/*.C
 projects/tritium/*.c
 projects/tritium/*.cxx

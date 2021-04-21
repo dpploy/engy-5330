@@ -10,9 +10,9 @@
 #include "VaporDriftDiffusion.h"
 
 /**
- * All MOOSE based object classes you create must be registered using this macro. 
- * The first argument is the name of the App you entered in when running the stork.sh 
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
+ * All MOOSE based object classes you create must be registered using this macro.
+ * The first argument is the name of the App you entered in when running the stork.sh
+ * script with an "App" suffix. If you ran "stork.sh Example", then the argument here
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
 registerMooseObject("SteamerApp", VaporDriftDiffusion);
@@ -28,23 +28,32 @@ InputParameters validParams<VaporDriftDiffusion>()
   params.addClassDescription("The equation term ($\ldots$), with the weak "
                              "form of $\ldots$.");
   params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
+  params.addParam<Real>("rhoV",1.0,"Vapor density");
+  params.addParam<Real>("rhoL",1.0,"liquid density");
+  params.addRequiredCoupledVar("some_variable", "The gradient of this variable will be used as the velocity vector.");
   return params;
 }
 
 VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    _diffCoeff(getParam<Real>("diffCoeff"))
+  _diffCoeff(getParam<Real>("diffCoeff")),
+	_rho_v(getParam<Real>("rhoV")),
+	_rho_l(getParam<Real>("rhoL")),
+	_fractionVapor(coupledValue("some_variable")),
+	//_velocityMixture(coupledValue("velocityMixture")),
+	_grad_fractionVapor(coupledGradient("some_variable"))
+	//_grad_velocityMixture(coupledGradient("velocityMixture"))
 {
 }
 
 Real
 VaporDriftDiffusion::computeQpResidual()
 {
-  return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
+	return ((_grad_fractionVapor[_qp]*_rho_v*_u[_qp] + _fractionVapor[_qp]*_rho_v*_grad_u[_qp]) - ((_rho_l*_fractionVapor[_qp]*_diffCoeff*_rho_v*_grad_fractionVapor[_qp]*(_rho_v-_rho_l))/((_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*(_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)))) *_test[_i][_qp];
 }
 
 Real
 VaporDriftDiffusion::computeQpJacobian()
 {
-	return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+	return 0.0;
 }

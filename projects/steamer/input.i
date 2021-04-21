@@ -8,8 +8,8 @@ xmin = 0.00000e+00
 xmax = 2.50000e+01
 diff_coeff = 1.00000e-01
 source_s = 1.00000e-03
-rho_l = 1000.0000
-rho_v = 2.00000
+rho_v = 1
+rho_l = 1000
 [Mesh]
   [1d]
     type = GeneratedMeshGenerator
@@ -34,23 +34,24 @@ rho_v = 2.00000
 [Kernels]
   [mixture-mass-balance-divergence]
     type = MixtureMassBalDivergence
-    variable = fractionVapor     # produced quantity
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    some_variable = velocityMixture
+    variable = 'velocityMixture fractionVapor'     # produced quantity
+    diffCoeff = ${replace diff_coeff}
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
   [vapor-drift-flux]
     type = VaporDriftDiffusion
-    variable = velocityMixture     # produced quantity
+    variable = 'velocityMixture fractionVapor'     # produced quantity
     diffCoeff = ${replace diff_coeff}
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    some_variable = fractionVapor
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
-    variable = fractionVapor     # add to produced quantity
+    variable = 'velocityMixture fractionVapor'     # add to produced quantity
     sourceS = ${replace source_s}
+    rho_v = ${replace rho_v }
+    rho_l = ${replace rho_l }
   []
 []
 
@@ -59,13 +60,13 @@ rho_v = 2.00000
     type = DirichletBC
     variable = fractionVapor
     boundary = left
-    value = 3.00000e+00
+    value = 0
   []
   [entry-mixture-velocity]
     type = DirichletBC
     variable = velocityMixture
     boundary = left
-    value = 0.00000e+00
+    value = 1
   []
   [exit]
     type = NeumannBC
