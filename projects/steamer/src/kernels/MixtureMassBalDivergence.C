@@ -48,7 +48,7 @@ Real
 MixtureMassBalDivergence::computeQpResidual()
 {
  return ( _grad_u[_qp](0) * (_rhoV-_rhoL) * _velocityMixture[_qp] \
-          + _gradVelocityMixture[_qp] * (_u[_qp] *_rhoV + (1-_u[_qp])*_rhoL) 
+          + _gradVelocityMixture[_qp](0) * (_u[_qp] *_rhoV + (1-_u[_qp])*_rhoL)
         ) * _test[_i][_qp];
 }
 
