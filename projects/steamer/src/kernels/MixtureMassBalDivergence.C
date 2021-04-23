@@ -35,21 +35,25 @@ InputParameters validParams<MixtureMassBalDivergence>()
 MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters):
     Kernel(parameters),
     // Set the coefficient for the equation term
+
     _rhoV(getParam<Real>("rhoV")),
 	_rhoL(getParam<Real>("rhoL")),
 	//_fractionVapor(coupledValue("fractionVapor")),
 	_velocityMixture(coupledValue("some_variable")),
 	//_grad_fractionVapor(coupledGradient("fractionVapor")),
 	_gradVelocityMixture(coupledGradient("some_variable"))
+
 {
 }
 
 Real
 MixtureMassBalDivergence::computeQpResidual()
 {
+
  return ( _grad_u[_qp](0) * (_rhoV-_rhoL) * _velocityMixture[_qp] \
           + _gradVelocityMixture[_qp](0) * (_u[_qp] *_rhoV + (1-_u[_qp])*_rhoL)
         ) * _test[_i][_qp];
+
 }
 
 Real
