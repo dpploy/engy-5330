@@ -56,12 +56,14 @@ protected:
    * in the linear sub-problem.
    */
   virtual Real computeQpJacobian() override;
+  
+  const Real _rho_v;
+  const Real _rho_l;
   const VariableValue & _fractionVapor;
   const VariableGradient & _grad_fractionVapor;
   const VariableValue & _velocityMixture;
   const VariableGradient & _grad_velocityMixture;
   /// The variables which holds the value for the MixtureMassBalDivergence coefficient
-  const Real _rho_v;
-  const Real _rho_l;
+  
 };
 

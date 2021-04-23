@@ -49,7 +49,9 @@ VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters):
 Real
 VaporDriftDiffusion::computeQpResidual()
 {
-	return ((_grad_fractionVapor[_qp]*_rho_v*_velocityMixture[_qp] + _fractionVapor[_qp]*_rho_v*_grad_velocityMixture[_qp]) - ((_rho_l*_fractionVapor[_qp]*_diffCoeff*_rho_v*_grad_fractionVapor[_qp]*(_rho_v-_rho_l))/((_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*(_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)))) *_test[_i][_qp];
+	return ((_grad_fractionVapor[_qp](0) *_rho_v*_velocityMixture[_qp] + _fractionVapor[_qp]*_rho_v*_grad_velocityMixture[_qp](0)) - \ 
+	((_rho_l*_fractionVapor[_qp]*_diffCoeff*_rho_v*_grad_fractionVapor[_qp](0)*(_rho_v-_rho_l))/((_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*(_fractionVapor[_qp]* \
+	_rho_v+(1-_fractionVapor[_qp])*_rho_l)))) *_test[_i][_qp];
 }
 
 Real
