@@ -33,15 +33,16 @@ InputParameters validParams<VaporDriftDiffusion>()
   return params;
 }
 
-VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters) : Kernel(parameters),
+VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters): 
+    Kernel(parameters),
     // Set the coefficient for the equation term
     _diffCoeff(getParam<Real>("diffCoeff")),
-	_rho_v(getParam<Real>("rho_v")),
-	_rho_l(getParam<Real>("rho_l")),
 	_fractionVapor(coupledValue("fractionVapor")),
-	_velocityMixture(coupledValue("velocityMixture")),
 	_grad_fractionVapor(coupledGradient("fractionVapor")),
-	_grad_velocityMixture(coupledGradient("velocityMixture"))
+	_velocityMixture(coupledValue("velocityMixture")),
+	_grad_velocityMixture(coupledGradient("velocityMixture")),
+	_rho_v(getParam<Real>("rho_v")),
+	_rho_l(getParam<Real>("rho_l"))
 {
 }
 
