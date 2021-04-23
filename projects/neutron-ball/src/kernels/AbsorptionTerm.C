@@ -39,13 +39,13 @@ AbsorptionTerm::AbsorptionTerm(const InputParameters & parameters) : Kernel(para
 Real
 AbsorptionTerm::computeQpResidual()
 {
-  return _sigmaA * _u[_qp] * _test[_i][_qp];
+  return - ( - _sigmaA * _u[_qp] * _test[_i][_qp] );
   //return _sigmaA * _test[_i][_qp];
 }
 
 Real
 AbsorptionTerm::computeQpJacobian()
 {
-  return _sigmaA * _phi[_j][_qp] * _test[_i][_qp];
+  return - ( - _sigmaA * _phi[_j][_qp] * _test[_i][_qp] );
   //return 0.0;
 }
