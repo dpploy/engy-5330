@@ -39,11 +39,11 @@ DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parame
 Real
 DiffusionTerm::computeQpResidual()
 {
-  return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
+  return - (- _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp]);
 }
 
 Real
 DiffusionTerm::computeQpJacobian()
 {
-  return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+  return - (- _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp]) ;
 }
