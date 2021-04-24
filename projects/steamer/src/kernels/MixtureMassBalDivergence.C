@@ -9,18 +9,8 @@
 
 #include "MixtureMassBalDivergence.h"
 
-/**
- * All MOOSE based object classes you create must be registered using this macro.
- * The first argument is the name of the App you entered in when running the stork.sh
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here
- * becomes "ExampleApp". The second argument is the name of the C++ class you created.
- */
 registerMooseObject("SteamerApp", MixtureMassBalDivergence);
 
-/**
- * This function defines the valid parameters for
- * this Kernel and their default values
- */
 template<>
 InputParameters validParams<MixtureMassBalDivergence>()
 {
@@ -28,20 +18,16 @@ InputParameters validParams<MixtureMassBalDivergence>()
   params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
   params.addParam<Real>("rhoV",1.0,"Vapor density");
   params.addParam<Real>("rhoL",1.0,"liquid density");
-  params.addRequiredCoupledVar("some_variable", "The gradient of this variable will be used as the velocity vector.");
+  params.addRequiredCoupledVar("velocityMixture", "Mixture velocity");
   return params;
 }
 
 MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters):
     Kernel(parameters),
-    // Set the coefficient for the equation term
-
     _rhoV(getParam<Real>("rhoV")),
 	_rhoL(getParam<Real>("rhoL")),
-	//_fractionVapor(coupledValue("fractionVapor")),
-	_velocityMixture(coupledValue("some_variable")),
-	//_grad_fractionVapor(coupledGradient("fractionVapor")),
-	_gradVelocityMixture(coupledGradient("some_variable"))
+	_velocityMixture(coupledValue("velocityMixture")),
+	_gradVelocityMixture(coupledGradient("velocityMixture"))
 
 {
 }
@@ -49,11 +35,15 @@ MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & param
 Real
 MixtureMassBalDivergence::computeQpResidual()
 {
+ Real alpha = _u[_qp];
+ Real alphaPrime = _grad_u[_qp](0);
 
- return ( _grad_u[_qp](0) * (_rhoV-_rhoL) * _velocityMixture[_qp] \
-          + _gradVelocityMixture[_qp](0) * (_u[_qp] *_rhoV + (1-_u[_qp])*_rhoL)
+ Real v = _velocityMixture[_qp];
+ Real vPrime = _gradVelocityMixture[_qp](0);
+
+ return ( alphaPrime * (_rhoV-_rhoL) * v \
+          + vPrime * (alpha *_rhoV + (1-alpha)*_rhoL)
         ) * _test[_i][_qp];
-
 }
 
 Real
