@@ -37,8 +37,7 @@ InputParameters validParams<VaporDriftDiffusion>()
 VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters): 
     Kernel(parameters),
     // Set the coefficient for the equation term
-
-  _diffCoeff(getParam<Real>("diffCoeff")),
+    _diffCoeff(getParam<Real>("diffCoeff")),
 	_rhoV(getParam<Real>("rhoV")),
 	_rhoL(getParam<Real>("rhoL")),
 	_fractionVapor(coupledValue("some_variable")),
@@ -49,10 +48,14 @@ VaporDriftDiffusion::VaporDriftDiffusion(const InputParameters & parameters):
 {
 }
 
-Real
-VaporDriftDiffusion::computeQpResidual()
+Real VaporDriftDiffusion::computeQpResidual()
 {
-	return ((_grad_fractionVapor[_qp](0)*_rhoV*_u[_qp] + _fractionVapor[_qp]*_rhoV*_grad_u[_qp](0)) - ((_rhoL*_fractionVapor[_qp]*_diffCoeff*_rhoV*_grad_fractionVapor[_qp](0)*(_rhoV-_rhoL))/((_fractionVapor[_qp]*_rhoV+(1-_fractionVapor[_qp])*_rhoL)*(_fractionVapor[_qp]*_rhoV+(1-_fractionVapor[_qp])*_rhoL)))) *_test[_i][_qp];
+ return ( (_grad_fractionVapor[_qp](0) * _rhoV * _u[_qp]      \
+           + _fractionVapor[_qp] * _rhoV * _grad_u[_qp](0))   \
+         -(_rhoL * _fractionVapor[_qp] * _diffCoeff * _rhoV * \
+           _grad_fractionVapor[_qp](0) * (_rhoV-_rhoL)) /     \
+          std::pow(_fractionVapor[_qp] * _rhoV + (1-_fractionVapor[_qp]) * _rhoL, 2) \
+        ) *_test[_i][_qp];
 }
 
 Real

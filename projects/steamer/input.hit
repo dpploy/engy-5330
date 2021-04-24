@@ -5,18 +5,21 @@
 
 # Parameters
 xmin = 0.00000e+00
-xmax = 2.50000e+01
-diff_coeff = 1.00000e-01
-source_s = 1.00000
+xmax = 1.00000e+01
+diff_coeff = 1.00000e+01
+source_s = 1.0e-5
 rho_l = 1000.0000
-rho_v = 2.00000
+rho_v = 1.00000
+velocity_mixture_left = 1.0
+fraction_vapor_left = 0.0
+
 [Mesh]
   [1d]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 3
+    nx = 50
   []
 []
 
@@ -24,6 +27,7 @@ rho_v = 2.00000
   [velocityMixture]
     order = first
     family = lagrange
+    initial_condition = ${fparse velocity_mixture_left}
   []
   [fractionVapor]
     order = first
@@ -59,21 +63,22 @@ rho_v = 2.00000
     type = DirichletBC
     variable = fractionVapor
     boundary = left
-    value = 3.00000e+00
+    value = 0.00000e+00
   []
   [entry-mixture-velocity]
     type = DirichletBC
     variable = velocityMixture
     boundary = left
-    value = 0.00000e+00
+    value = ${fparse velocity_mixture_left}
   []
   [exit]
     type = NeumannBC
     variable = fractionVapor
     boundary = right
-    value = 0.00000e+00
+    value = ${fparse fraction_vapor_left}
   []
 []
+
 [Preconditioning]
   active = 'fdp-newt-full'
   [fdp-newt-full]
@@ -88,7 +93,6 @@ rho_v = 2.00000
   type = Steady
 []
 
-
 [VectorPostprocessors]
   [x-data]
     type = LineValueSampler
@@ -96,7 +100,7 @@ rho_v = 2.00000
     variable = 'velocityMixture fractionVapor'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = 20
+    num_points = 51
     sort_by = id
   []
 []
