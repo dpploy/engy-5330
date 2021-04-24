@@ -12,22 +12,6 @@
 #include "Kernel.h"
 
 /**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
-
-/// Forward Declarations
-class DiffusionTerm;
-
-/**
- * validParams returns the parameters that this Kernel accepts / needs
- * The actual body of the function MUST be in the .C file.
- */
-template <>
-InputParameters validParams<DiffusionTerm>();
-
-/**
  * This kernel implements the scaled Laplacian operator:
  *
  * $\nabla u \cdot \nabla v$
@@ -35,31 +19,19 @@ InputParameters validParams<DiffusionTerm>();
  * where v is test function and u is an admissible solution
  */
 
-
-
 /// DiffusionTerm class inherits from Kernel class
 class DiffusionTerm : public Kernel
 {
 public:
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
-   // Type = Input parameters,
   DiffusionTerm(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
-  /// Evaluation of residual at quadrature points (Qp) over finite domain
+  // Diffusion residual
   virtual Real computeQpResidual() override;
 
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+  // Diffusion Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the DiffusionTerm coefficient
+  // Diffusion data member
   const Real _diffCoeff;
 };
