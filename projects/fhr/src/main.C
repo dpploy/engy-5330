@@ -7,14 +7,14 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "Engy5310p1App.h"
+#include "FHRApp.h"
 #include "MooseInit.h"
 #include "Moose.h"
 #include "MooseApp.h"
 #include "AppFactory.h"
 
 // Create a performance log
-PerfLog Moose::perf_log("Engy5310p1");
+PerfLog Moose::perf_log("FHR");
 
 // Begin the main program.
 int
@@ -24,10 +24,10 @@ main(int argc, char * argv[])
   MooseInit init(argc, argv);
 
   // Register this application's MooseApp and any it depends on
-  Engy5310p1App::registerApps();
+  FHRApp::registerApps();
 
   // Create an instance of the application and store it in a smart pointer for easy cleanup
-  std::shared_ptr<MooseApp> app = AppFactory::createAppShared("Engy5310p1App", argc, argv);
+  std::shared_ptr<MooseApp> app = AppFactory::createAppShared("FHRApp", argc, argv);
 
   // Execute the application
   app->run();

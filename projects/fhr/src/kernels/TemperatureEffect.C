@@ -7,7 +7,7 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "DiffusionTerm.h"
+#include "TemperatureEffect.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
@@ -15,42 +15,42 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("FHRApp", DiffusionTerm);
+registerMooseObject("FHRApp", TemperatureEffect);
 
 /**
  * This function defines the valid parameters for
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<DiffusionTerm>()
-{
-  InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
-  return params;
-}
+//InputParameters validParams<TemperatureEffect>()
+//{
+//  InputParameters params = validParams<Kernel>();
+//  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
+//  params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
+//  return params;
+//}
 
-DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parameters),
+//PressureGrad::PressureGrad(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    diffCoeff(getParam<Real>("diffCoeff"))
-{
-}
+//    PressureGrad(getParam<Real>("diffCoeff"))
+//{
+//}
 
 Real
-DiffusionTerm::computeQpResidual()
+TemperatureEffect::computeQpResidual()
 {
   // Implement the return
-  Real blin =  - diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
+  Real blin =  _u[_qp] * _test[_i][_qp];
   //printf("%f ", _qp);
   return blin;
   //FIXME return 0.0 // remove this line
 }
 
 Real
-DiffusionTerm::computeQpJacobian()
+TemperatureEffect::computeQpJacobian()
 {
   // Implement the return
-  Real din = - diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+  Real din = _phi[_j][_qp] * _test[_i][_qp];
   //printf("%f ", _qp);
   return din;
 

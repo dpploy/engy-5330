@@ -12,26 +12,27 @@
 #include "Kernel.h"
 
 /**
- * This kernel implements the scaled Laplacian operator:
+ * This kernel implements the following operator:
  *
- * $\nabla u \cdot \nabla v$
+ * $ u ... v $
  *
- * where v is test function and u is an admissible solution
+ * where v is a test function and u is an admissible solution
  */
 
-/// DiffusionTerm class inherits from Kernel class
-class DiffusionTerm : public Kernel
+class Convected : public Kernel
 {
 public:
-  DiffusionTerm(const InputParameters & parameters);
 
-protected:
-  // Diffusion residual
+  Convected(const InputParameters & parameters);
+
+  // Residual
   virtual Real computeQpResidual() override;
 
-  // Diffusion Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Diffusion data member
-  const Real _diffCoeff;
+  // Member variables
+  Real density;
+  Real heatCapacity;
+  Real velocity;
 };

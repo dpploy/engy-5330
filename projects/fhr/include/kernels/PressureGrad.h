@@ -19,19 +19,13 @@
  * where v is a test function and u is an admissible solution
  */
 
-/// VaporDriftDiffusion class inherits from Kernel class
-class VaporDriftDiffusion : public Kernel
+/// EquationTerm class inherits from Kernel class
+class PressureGrad : public Kernel
 {
 public:
 
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
-  VaporDriftDiffusion(const InputParameters & parameters);
+	PressureGrad{(const InputParameters & parameters);
 
-protected:
   /// Required residual for standard kernels in MOOSE
   virtual Real computeQpResidual() override;
 
@@ -41,14 +35,6 @@ protected:
    */
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the VaporDriftDiffusion coefficient
-  const Real _diffCoeff;
-  const Real _rhoV;
-  const Real _rhoL;
-  const VariableValue & _fractionVapor;
-  const VariableGradient & _grad_fractionVapor;
-  //const VariableValue & _velocityMixture;
-  //const VariableGradient & _grad_velocityMixture;
-  /// The variables which holds the value for the MixtureMassBalDivergence coefficient
-
+  /// The variables which holds the value for the EquationTerm coefficient
+  Real diffCoeff;
 };
