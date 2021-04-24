@@ -11,11 +11,6 @@
 
 #include "AuxKernel.h"
 
-class VectorFlux;
-
-template <>
-InputParameters validParams<VectorFlux>();
-
 /**
  * Auxiliary kernel responsible for computing the flux of a variable.
  */
