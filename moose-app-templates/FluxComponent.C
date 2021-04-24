@@ -14,7 +14,7 @@ registerMooseObject("Engy5310PXApp-FIXME", FluxComponent);
 defineLegacyParams(FluxComponent);
 
 InputParameters
-FluxComponent::validParams()
+VectorFlux::validParams()
 {
   InputParameters params = AuxKernel::validParams();
   MooseEnum component("x y z");
