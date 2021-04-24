@@ -9,132 +9,259 @@ p*moose*
 engy5310p*
 test*
 *.csv
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
-.pytest_cache/
-
-# Translations
-*.mo
-*.pot
-
-# Django stuff:
+cubit
+*vista*
+projects/tritium/*.C
+projects/tritium/*.c
+projects/tritium/*.cxx
+projects/tritium/*.h
+projects/xenon-removal/*.C
+projects/xenon-removal/*.c
+projects/xenon-removal/*.cxx
+projects/xenon-removal/*.h
+#
+.libs
+*.la
+*.lo
+*.d
+*.o
+*.a
+*-opt
+*-dbg
+*-oprof
+*-prof
+*-devel
+*.e
+*.nav
 *.log
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+*.aux
+*.toc
+*.snm
+*.csv
+*.csv.*
+*.dylib
+*.so
+*.so.*
+*.vrb
+*.jou
+*.pyc
+*.mod
+*.e.*
+*.e-s*
+*.cfg
+*.lbd.*
+*.nem
+*.spd
+*.pex
+*.pdf
+*.plist*
+*.bbl
+*.blg
+*.spl
+*.idx
+traceout*.txt
+temp_print_trace.*
+*.xda
+*.xda.*
+*.xdr
+*.xdr.*
+*.mps
+*.msmp
+*.msmp-*
+*.muds
+# Latex garbage
+*.lot
+*.lof
+*.poly
+*.mpx
+*.btr
+*.xml
+*.xml.*
+*.gmv
+*.plt
+*.slh
+*.eps
+*.dat
+*.gp
+*.plugin
+*.outp
+*.patch
+*.txt
+*.bib.bak
+*.out
+*.vtk
+*.vtu
+*.pvtu
+.depend
+*.png
+*.svg
+*.gif
+*.tif
+*.jpg
+*.tiff
+*.ps
+*.bmp
+*.mp4
+*.webm
+*.ico
+*.html
+*.xyz
+*Revision.h
+*.json
+*.json.*
+*.bak
+*.processor.*
+.clang_complete
+.failed_tests
+failed-unittest
+compile_commands.json
+build
 
-# Flask stuff:
-instance/
-.webassets-cache
+# Allow certain files in gold directories
+!**/gold/*.e
+!**/gold/*.e-s*
+!**/gold/*.csv
+!**/gold/*.csv.*
+!**/gold/*.vtk
+!**/gold/*.vtu
+!**/gold/*.pvtu
+!**/gold/*.xml*
+!**/gold/*.json*
 
-# Scrapy stuff:
-.scrapy
+peacock_run_tmp.i
+yaml_dump*
+test/tests/outputs/format/dump.i
 
-# Sphinx documentation
-docs/_build/
+# Generated header file
+MooseRevision.h
 
-# PyBuilder
-target/
+# Precompiled headers
+moose/include/base/Precompiled.h.gch
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# test garbagge
+*.FAILED.txt
 
-# IPython
-profile_default/
-ipython_config.py
+# eclipse garbage
+.project
+.cproject
+.metadata
+.settings
+.pydevproject
 
-# pyenv
-.python-version
+# vim garbage
+*~
+.*.swp
+.*.swo
 
-# pipenv
-#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
-#   However, in case of collaboration, if having platform-specific dependencies or dependencies
-#   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
-#Pipfile.lock
+framework/contrib/exodiff/exodiff
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow
-__pypackages__/
+# Mac garbage
+.DS_Store
+*.dSYM
 
-# Celery stuff
-celerybeat-schedule
-celerybeat.pid
+# Unit testing stuffbmoose_unit/test_results.xml
+!unit/data/csv/*.csv
 
-# SageMath parsed files
-*.sage.py
+# gcov code coverage files
+*.gcno
+*.gcda
+*.gcov
 
-# Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+# paraview state files
+*.pvsm
 
-# Spyder project settings
-.spyderproject
-.spyproject
+#Peacock generated files
+peacock_*.i
+peacock_*.e
 
-# Rope project settings
-.ropeproject
+# On linux, shared libs end in .0 sometimes
+libpcre-opt*
+libpcre-dbg*
+libmoose-opt*
+libmoose-dbg*
 
-# mkdocs documentation
-/site
+#doxygen generated
+*/doc/doxygen/html/*
+*/doc/doxygen/**/*
+moose/doc/doxygen/html/*
+modules/*/doc/doxygen/html/*
+tutorials/*/*/doc/doxygen/html/*
+ICE/
+framework/contrib/asio/
 
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
+# Restartable Data
+*.rd
+*.rd-*
 
-# Pyre type checker
-.pyre/
+# Checkpoint Files
+*.cpa
+*.cpr
+*.cpa-*
+*.cpr-*
+
+# Ignore petsc arch
+petsc/arch-*/*
+
+# phase_field/tests/solution_rasterizer
+out.xyz
+
+# JIT and automatic differentiation cache files
+.jitcache/
+.jitdir/
+tmp_jit_*
+
+# Do not store ipython notebook checkpoints
+*-checkpoint.ipynb*
+
+# HIT
+framework/contrib/hit/hit
+
+# MooseDocs
+site
+python/MooseDocs/test/output
+!**/doc/content/**/*.md
+!**/doc/content/**/*.jpg
+!**/doc/content/**/*.jpeg
+!**/doc/content/**/*.gif
+!**/doc/content/**/*.png
+!**/doc/content/**/*.svg
+!**/doc/content/**/*.ogg
+!**/doc/content/**/*.webm
+!**/doc/content/**/*.mp4
+!**/doc/content/**/*.css
+!**/doc/content/**/*.js
+!**/doc/content/**/*.bib
+!**/doc/content/**/*.woff
+!**/doc/content/**/*.woff2
+!python/MooseDocs/test/gold/**/*.json
+!python/MooseDocs/test/gold/**/*.html
+!python/MooseDocs/test/gold/**/*.tex
+.ruby-version
+
+# Chigger
+!python/chigger/tests/**/gold/*.png
+!python/chigger/tests/input/*.e*
+!python/chigger/logos/*.png
+!python/chigger/contrib/*.xml
+
+# Peacock
+python/peacock/tests/exodus_tab/TestOutputPlugin_repr.py
+python/peacock/tests/exodus_tab/TestExodusPluginManager_repr.py
+python/peacock/tests/input_tab/InputFileEditor/fsp_test.i
+python/peacock/tests/postprocessor_tab/TestPostprocessorPluginManager_test_script.py
+!python/peacock/tests/**/gold/*.png
+!python/peacock/icons/**/*.*
+!python/peacock/tests/**/input/*.*
+peacock_tmp_diff.exo
+*.e.diff
+
+# configure
+_configs.sed
+autom4te.cache
+config.status
+*MooseConfig.h
+*MooseConfig.h.tmp
+conf_vars.mk
+
+# GPerf performance
+*.prof
