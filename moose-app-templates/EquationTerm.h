@@ -11,36 +11,19 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-/// EquationTerm class inherits from Kernel class
 class EquationTerm : public Kernel
 {
 public:
 
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
   EquationTerm(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
+  /// Residual
   virtual Real computeQpResidual() override;
 
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+  /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the EquationTerm coefficient
+  /// User variables e.g.
   const Real _equationTermCoeff;
 };
