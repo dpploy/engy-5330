@@ -41,7 +41,7 @@ fraction_vapor_left = 0.0
     variable = fractionVapor     # produced quantity
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    some_variable = velocityMixture
+    velocityMixture = velocityMixture
   []
   [vapor-drift-flux]
     type = VaporDriftDiffusion
