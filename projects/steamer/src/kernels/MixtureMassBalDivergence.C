@@ -15,7 +15,7 @@ template<>
 InputParameters validParams<MixtureMassBalDivergence>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
+  params.addClassDescription("Divergence term of the mixture mass balance equation");
   params.addParam<Real>("rhoV",1.0,"Vapor density");
   params.addParam<Real>("rhoL",1.0,"liquid density");
   params.addRequiredCoupledVar("velocityMixture", "Mixture velocity");
@@ -41,9 +41,12 @@ MixtureMassBalDivergence::computeQpResidual()
  Real v = _velocityMixture[_qp];
  Real vPrime = _gradVelocityMixture[_qp](0);
 
- return ( alphaPrime * (_rhoV-_rhoL) * v \
-          + vPrime * (alpha *_rhoV + (1-alpha)*_rhoL)
-        ) * _test[_i][_qp];
+ Real rho = alpha *_rhoV + (1-alpha)*_rhoL;
+ Real delRho = _rhoV - _rhoL;
+
+ Real theta = _test[_i][_qp];
+
+ return (alphaPrime * delRho * v + rho * vPrime) * theta;
 }
 
 Real
