@@ -20,7 +20,7 @@
  */
 
 /// EquationTerm class inherits from Kernel class
-class SourceTerm : public Kernel
+class TemperatureEffect : public Kernel
 {
 public:
 
@@ -29,7 +29,7 @@ public:
    * InputParameters object, just like other
    * Kernel-derived classes.
    */
-  SourceTerm(const InputParameters & parameters);
+	TemperatureEffect{(const InputParameters & parameters);
 
   /// Required residual for standard kernels in MOOSE
   virtual Real computeQpResidual() override;
@@ -41,5 +41,4 @@ public:
   virtual Real computeQpJacobian() override;
 
   /// The variables which holds the value for the EquationTerm coefficient
-  Real sourceS;
 };
