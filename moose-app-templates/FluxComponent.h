@@ -11,20 +11,20 @@
 
 #include "AuxKernel.h"
 
-class DiffusionFluxComponent;
+class FluxComponent;
 
 template <>
-InputParameters validParams<DiffusionFluxComponent>();
+InputParameters validParams<FluxComponent>();
 
 /**
  * Auxiliary kernel responsible for computing the flux of a variable.
  */
-class DiffusionFluxComponent : public AuxKernel
+class FluxComponent : public AuxKernel
 {
 public:
   static InputParameters validParams();
 
-  DiffusionFluxComponent(const InputParameters & parameters);
+  FluxComponent(const InputParameters & parameters);
 
 protected:
   /**
