@@ -10,9 +10,9 @@
 #include "MixtureMassBalDivergence.h"
 
 /**
- * All MOOSE based object classes you create must be registered using this macro. 
- * The first argument is the name of the App you entered in when running the stork.sh 
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
+ * All MOOSE based object classes you create must be registered using this macro.
+ * The first argument is the name of the App you entered in when running the stork.sh
+ * script with an "App" suffix. If you ran "stork.sh Example", then the argument here
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
 registerMooseObject("SteamerApp", MixtureMassBalDivergence);
@@ -25,32 +25,40 @@ template<>
 InputParameters validParams<MixtureMassBalDivergence>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($\ldots$), with the weak "
-                             "form of $\ldots$.");
-  params.addParam<Real>("rho_v",1.0,"Vapor density");
-  params.addParam<Real>("rho_l",1.0,"liquid density");
+  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
+  params.addParam<Real>("rhoV",1.0,"Vapor density");
+  params.addParam<Real>("rhoL",1.0,"liquid density");
+  params.addRequiredCoupledVar("some_variable", "The gradient of this variable will be used as the velocity vector.");
   return params;
 }
 
-MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters) : Kernel(parameters),
+MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters):
+    Kernel(parameters),
     // Set the coefficient for the equation term
-	_fractionVapor(coupledValue("fractionVapor")),
-	_grad_fractionVapor(coupledGradient("fractionVapor")),
-	_velocityMixture(coupledValue("velocityMixture")),
-	_grad_velocityMixture(coupledGradient("velocityMixture"))
-    _rho_v(getParam<Real>("rho_v")),
-	_rho_l(getParam<Real>("rho_l")),
+
+    _rhoV(getParam<Real>("rhoV")),
+	_rhoL(getParam<Real>("rhoL")),
+	//_fractionVapor(coupledValue("fractionVapor")),
+	_velocityMixture(coupledValue("some_variable")),
+	//_grad_fractionVapor(coupledGradient("fractionVapor")),
+	_gradVelocityMixture(coupledGradient("some_variable"))
+
 {
 }
 
 Real
 MixtureMassBalDivergence::computeQpResidual()
 {
-  return (_grad_fractionVapor[_qp](0) *(_rho_v-_rho_l)*_velocityMixture[_qp]+(_fractionVapor[_qp]*_rho_v+(1-_fractionVapor[_qp])*_rho_l)*_grad_velocityMixture[_qp]) *_test[_i][_qp];
+
+ return ( _grad_u[_qp](0) * (_rhoV-_rhoL) * _velocityMixture[_qp] \
+          + _gradVelocityMixture[_qp](0) * (_u[_qp] *_rhoV + (1-_u[_qp])*_rhoL)
+        ) * _test[_i][_qp];
+
 }
 
 Real
 MixtureMassBalDivergence::computeQpJacobian()
 {
-	return 0.0;
+ //return ((_grad_phi[_j][_qp] *(_rhoV-_rhoL)*_velocityMixture[_qp])+ _gradVelocityMixture[_qp]*(_u[_qp]*_rhoV+_rhoL-_phi[_j][_qp]*_rhoL))*_test[_i][_qp];
+ return 0.0;
 }
