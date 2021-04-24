@@ -1,53 +1,56 @@
-#include "Engy5310p1App.h"
+#include "FHRApp.h"
 #include "Moose.h"
 #include "AppFactory.h"
 #include "ModulesApp.h"
 #include "MooseSyntax.h"
 
 InputParameters
-Engy5310p1App::validParams()
+FHRApp::validParams()
 {
   InputParameters params = MooseApp::validParams();
 
   // Do not use legacy DirichletBC, that is, set DirichletBC default for preset = true
   params.set<bool>("use_legacy_dirichlet_bc") = false;
+  //
+  // Remove the runtime screen output message: LEGACY MODES ENABLED...
+  params.set<bool>("use_legacy_material_output") = false;
 
   return params;
 }
 
-Engy5310p1App::Engy5310p1App(InputParameters parameters) : MooseApp(parameters)
+FHRApp::FHRApp(InputParameters parameters) : MooseApp(parameters)
 {
-  Engy5310p1App::registerAll(_factory, _action_factory, _syntax);
+  FHRApp::registerAll(_factory, _action_factory, _syntax);
 }
 
-Engy5310p1App::~Engy5310p1App() {}
+FHRApp::~FHRApp() {}
 
 void
-Engy5310p1App::registerAll(Factory & f, ActionFactory & af, Syntax & s)
+FHRApp::registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
   ModulesApp::registerAll(f, af, s);
-  Registry::registerObjectsTo(f, {"Engy5310p1App"});
-  Registry::registerActionsTo(af, {"Engy5310p1App"});
+  Registry::registerObjectsTo(f, {"FHRApp"});
+  Registry::registerActionsTo(af, {"FHRApp"});
 
   /* register custom execute flags, action syntax, etc. here */
 }
 
 void
-Engy5310p1App::registerApps()
+FHRApp::registerApps()
 {
-  registerApp(Engy5310p1App);
+ registerApp(FHRApp);
 }
 
 /***************************************************************************************************
  *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
  **************************************************************************************************/
 extern "C" void
-Engy5310p1App__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+FHRApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
 {
-  Engy5310p1App::registerAll(f, af, s);
+  FHRApp::registerAll(f, af, s);
 }
 extern "C" void
-Engy5310p1App__registerApps()
+FHRApp__registerApps()
 {
-  Engy5310p1App::registerApps();
+  FHRApp::registerApps();
 }

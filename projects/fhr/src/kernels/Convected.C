@@ -9,55 +9,41 @@
 
 #include "Convected.h"
 
-/**
- * All MOOSE based object classes you create must be registered using this macro. 
- * The first argument is the name of the App you entered in when running the stork.sh 
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
- * becomes "ExampleApp". The second argument is the name of the C++ class you created.
- */
-registerMooseObject("Engy5310p1App", Convected);
+registerMooseObject("FHRApp", Convected);
 
-/**
- * This function defines the valid parameters for
- * this Kernel and their default values
- */
 template<>
 InputParameters validParams<Convected>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("density",1.0,"Equation Term Coefficient");
-  params.addParam<Real>("heatCapacity");
-  params.addParam<Real>("velocity");
+  params.addParam<Real>("density",1.0,"Fluid mass density");
+  params.addRequiredParam<Real>("heatCapacity","Fluid heat capacity");
+  params.addRequiredParam<Real>("velocity","Fluid velocity");
   return params;
 }
 
-Convected::Convected(const InputParameters & parameters) : Kernel(parameters),
-    // Set the coefficient for the equation term
-    Convected(getParam<Real>("density"));
-    Convected(getParam<Real>("heatCapacity"));
-    Convected(getParam<Real>("velocity"));
-
+Convected::Convected(const InputParameters & parameters):
+    Kernel(parameters),
+    density(getParam<Real>("density")),
+    heatCapacity(getParam<Real>("heatCapacity")),
+    velocity(getParam<Real>("velocity"))
 {
 }
 
 Real
 Convected::computeQpResidual()
 {
-  // Implement the return
+  // Residual
   Real blin =  - density * heatCapacity * velocity * _grad_u[_qp] * _test[_i][_qp];
   //printf("%f ", _qp);
   return blin;
-  //FIXME return 0.0 // remove this line
 }
 
 Real
 Convected::computeQpJacobian()
 {
-  // Implement the return
+  // Jacobian diagonal
   Real din = - density * heatCapacity * velocity * _grad_phi[_j][_qp] * _test[_i][_qp];
   //printf("%f ", _qp);
   return din;
-
-  //FIXME return 0.0 // remove this line
 }

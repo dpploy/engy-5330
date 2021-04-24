@@ -9,7 +9,7 @@
 
 #include "DiffusionFluxBC.h"
 
-registerMooseObject("Engy5310p1App", DiffusionFluxBC);
+registerMooseObject("FHRApp", DiffusionFluxBC);
 
 defineLegacyParams(DiffusionFluxBC);
 
