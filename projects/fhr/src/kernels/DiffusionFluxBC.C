@@ -25,8 +25,8 @@ DiffusionFluxBC::validParams()
   return params;
 }
 
-DiffusionFluxBC::DiffusionFluxBC(const InputParameters & parameters)
-  : IntegratedBC(parameters),
+DiffusionFluxBC::DiffusionFluxBC(const InputParameters & parameters): 
+    IntegratedBC(parameters),
     _conductivity(getParam<Real>("conductivity")),
     _convectivity(getParam<Real>("convectivity")),
     _refTemp(getParam<Real>("refTemp"))

@@ -22,7 +22,7 @@ registerMooseObject("FHRApp", HeatConduction);
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<DiffusionTerm>()
+InputParameters validParams<HeatConduction>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("Weak form of thermal conductivity");
@@ -39,11 +39,11 @@ HeatConduction::HeatConduction(const InputParameters & parameters):
 Real
 HeatConduction::computeQpResidual()
 {
-  return = _thermCond * _grad_u[_qp] * _grad_test[_i][_qp];
+  return _thermCond * _grad_u[_qp] * _grad_test[_i][_qp];
 }
 
 Real
 HeatConduction::computeQpJacobian()
 {
-  return = _thermCond * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
+  return _thermCond * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
 }
