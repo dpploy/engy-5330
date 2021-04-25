@@ -24,9 +24,11 @@ protected:
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Variables
+  // Property Variables
   const Real _rhoV;
   const Real _rhoL;
+
+  // Coupled variables
   const VariableValue & _vaporFraction;
   const VariableGradient & _gradVaporFraction;
 };

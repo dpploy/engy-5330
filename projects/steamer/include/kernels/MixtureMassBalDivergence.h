@@ -11,15 +11,6 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-/// MixtureMassBalDivergence class inherits from Kernel class
 class MixtureMassBalDivergence : public Kernel
 {
 public:

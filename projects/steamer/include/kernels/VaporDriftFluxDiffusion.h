@@ -24,10 +24,12 @@ protected:
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Drift flux diffusion variables
+  // Property variables
   const Real _diffCoeff;
   const Real _rhoV;
   const Real _rhoL;
+
+  // Coupled variables
   const VariableValue & _velocity;
   const VariableGradient & _gradVelocity;
 };
