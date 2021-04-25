@@ -11,19 +11,11 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-class BoussinesqSource : public Kernel
+class NuclearHeat : public Kernel
 {
 public:
 
-  BoussinesqSource(const InputParameters & parameters);
+  NuclearHeat(const InputParameters & parameters);
 
   // Residual
   virtual Real computeQpResidual() override;
@@ -31,8 +23,6 @@ public:
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Member variables
-  Real density;
-  Real beta;
-  Real refTemp;
+  // Nuclear heating power
+  Real sourceS;
 };
