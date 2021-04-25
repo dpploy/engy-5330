@@ -11,11 +11,11 @@
 
 #include "Kernel.h"
 
-class VaporMassTransferSource : public Kernel
+class VaporDriftFluxDiffusion : public Kernel
 {
 public:
 
-  VaporMassTransferSource(const InputParameters & parameters);
+  VaporDriftFluxDiffusion(const InputParameters & parameters);
 
 protected:
   // Residual
@@ -24,6 +24,10 @@ protected:
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Source variables
-  const Real _sourceS;
+  // Drift flux diffusion variables
+  const Real _diffCoeff;
+  const Real _rhoV;
+  const Real _rhoL;
+  const VariableValue & _velocity;
+  const VariableGradient & _gradVelocity;
 };

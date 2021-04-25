@@ -11,33 +11,22 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-/// MixtureMassBalDivergence class inherits from Kernel class
-class MixtureMassBalDivergence : public Kernel
+class VaporConvection : public Kernel
 {
 public:
 
-  MixtureMassBalDivergence(const InputParameters & parameters);
+  VaporConvection(const InputParameters & parameters);
 
 protected:
-  /// Residual
+  // Residual
   virtual Real computeQpResidual() override;
 
-  /// Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// Two-phase flow parameters
+  // Variables
   const Real _rhoV;
   const Real _rhoL;
-
-  /// Two-phase mixture flow coupled variables
   const VariableValue & _vaporFraction;
   const VariableGradient & _gradVaporFraction;
 };
