@@ -24,27 +24,20 @@ class MixtureMassBalDivergence : public Kernel
 {
 public:
 
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
   MixtureMassBalDivergence(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
+  /// Residual
   virtual Real computeQpResidual() override;
 
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+  /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
+
+  /// Two-phase flow parameters
   const Real _rhoV;
   const Real _rhoL;
-  //const VariableValue & _fractionVapor;
-  //const VariableGradient & _grad_fractionVapor;
+
+  /// Two-phase flow coupled variables
   const VariableValue & _velocityMixture;
   const VariableGradient & _gradVelocityMixture;
-  /// The variables which holds the value for the MixtureMassBalDivergence coefficient
 };
