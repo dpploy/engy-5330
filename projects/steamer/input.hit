@@ -7,8 +7,9 @@
 xmin = 0.00000e+00
 xmax = 2.50000e+01
 diff_coeff = 1.00000e-01
-source_s = 1.00000e-03
-
+source_s = 1.00000
+rho_l = 1000.0000
+rho_v = 2.00000
 [Mesh]
   [1d]
     type = GeneratedMeshGenerator
@@ -33,13 +34,18 @@ source_s = 1.00000e-03
 [Kernels]
   [mixture-mass-balance-divergence]
     type = MixtureMassBalDivergence
-    variable = velocityMixture, fractionVapor    # produced quantity
-    diffCoeff = ${replace diff_coeff}
+    variable = fractionVapor     # produced quantity
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    some_variable = velocityMixture
   []
   [vapor-drift-flux]
     type = VaporDriftDiffusion
-    variable = fractionVapor     # produced quantity
+    variable = velocityMixture     # produced quantity
     diffCoeff = ${replace diff_coeff}
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    some_variable = fractionVapor
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
@@ -68,7 +74,6 @@ source_s = 1.00000e-03
     value = 0.00000e+00
   []
 []
-
 [Preconditioning]
   active = 'fdp-newt-full'
   [fdp-newt-full]
@@ -79,11 +84,9 @@ source_s = 1.00000e-03
     petsc_options_value = 'lu  9.9999999999999995474811182588626e-07               ds'
   []
 []
-
 [Executioner]
   type = Steady
 []
-
 
 
 [VectorPostprocessors]
