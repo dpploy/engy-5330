@@ -11,19 +11,18 @@
 
 #include "Kernel.h"
 
-class EquationTerm : public Kernel
+class NuclearHeat : public Kernel
 {
 public:
 
-  EquationTerm(const InputParameters & parameters);
+  NuclearHeat(const InputParameters & parameters);
 
-protected:
-  /// Residual
+  // Residual
   virtual Real computeQpResidual() override;
 
-  /// Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables e.g.
-  const Real _equationTermCoeff;
+  // Nuclear heating power
+  Real sourceS;
 };

@@ -11,14 +11,6 @@
 
 #include "AuxKernel.h"
 
-class DiffusionFluxComponent;
-
-template <>
-InputParameters validParams<DiffusionFluxComponent>();
-
-/**
- * Auxiliary kernel responsible for computing the flux of a variable.
- */
 class DiffusionFluxComponent : public AuxKernel
 {
 public:

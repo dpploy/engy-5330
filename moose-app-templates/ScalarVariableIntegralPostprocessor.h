@@ -11,15 +11,13 @@
 
 #include "ElementIntegralPostprocessor.h"
 
-// Forward Declarations
-// none
-
 class ScalarVariableIntegralPostprocessor : public ElementIntegralPostprocessor
 {
 public:
   static InputParameters validParams();
 
   ScalarVariableIntegralPostprocessor(const InputParameters & parameters);
+
   virtual Real getValue();
 
 protected:

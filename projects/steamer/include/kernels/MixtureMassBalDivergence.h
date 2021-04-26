@@ -11,56 +11,24 @@
 
 #include "Kernel.h"
 
-/**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
-
-/// Forward Declarations
-class MixtureMassBalDivergence;
-
-/**
- * validParams returns the parameters that this Kernel accepts / needs
- * The actual body of the function MUST be in the .C file.
- */
-template <>
-InputParameters validParams<MixtureMassBalDivergence>();
-
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-/// MixtureMassBalDivergence class inherits from Kernel class
 class MixtureMassBalDivergence : public Kernel
 {
 public:
 
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
   MixtureMassBalDivergence(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
+  /// Residual
   virtual Real computeQpResidual() override;
 
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+  /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
+
+  /// Two-phase flow parameters
   const Real _rhoV;
   const Real _rhoL;
-  //const VariableValue & _fractionVapor;
-  //const VariableGradient & _grad_fractionVapor;
-  const VariableValue & _velocityMixture;
-  const VariableGradient & _gradVelocityMixture;
-  /// The variables which holds the value for the MixtureMassBalDivergence coefficient
+
+  /// Two-phase mixture flow coupled variables
+  const VariableValue & _vaporFraction;
+  const VariableGradient & _gradVaporFraction;
 };

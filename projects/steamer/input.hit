@@ -5,51 +5,62 @@
 
 # Parameters
 xmin = 0.00000e+00
-xmax = 2.50000e+01
-diff_coeff = 1.00000e-01
-source_s = 1.00000
+xmax = 1.00000e+01
+diff_coeff = 1.00000e+01
+source_s = 0.0e-5
 rho_l = 1000.0000
-rho_v = 2.00000
+rho_v = 1.00000
+mixture_velocity_left = 0.9367
+vapor_fraction_left = 0.0
+
 [Mesh]
   [1d]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 3
+    nx = 50
   []
 []
 
 [Variables]
-  [velocityMixture]
+  [mixtureVelocity]
     order = first
     family = lagrange
+    initial_condition = ${fparse mixture_velocity_left}
   []
-  [fractionVapor]
+  [vaporFraction]
     order = first
     family = lagrange
   []
 []
 
 [Kernels]
-  [mixture-mass-balance-divergence]
+  [mixture]
     type = MixtureMassBalDivergence
-    variable = fractionVapor     # produced quantity
+    variable = mixtureVelocity     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    some_variable = velocityMixture
+    vaporFraction = vaporFraction
   []
-  [vapor-drift-flux]
-    type = VaporDriftDiffusion
-    variable = velocityMixture     # produced quantity
+  [vapor-convection]
+    type = VaporDriftFluxDiffusion
+    variable = vaporFraction     
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    velocity = mixtureVelocity
+  []
+  [vapor-driftflux-diffusion]
+    type = VaporDriftFluxDiffusion
+    variable = vaporFraction 
     diffCoeff = ${replace diff_coeff}
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    some_variable = fractionVapor
+    velocity = mixtureVelocity
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
-    variable = fractionVapor     # add to produced quantity
+    variable = vaporFraction     # add to produced quantity
     sourceS = ${replace source_s}
   []
 []
@@ -57,23 +68,24 @@ rho_v = 2.00000
 [BCs]
   [entry-vapor-fraction]
     type = DirichletBC
-    variable = fractionVapor
+    variable = vaporFraction
     boundary = left
-    value = 3.00000e+00
+    value = 0.00000e+00
   []
   [entry-mixture-velocity]
     type = DirichletBC
-    variable = velocityMixture
+    variable = mixtureVelocity
     boundary = left
-    value = 0.00000e+00
+    value = ${fparse mixture_velocity_left}
   []
   [exit]
     type = NeumannBC
-    variable = fractionVapor
+    variable = vaporFraction
     boundary = right
-    value = 0.00000e+00
+    value = ${fparse vapor_fraction_left}
   []
 []
+
 [Preconditioning]
   active = 'fdp-newt-full'
   [fdp-newt-full]
@@ -88,15 +100,14 @@ rho_v = 2.00000
   type = Steady
 []
 
-
 [VectorPostprocessors]
   [x-data]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'velocityMixture fractionVapor'    # output data
+    variable = 'mixtureVelocity vaporFraction'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = 20
+    num_points = 51
     sort_by = id
   []
 []

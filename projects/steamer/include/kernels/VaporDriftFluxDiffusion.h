@@ -11,19 +11,25 @@
 
 #include "Kernel.h"
 
-class EquationTerm : public Kernel
+class VaporDriftFluxDiffusion : public Kernel
 {
 public:
 
-  EquationTerm(const InputParameters & parameters);
+  VaporDriftFluxDiffusion(const InputParameters & parameters);
 
 protected:
-  /// Residual
+  // Residual
   virtual Real computeQpResidual() override;
 
-  /// Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables e.g.
-  const Real _equationTermCoeff;
+  // Property variables
+  const Real _diffCoeff;
+  const Real _rhoV;
+  const Real _rhoL;
+
+  // Coupled variables
+  const VariableValue & _velocity;
+  const VariableGradient & _gradVelocity;
 };

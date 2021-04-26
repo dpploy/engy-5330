@@ -1,0 +1,126 @@
+# Engy-5310 Problem: Poisson 2D FEM
+# UMass Lowell Nuclear Chemical Engineering
+# Prof. Valmor F. de Almeida
+# 25Apr21 19:25:00
+
+# Parameters
+xmin = 9.52500e-03
+xmax = 3.49250e-02
+ymin = -1.57162e-01
+ymax = 1.57162e-01
+therm_cond_fuel = 1.40000e+02
+source_s = 2.37000e+08
+u_left = 5.71150e+02
+
+[Problem]
+  type = FEProblem
+  coord_type = RZ
+  rz_coord_axis = Y
+[]
+
+[Mesh]
+  [2d]
+    type = GeneratedMeshGenerator
+    dim = 2
+    xmin = ${replace xmin}
+    xmax = ${replace xmax}
+    ymin = ${replace ymin}
+    ymax = ${replace ymax}
+    nx = 25
+    ny = 225
+  []
+[]
+
+[Variables]
+  [T]
+    order = first
+    family = lagrange
+    initial_condition = ${fparse (u_left)/1}
+  []
+[]
+
+[Kernels]
+  [heat-conduction-salt]
+    type = HeatConduction
+    variable = T     
+    thermCond = ${replace therm_cond_fuel}
+  []
+  [nuclear-heat-source]
+    type = NuclearHeat
+    variable = T     
+    sourceS = ${replace source_s}
+  []
+[]
+
+[BCs]
+  [east]
+    type = DirichletBC
+    variable = T
+    boundary = left
+    value = ${replace u_left}
+  []
+  [west]
+    type = NeumannBC
+    variable = T
+    boundary = right
+  []
+  [south]
+    type = NeumannBC
+    variable = T
+    boundary = bottom
+  []
+  [north]
+    type = NeumannBC
+    variable = T
+    boundary = top
+  []
+[]
+
+[Executioner]
+  type = Steady
+  solve_type = 'PJFNK'
+  petsc_options_iname = '-pc_type -pc_hypre_type'
+  petsc_options_value = 'hypre boomeramg'
+[]
+
+[VectorPostprocessors]
+  [x-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T'    # output data
+    start_point = '${replace xmin} ${fparse (ymax+ymin)/2} 0'
+    end_point = '${replace xmax} ${fparse (ymax+ymin)/2} 0'
+    num_points = 20
+    sort_by = id
+  []
+  [y-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T'    # output data
+    start_point = '${fparse (xmax+xmin)/2} ${replace ymin} 0'
+    end_point = '${fparse (xmax+xmin)/2} ${replace ymax} 0'
+    num_points = 20
+    sort_by = id
+  []
+[]
+
+[Outputs]
+  console = true
+  [vtk]
+    type = VTK
+    execute_on = final
+    file_base = out
+  []
+  [x]
+    type = CSV
+    execute_on = 'final'
+    show = 'x-line'
+    file_base = out-x
+  []
+  [y]
+    type = CSV
+    execute_on = 'final'
+    show = 'y-line'
+    file_base = out-y
+  []
+[]

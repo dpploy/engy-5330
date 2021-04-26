@@ -11,13 +11,13 @@
 
 #include "MooseApp.h"
 
-class Engy5310p1App : public MooseApp
+class FHRApp : public MooseApp
 {
 public:
   static InputParameters validParams();
 
-  Engy5310p1App(InputParameters parameters);
-  virtual ~Engy5310p1App();
+  FHRApp(InputParameters parameters);
+  virtual ~FHRApp();
 
   static void registerApps();
   static void registerAll(Factory & f, ActionFactory & af, Syntax & s);

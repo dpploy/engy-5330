@@ -11,19 +11,22 @@
 
 #include "Kernel.h"
 
-class EquationTerm : public Kernel
+class HeatConvection : public Kernel
 {
 public:
 
-  EquationTerm(const InputParameters & parameters);
+  HeatConvection(const InputParameters & parameters);
 
-protected:
-  /// Residual
+  // Residual
   virtual Real computeQpResidual() override;
 
-  /// Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables e.g.
-  const Real _equationTermCoeff;
+  // Molten salt variables
+  const Real _massDensity;
+  const Real _heatCapacity;
+
+  const RealVectorValue _velocity;
+
 };
