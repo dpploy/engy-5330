@@ -29,7 +29,7 @@ Real
 NuclearHeat::computeQpResidual()
 {
   // Residual
-  return sourceS * _test[_i][_qp];
+  return - sourceS * _test[_i][_qp];
 }
 
 Real
