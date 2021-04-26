@@ -7,11 +7,11 @@
 xmin = 0.00000e+00
 xmax = 1.00000e+01
 diff_coeff = 1.00000e+01
-source_s = 1.0e-5
+source_s = 0.0e-5
 rho_l = 1000.0000
 rho_v = 1.00000
-velocity_mixture_left = 1.0
-fraction_vapor_left = 0.0
+mixture_velocity_left = 0.9367
+vapor_fraction_left = 0.0
 
 [Mesh]
   [1d]
@@ -24,36 +24,43 @@ fraction_vapor_left = 0.0
 []
 
 [Variables]
-  [velocityMixture]
+  [mixtureVelocity]
     order = first
     family = lagrange
-    initial_condition = ${fparse velocity_mixture_left}
+    initial_condition = ${fparse mixture_velocity_left}
   []
-  [fractionVapor]
+  [vaporFraction]
     order = first
     family = lagrange
   []
 []
 
 [Kernels]
-  [mixture-mass-balance-divergence]
+  [mixture]
     type = MixtureMassBalDivergence
-    variable = fractionVapor     # produced quantity
+    variable = mixtureVelocity     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    some_variable = velocityMixture
+    vaporFraction = vaporFraction
   []
-  [vapor-drift-flux]
-    type = VaporDriftDiffusion
-    variable = velocityMixture     # produced quantity
+  [vapor-convection]
+    type = VaporDriftFluxDiffusion
+    variable = vaporFraction     
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    velocity = mixtureVelocity
+  []
+  [vapor-driftflux-diffusion]
+    type = VaporDriftFluxDiffusion
+    variable = vaporFraction 
     diffCoeff = ${replace diff_coeff}
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    some_variable = fractionVapor
+    velocity = mixtureVelocity
   []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
-    variable = fractionVapor     # add to produced quantity
+    variable = vaporFraction     # add to produced quantity
     sourceS = ${replace source_s}
   []
 []
@@ -61,21 +68,21 @@ fraction_vapor_left = 0.0
 [BCs]
   [entry-vapor-fraction]
     type = DirichletBC
-    variable = fractionVapor
+    variable = vaporFraction
     boundary = left
     value = 0.00000e+00
   []
   [entry-mixture-velocity]
     type = DirichletBC
-    variable = velocityMixture
+    variable = mixtureVelocity
     boundary = left
-    value = ${fparse velocity_mixture_left}
+    value = ${fparse mixture_velocity_left}
   []
   [exit]
     type = NeumannBC
-    variable = fractionVapor
+    variable = vaporFraction
     boundary = right
-    value = ${fparse fraction_vapor_left}
+    value = ${fparse vapor_fraction_left}
   []
 []
 
@@ -97,7 +104,7 @@ fraction_vapor_left = 0.0
   [x-data]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'velocityMixture fractionVapor'    # output data
+    variable = 'mixtureVelocity vaporFraction'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
     num_points = 51

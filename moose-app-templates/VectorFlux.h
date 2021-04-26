@@ -11,9 +11,6 @@
 
 #include "AuxKernel.h"
 
-/**
- * Auxiliary kernel responsible for computing the flux of a variable.
- */
 class VectorFlux : public VectorAuxKernel
 {
 public:
@@ -22,11 +19,6 @@ public:
   VectorFlux(const InputParameters & parameters);
 
 protected:
-  /**
-   * AuxKernels MUST override computeValue.  computeValue() is called on
-   * every quadrature point.  For Nodal Auxiliary variables those quadrature
-   * points coincide with the nodes.
-   */
   virtual RealVectorValue computeValue() override;
 
   /// The gradient of a coupled variable

@@ -7,7 +7,7 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "DiffusionTerm.h"
+#include "HeatConduction.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
@@ -15,44 +15,35 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("FHRApp", DiffusionTerm);
+registerMooseObject("FHRApp", HeatConduction);
 
 /**
  * This function defines the valid parameters for
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<DiffusionTerm>()
+InputParameters validParams<HeatConduction>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
+  params.addClassDescription("Weak form of thermal conductivity");
+  params.addParam<Real>("thermCond",1.0,"Thermal conductivity coefficient");
   return params;
 }
 
-DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parameters),
-    // Set the coefficient for the equation term
-    diffCoeff(getParam<Real>("diffCoeff"))
+HeatConduction::HeatConduction(const InputParameters & parameters): 
+    Kernel(parameters),
+    _thermCond(getParam<Real>("thermCond"))
 {
 }
 
 Real
-DiffusionTerm::computeQpResidual()
+HeatConduction::computeQpResidual()
 {
-  // Implement the return
-  Real blin =  - diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
-  //printf("%f ", _qp);
-  return blin;
-  //FIXME return 0.0 // remove this line
+  return _thermCond * _grad_u[_qp] * _grad_test[_i][_qp];
 }
 
 Real
-DiffusionTerm::computeQpJacobian()
+HeatConduction::computeQpJacobian()
 {
-  // Implement the return
-  Real din = - diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-  //printf("%f ", _qp);
-  return din;
-
-  //FIXME return 0.0 // remove this line
+  return _thermCond * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
 }

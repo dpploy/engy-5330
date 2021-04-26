@@ -11,28 +11,24 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-class Convected : public Kernel
+class VaporConvection : public Kernel
 {
 public:
 
-  Convected(const InputParameters & parameters);
+  VaporConvection(const InputParameters & parameters);
 
+protected:
   // Residual
   virtual Real computeQpResidual() override;
 
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Member variables
-  Real density;
-  Real heatCapacity;
-  Real velocity;
+  // Property Variables
+  const Real _rhoV;
+  const Real _rhoL;
+
+  // Coupled variables
+  const VariableValue & _vaporFraction;
+  const VariableGradient & _gradVaporFraction;
 };

@@ -11,28 +11,25 @@
 
 #include "Kernel.h"
 
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-class BoussinesqSource : public Kernel
+class VaporDriftFluxDiffusion : public Kernel
 {
 public:
 
-  BoussinesqSource(const InputParameters & parameters);
+  VaporDriftFluxDiffusion(const InputParameters & parameters);
 
+protected:
   // Residual
   virtual Real computeQpResidual() override;
 
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Member variables
-  Real density;
-  Real beta;
-  Real refTemp;
+  // Property variables
+  const Real _diffCoeff;
+  const Real _rhoV;
+  const Real _rhoL;
+
+  // Coupled variables
+  const VariableValue & _velocity;
+  const VariableGradient & _gradVelocity;
 };

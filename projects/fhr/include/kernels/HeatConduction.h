@@ -11,19 +11,18 @@
 
 #include "Kernel.h"
 
-class EquationTerm : public Kernel
+class HeatConduction : public Kernel
 {
 public:
 
-  EquationTerm(const InputParameters & parameters);
+  HeatConduction(const InputParameters & parameters);
 
-protected:
   /// Residual
   virtual Real computeQpResidual() override;
 
   /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables e.g.
-  const Real _equationTermCoeff;
+  /// Thermal conductivity
+  Real _thermCond;
 };
