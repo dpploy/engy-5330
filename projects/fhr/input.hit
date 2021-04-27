@@ -4,13 +4,13 @@
 # 25Apr21 19:25:00
 
 # Parameters
-xmin = 9.52500e-03
-xmax = 3.49250e-02
-ymin = -1.57162e-01
-ymax = 1.57162e-01
-therm_cond_fuel = 1.40000e+02
-source_s = 2.37000e+08
-u_left = 5.71150e+02
+xmin = 0
+xmax = 0.014
+ymin = 0
+ymax = 12
+therm_cond_fuel = 80
+source_s = 0
+u_left = 610
 
 [Problem]
   type = FEProblem
@@ -54,25 +54,28 @@ u_left = 5.71150e+02
 
 [BCs]
   [east]
-    type = DirichletBC
+    type = NeumannBC
     variable = T
     boundary = left
-    value = ${replace u_left}
+    value = -5
   []
   [west]
     type = NeumannBC
     variable = T
     boundary = right
+    value = 5
   []
   [south]
-    type = NeumannBC
+    type = DirichletBC
     variable = T
     boundary = bottom
+    value = 600
   []
   [north]
     type = NeumannBC
     variable = T
     boundary = top
+    value = 0
   []
 []
 

@@ -9,35 +9,26 @@
 
 #pragma once
 
-#include "ADFunctionNeumannBC.h"
+#include "IntegratedBC.h"
 
-// Forward Declarations
-class NormalFluxBC;
+class Function;
 
-template <>
-InputParameters validParams<NormalFluxBC>();
-
-class NormalFluxBC : public ADFunctionNeumannBC
+class NormalFluxBC : public IntegratedBC
 {
 public:
-  /**
-   * Factory constructor, takes parameters so that all derived classes can be built using the same
-   * constructor.
-   */
   static InputParameters validParams();
 
   NormalFluxBC(const InputParameters & parameters);
 
 protected:
-  virtual ADReal computeQpResidual() override;
-  virtual ADReal computeQpJacobian();
+  virtual Real computeQpResidual() override;
+  virtual Real computeQpJacobian() override;
+
+  const Function & _func;
 
 private:
-  /**
-   * Parameters of the flux boundary condition. Rename and/or add parameter names below.
-   */
-  Real _conductivity;
-  Real _convectivity;
+  // Parameters of the flux boundary condition. Rename and/or add parameter names below.
+  Real _convectionCoeff;
+  Real _bias;
   Real _zmax;
-  const Function & _func;
 };

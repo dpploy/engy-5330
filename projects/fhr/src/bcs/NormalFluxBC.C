@@ -17,38 +17,41 @@ defineLegacyParams(NormalFluxBC);
 InputParameters
 NormalFluxBC::validParams()
 {
-  InputParameters params = ADFunctionNeumannBC::validParams();
-  params.addRequiredParam<Real>("conductivity", "conductivity"),
-  params.addRequiredParam<Real>("convectivity", "convectivity"),
-  params.addRequiredParam<FunctionName>("function", "function"),
-  params.addRequiredParam<Real>("zmax", "zmax"),
+  InputParameters params = IntegratedBC::validParams();
+  params.set<Real>("convectionCoeff") = 0;
+  params.set<Real>("bias") = 0;
+  params.set<Real>("zmax") = 0;
+  params.addRequiredParam<FunctionName>("function", "the function");
   params.addClassDescription(
    "Parameters for the flux boundary condition. Rename and/or add as necessary.");
   return params;
 }
 
 NormalFluxBC::NormalFluxBC(const InputParameters & parameters)
-  : ADFunctionNeumannBC(parameters),
-    _conductivity(getParam<Real>("conductivity")),
-    _convectivity(getParam<Real>("convectivity")),
-    _func(getFunction("function")),
-    _zmax(getParam<Real>("zmax"))
+  : IntegratedBC(parameters),
+    _convectionCoeff(getParam<Real>("convectionCoeff")),
+    _bias(getParam<Real>("bias")),
+    _zmax(getParam<Real>("zmax")),
+    _func(getFunction("function"))
 {
 }
 
-ADReal
+Real
 NormalFluxBC::computeQpResidual()
 {
  // Implement the return:
- // help
- Real val = _func.value(_t, _q_point[_qp]);
- Real refTemp = 600 + (100 * (val/_zmax));
- return (- _conductivity / _convectivity) * (_u[_qp] - refTemp) * _test[_i][_qp];
+ // e.g. return _param1 * (_u[_qp] - _param2) * _test[_i][_qp];
+  Real funcValue = 600 + 100 * (_func.value(_t, _q_point[_qp]) / _zmax);
+  return _convectionCoeff * (_u[_qp] - funcValue) * _test[_i][_qp];
+  //FIXME return 0.0; // remove this line
 }
 
-ADReal
+Real
 NormalFluxBC::computeQpJacobian()
 {
  // Implement the return:
- return (- _conductivity / _convectivity) * _phi[_j][_qp] * _test[_i][_qp];
+ // e.g. return _param1 * _phi[_j][_qp] * _test[_i][_qp];
+ // FIXME return 0.0; // remove this line
+ //Real funcValue = 600 + 100 * (_func.value(_t, _q_point[_qp]) / _zmax);
+ return _convectionCoeff * _phi[_j][_qp] * _test[_i][_qp];
 }
