@@ -10,7 +10,7 @@
 #include "NormalFluxBC.h"
 #include "Function.h"
 
-registerMooseObject("Engy5310p1App", NormalFluxBC);
+registerMooseObject("FHRApp", NormalFluxBC);
 
 defineLegacyParams(NormalFluxBC);
 
