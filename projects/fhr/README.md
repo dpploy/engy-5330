@@ -15,7 +15,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |  |
 |:---:|
 | <img width="380" src="pics/domain.png" title="My result"> |
-| <p style="text-align:center;"><b>Domain of salt flow inside and outside a cylindrical annulus (nuclear fuel).</b></p> |
+| <p style="text-align:center;"><b>Domain of salt flow: inside and outside a cylindrical annulus (nuclear fuel).</b></p> |
 
 
 References:
