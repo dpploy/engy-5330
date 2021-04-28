@@ -1,6 +1,6 @@
 # local
 *~
-*.png
+#*.png
 *.svg
 toolkit.py
 *solution*
@@ -93,7 +93,6 @@ temp_print_trace.*
 *.vtu
 *.pvtu
 .depend
-*.png
 *.svg
 *.gif
 *.tif
