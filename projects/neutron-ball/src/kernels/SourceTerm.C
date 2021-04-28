@@ -27,19 +27,21 @@ InputParameters validParams<SourceTerm>()
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The scaled Laplacian operator (SD\\nabla \\cdot \\nabla u$) with the weak form of S(D\\nabla)");
   params.addParam<Real>("sourceS",1.0,"Source term");
+  params.addParam<Real>("Sigma_s12",0.0,"Scatter IMFP 1 to 2");
   return params;
 }
 
 SourceTerm::SourceTerm(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
     _sourceS(getParam<Real>("sourceS"))
+    _Sigma_s12(getParam<Real>("Sigma_s12"))
 {
 }
 
 Real
 SourceTerm::computeQpResidual()
 {
-  return _sourceS * _test[_i][_qp];
+  return _u[_qp] * _Sigma_s12 *  _test[_i][_qp];
 }
 
 Real

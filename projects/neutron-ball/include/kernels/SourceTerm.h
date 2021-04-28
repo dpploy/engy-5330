@@ -31,7 +31,7 @@ class SourceTerm : public Kernel
 {
 public:
   // Constructor for SourceTerm of InputParameters object
-  SourceTerm(const InputParameters & parameters); 
+  SourceTerm(const InputParameters & parameters);
 
 protected:
   /// Required residual for standard kernels in MOOSE
@@ -45,4 +45,11 @@ protected:
 
   /// The variables which holds the value for the SourceTerm coefficient
   const Real _sourceS;
+  const Real _Sigma_s12;
+  // const Real _Sigma_s23;
+  // const Real _Sigma_s13;
+  const Real _sourceSGroup2; // Should be null
+  const VariableValue & _uGroup2;
+  // const VariableValue & _uGroup3;
+
 };

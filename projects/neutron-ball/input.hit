@@ -8,8 +8,10 @@ xmin = 1.00000e-01
 xmax = 1.00000e+03
 diff_coeff = 2.04000e+00
 u_left = 4.17000e+00
-transfer_coeff_right = ${fparse 1 * 2.4e9/2}
+velocity = 2.393E+09
+transfer_coeff_right = velocity/2
 sigma_a = 0.13
+sigma_s12 = 0.07
 
 [Problem]
   type = FEProblem
@@ -22,7 +24,7 @@ sigma_a = 0.13
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 3000
+    nx = 1000
     elem_type = edge3
   []
 []
@@ -45,6 +47,10 @@ sigma_a = 0.13
     type = AbsorptionTerm
     variable = u     # produced quantity
     sigmaA = ${replace sigma_a}
+  []
+  [source-term]
+    variable = _uGroup2
+    Sigma_s12 = ${replace Sigma_s12}
   []
 []
 
