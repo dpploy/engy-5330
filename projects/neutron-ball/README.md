@@ -8,7 +8,8 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Fneutron-ball%2Freport.ipynb)
 
- >[Paul Johnson](https://github.com/xxxx), and [Name](https://github.com/xxx) <br>
+ >[Paul Johnson](https://github.com/marmolRBG
+), and [Name](https://github.com/xxx) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
