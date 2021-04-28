@@ -24,11 +24,12 @@ protected:
   virtual Real computeQpResidual() override;
   virtual Real computeQpJacobian() override;
 
+private:
   const Function & _func;
 
-private:
-  // Parameters of the flux boundary condition. Rename and/or add parameter names below.
+  // User variables
   Real _convectionCoeff;
   Real _bias;
   Real _zmax;
+
 };
