@@ -1,22 +1,21 @@
-
-#  Engy-5310 Problem: Poisson 2D FEM
+# Engy-5310 Problem: Poisson 2D FEM
 # UMass Lowell Nuclear Chemical Engineering
 # Prof. Valmor F. de Almeida
-# 11Apr21 15:21:36
+# 25Apr21 19:25:00
 
 # Parameters
-xmin = 0.00000e+00
-xmax = 2.50000e+01
-ymin = -6.25000e+00
-ymax = 6.25000e+00
-diff_coeff = 1.00000e-01
-source_s = 0
-u_left = 3.00000e+00
-u_right = 0.00000e+00
+xmin = 9.52500e-03
+xmax = 3.49250e-02
+ymin = -1.57162e-01
+ymax = 1.57162e-01
+therm_cond_fuel = 1.40000e+02
+source_s = 2.37000e+08
+u_left = 5.71150e+02
 
 [Problem]
   type = FEProblem
-  coord_type = XYZ
+  coord_type = RZ
+  rz_coord_axis = Y
 []
 
 [Mesh]
@@ -27,28 +26,28 @@ u_right = 0.00000e+00
     xmax = ${replace xmax}
     ymin = ${replace ymin}
     ymax = ${replace ymax}
-    nx = 3
-    ny = 1
-	elem_type= QUAD9
+    nx = 25
+    ny = 225
   []
 []
 
 [Variables]
-  [u]
-    order = second
+  [T]
+    order = first
     family = lagrange
+    initial_condition = ${fparse (u_left)/1}
   []
 []
 
 [Kernels]
-  [diffusion-term]
-    type = DiffusionTerm
-    variable = u     # produced quantity
-    diffCoeff = ${replace diff_coeff}
+  [heat-conduction-salt]
+    type = HeatConduction
+    variable = T     
+    thermCond = ${replace therm_cond_fuel}
   []
-  [source-term]
-    type = SourceTerm
-    variable = u     # add to produced quantity
+  [nuclear-heat-source]
+    type = NuclearHeat
+    variable = T     
     sourceS = ${replace source_s}
   []
 []
@@ -56,24 +55,23 @@ u_right = 0.00000e+00
 [BCs]
   [east]
     type = DirichletBC
-    variable = u
+    variable = T
     boundary = left
     value = ${replace u_left}
   []
   [west]
     type = NeumannBC
-    variable = u
+    variable = T
     boundary = right
-    value = ${replace u_right}
   []
   [south]
     type = NeumannBC
-    variable = u
+    variable = T
     boundary = bottom
   []
   [north]
     type = NeumannBC
-    variable = u
+    variable = T
     boundary = top
   []
 []
@@ -89,7 +87,7 @@ u_right = 0.00000e+00
   [x-line]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'u'    # output data
+    variable = 'T'    # output data
     start_point = '${replace xmin} ${fparse (ymax+ymin)/2} 0'
     end_point = '${replace xmax} ${fparse (ymax+ymin)/2} 0'
     num_points = 20
@@ -98,10 +96,10 @@ u_right = 0.00000e+00
   [y-line]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'u'    # output data
+    variable = 'T'    # output data
     start_point = '${fparse (xmax+xmin)/2} ${replace ymin} 0'
     end_point = '${fparse (xmax+xmin)/2} ${replace ymax} 0'
-    num_points = 2
+    num_points = 20
     sort_by = id
   []
 []

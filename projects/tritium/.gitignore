@@ -1,16 +1,8 @@
-<<<<<<< HEAD
-*.C
-*.h
-*.c
-*.cc
-*.cxx
-=======
 *~
 .C
 .c
 .cxx
 .h
->>>>>>> 3ce274c633d175005794c130a35d55d6c5eb03f2
 .libs
 *.la
 *.lo
@@ -85,10 +77,7 @@ temp_print_trace.*
 *.pvtu
 .depend
 *.png
-<<<<<<< HEAD
-=======
 *.svg
->>>>>>> 3ce274c633d175005794c130a35d55d6c5eb03f2
 *.gif
 *.tif
 *.jpg
@@ -102,10 +91,7 @@ temp_print_trace.*
 *.xyz
 *Revision.h
 *.json
-<<<<<<< HEAD
-=======
 *.json.*
->>>>>>> 3ce274c633d175005794c130a35d55d6c5eb03f2
 *.bak
 *.processor.*
 .clang_complete
@@ -123,10 +109,7 @@ build
 !**/gold/*.vtu
 !**/gold/*.pvtu
 !**/gold/*.xml*
-<<<<<<< HEAD
-=======
 !**/gold/*.json*
->>>>>>> 3ce274c633d175005794c130a35d55d6c5eb03f2
 
 peacock_run_tmp.i
 yaml_dump*

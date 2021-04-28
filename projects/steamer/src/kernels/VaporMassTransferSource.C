@@ -10,32 +10,20 @@
 #pragma once
 
 #include "VaporMassTransferSource.h"
-/**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
 
-/// Forward Declarations
 registerMooseObject("SteamerApp", VaporMassTransferSource);
 
-
-/**
- * validParams returns the parameters that this Kernel accepts / needs
- * The actual body of the function MUST be in the .C file.
- */
-template <> 
+template <>
 InputParameters validParams<VaporMassTransferSource>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($\ldots$), with the weak "
-                             "form of $\ldots$.");
-  params.addParam<Real>("sourceS",1.0,"Equation Term Coefficient");
+  params.addClassDescription("Vapor mass transfer source.");
+  params.addParam<Real>("sourceS",1.0,"Vapor mass transfer source");
   return params;
 }
 
-VaporMassTransferSource::VaporMassTransferSource(const InputParameters & parameters) : Kernel(parameters),
-    // Set the coefficient for the equation term
+VaporMassTransferSource::VaporMassTransferSource(const InputParameters & parameters): 
+    Kernel(parameters),
     _sourceS(getParam<Real>("sourceS"))
 {
 }
