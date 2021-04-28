@@ -8,14 +8,14 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Ffhr%2Freport.ipynb)
 
- >[Name](https://github.com/xxxx), and [Name](https://github.com/xxx) <br>
+ >[Austin Rotker](https://github.com/arotker45), and [Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
 |  |
 |:---:|
-| <img width="380" src="pics/pic.png" title="My result"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
+| <img width="380" src="pics/domain.png" title="My result"> |
+| <p style="text-align:center;"><b>Domain of salt flow: inside and outside a cylindrical annulus (nuclear fuel).</b></p> |
 
 
 References:
