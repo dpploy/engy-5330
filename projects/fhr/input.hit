@@ -4,13 +4,36 @@
 # 25Apr21 19:25:00
 
 # Parameters
-xmin = 0
-xmax = 0.014
-ymin = 0
-ymax = 12
-therm_cond_fuel = 80
-source_s = 0
-u_left = 600
+xmin = 0 #m
+xmax = 0.014 #m
+ymin = 0 #m
+ymax = 12 #m
+therm_cond_fuel = 80 #w/m-k
+source_s = 0 # no source
+u_left = 600 # initial temp of 600 k
+convectionCoeff = 605
+
+# calculate exterior heat transfer coefficient
+#t_high = 700 + 373.15
+#t_low = 600 + 373.15
+#rho_high = 2413 - 0.488 * t_high # Janz et al. [1974], Janz [1988]
+#rho_low = 2413 - 0.488 * t_low
+#mu_high = 0.000116 * exp(3755/t_high) # Williams et al. [2006]
+#mu_low = 0.000116 * exp(3755/t_low)
+#c_high = 2416 # j/kg-k
+#c_low = 2416
+#k_high = 0.629697 + 0.0005 * t_high #Ignat'ev [2006], Williams [2006] and Allen [2010] et. al
+#k_low = 0.629697 + 0.0005 * t_low
+#D_h = 2 * xmax
+#v = 2 #m/s
+#Re_high = (rho_high * v * D_h) / mu_high
+#Re_low = (rho_low * v * D_h) / mu_low
+#Pr_high = (mu_high * c_high) / k_high
+#Pr_low = (mu_low * c_low) / k_low
+#Re_ave = (Re_high + Re_low) / 2
+#Pr_ave = (Pr_high + Pr_low) / 2
+#Nu = 0.023 * Re_ave ** 0.8 * Pr_ave ** 0.4
+#convectionCoef = Nu * (0.5 * therm_cond_fuel / ymax)
 
 [Problem]
   type = FEProblem
@@ -49,10 +72,12 @@ u_left = 600
 
 [BCs]
   [east]
-    type = NeumannBC
+    type = NormalFluxBC
     variable = T
     boundary = left
-    value = -5
+    convectionCoeff = -45000
+    zmax = ${replace ymax}
+    function = 'z'
   []
   [west]
     type = NeumannBC
