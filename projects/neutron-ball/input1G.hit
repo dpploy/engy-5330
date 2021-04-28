@@ -49,7 +49,7 @@ sigma_s12 = 0.0
   []
   [source-term]
     variable = u
-    Sigma_s12 = 0
+    Sigma_s12 = 0.07
   []
 []
 

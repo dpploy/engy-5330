@@ -48,9 +48,9 @@ sigma_s12 = 0.07
     sigmaA = ${replace sigma_a}
   []
   [source-term]
-    variable = _uGroup2
+    variable = u
     Sigma_s12 = ${replace Sigma_s12}
-    sourceS = 0
+    # sourceS = 0
   []
 []
 
