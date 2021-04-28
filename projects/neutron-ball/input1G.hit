@@ -1,7 +1,6 @@
-# Engy-5310 Problem 1: Poisson 1D FEM
+# Engy-5310 Problem 1: Poisson 1D FEM Neutron Diffusion Equation
 # UMass Lowell Nuclear Chemical Engineering
-# Prof. Valmor F. de Almeida
-# 22Apr21 18:56:44
+# Paul Johnson
 
 # Parameters
 xmin = 1.00000e-01
@@ -11,7 +10,7 @@ u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
 sigma_a = 0.13
-sigma_s12 = 0.07
+sigma_s12 = 0.0
 
 [Problem]
   type = FEProblem
@@ -49,8 +48,8 @@ sigma_s12 = 0.07
     sigmaA = ${replace sigma_a}
   []
   [source-term]
-    variable = _uGroup2
-    Sigma_s12 = ${replace Sigma_s12}
+    variable = u
+    Sigma_s12 = 0
   []
 []
 
@@ -100,7 +99,7 @@ sigma_s12 = 0.07
   console = true
   [file-x-data]
     type = CSV
-    file_base = 'output'
+    file_base = 'output1G'
     execute_on = 'final'
     show = 'x-data'
   []
