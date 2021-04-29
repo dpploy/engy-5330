@@ -11,45 +11,23 @@
 
 #include "Kernel.h"
 
-/**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
-
-/// Forward Declarations
-class SourceTerm;
-/**
- * validParams returns the parameters that this Kernel accepts / needs
- * The actual body of the function MUST be in the .C file.
- */
-template <>
-InputParameters validParams<SourceTerm>();
-
-/// SourceTerm class inherits from Kernel class
 class SourceTerm : public Kernel
 {
 public:
-  // Constructor for SourceTerm of InputParameters object
   SourceTerm(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
-  /// Evaluation of residual at quadrature points (Qp) over finite domain
+  /// Residual
   virtual Real computeQpResidual() override;
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+
+  /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the SourceTerm coefficient
+  /// User variables
+  const VariableValue & _coupledGroupA;
+  const VariableValue & _coupledGroupB;
   const Real _sourceS;
-  const Real _Sigma_s12;
-  // const Real _Sigma_s23;
-  // const Real _Sigma_s13;
-  const Real _sourceSGroup2; // Should be null
-  const VariableValue & _uGroup2;
-  // const VariableValue & _uGroup3;
+  const Real _sigma_sa;
+  const Real _sigma_sb;
 
 };
