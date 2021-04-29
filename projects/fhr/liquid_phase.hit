@@ -1,0 +1,159 @@
+# Engy-5310 Problem: Poisson 2D FEM
+# UMass Lowell Nuclear Chemical Engineering
+# Prof. Valmor F. de Almeida
+# 25Apr21 19:25:00
+
+# Parameters
+xmin = 0 #m
+xmax = 0.014 #m
+ymin = 0 #m
+ymax = 12 #m
+therm_cond_fuel = 80 #w/m-k
+source_s = 0 # no source
+u_left = 600 # initial temp of 600 k
+convectionCoeff = 605
+
+# calculate exterior heat transfer coefficient
+#t_high = 700 + 373.15
+#t_low = 600 + 373.15
+#rho_high = 2413 - 0.488 * t_high # Janz et al. [1974], Janz [1988]
+#rho_low = 2413 - 0.488 * t_low
+#mu_high = 0.000116 * exp(3755/t_high) # Williams et al. [2006]
+#mu_low = 0.000116 * exp(3755/t_low)
+#c_high = 2416 # j/kg-k
+#c_low = 2416
+#k_high = 0.629697 + 0.0005 * t_high #Ignat'ev [2006], Williams [2006] and Allen [2010] et. al
+#k_low = 0.629697 + 0.0005 * t_low
+#D_h = 2 * xmax
+#v = 2 #m/s
+#Re_high = (rho_high * v * D_h) / mu_high
+#Re_low = (rho_low * v * D_h) / mu_low
+#Pr_high = (mu_high * c_high) / k_high
+#Pr_low = (mu_low * c_low) / k_low
+#Re_ave = (Re_high + Re_low) / 2
+#Pr_ave = (Pr_high + Pr_low) / 2
+#Nu = 0.023 * Re_ave ** 0.8 * Pr_ave ** 0.4
+#convectionCoef = Nu * (0.5 * therm_cond_fuel / ymax)
+
+[Problem]
+  type = FEProblem
+  coord_type = RZ
+  rz_coord_axis = Y
+[]
+
+[Mesh]
+  [2d]
+    type = GeneratedMeshGenerator
+    dim = 2
+    xmin = ${replace xmin}
+    xmax = ${replace xmax}
+    ymin = ${replace ymin}
+    ymax = ${replace ymax}
+    nx = 25
+    ny = 225
+  []
+[]
+
+[Variables]
+  [T]
+    order = first
+    family = lagrange
+    initial_condition = ${fparse (u_left)/1}
+  []
+[]
+
+[Kernels]
+  [heat-conduction-salt]
+    type = HeatConduction
+    variable = T     
+    thermCond = ${replace therm_cond_fuel}
+  []
+[]
+
+[BCs]
+  [east]
+    type = NormalFluxBC
+    variable = T
+    boundary = left
+    convectionCoeff = -45000
+    zmax = ${replace ymax}
+    function = 'z'
+  []
+  [west]
+    type = NeumannBC
+    variable = T
+    boundary = right
+    value = 5
+  []
+  [south]
+    type = DirichletBC
+    variable = T
+    boundary = bottom
+    value = 600
+  []
+  [north]
+    type = NeumannBC
+    variable = T
+    boundary = top
+    value = 0
+  []
+[]
+
+[Preconditioning]
+  active = 'fdp-newt-full'
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = 'NEWTON'
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err'
+    petsc_options_value = 'lu 9.9999999e-07'
+  []
+[]
+[Executioner]
+  type = Steady
+  #solve_type = 'PJFNK'
+  #petsc_options_iname = '-pc_type -pc_hypre_type'
+  #petsc_options_value = 'hypre boomeramg'
+[]
+
+[VectorPostprocessors]
+  [x-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T'    # output data
+    start_point = '${replace xmin} ${fparse (ymax+ymin)/2} 0'
+    end_point = '${replace xmax} ${fparse (ymax+ymin)/2} 0'
+    num_points = 20
+    sort_by = id
+  []
+  [y-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T'    # output data
+    start_point = '${fparse (xmax+xmin)/2} ${replace ymin} 0'
+    end_point = '${fparse (xmax+xmin)/2} ${replace ymax} 0'
+    num_points = 20
+    sort_by = id
+  []
+[]
+
+[Outputs]
+  console = true
+  [vtk]
+    type = VTK
+    execute_on = final
+    file_base = out
+  []
+  [x]
+    type = CSV
+    execute_on = 'final'
+    show = 'x-line'
+    file_base = out-x
+  []
+  [y]
+    type = CSV
+    execute_on = 'final'
+    show = 'y-line'
+    file_base = out-y
+  []
+[]

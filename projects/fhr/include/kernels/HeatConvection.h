@@ -26,7 +26,11 @@ public:
   // Molten salt variables
   const Real _massDensity;
   const Real _heatCapacity;
-
-  const RealVectorValue _velocity;
+  const Function & _func;
+  const Real _vmax;
+  const Real _radius;
+  const Real _n;
+  RealVectorValue _velocity = {0, 0, 0};
+  
 
 };

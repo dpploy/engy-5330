@@ -8,6 +8,7 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
 #include "HeatConvection.h"
+#include "Function.h"
 
 registerMooseObject("FHRApp", HeatConvection);
 
@@ -18,7 +19,10 @@ InputParameters validParams<HeatConvection>()
   params.addClassDescription("Heat convection term.");
   params.addParam<Real>("massDensity",1.0,"Fluid mass density");
   params.addRequiredParam<Real>("heatCapacity","Fluid heat capacity");
-  params.addRequiredParam<Real>("velocity","Fluid velocity");
+  params.addRequiredParam<FunctionName>("velocity","Fluid velocity Function");
+  params.addRequiredParam<Real>("vmax", "Maximum Fluid Velocity");
+  params.addRequiredParam<Real>("radius", "Channel Radius");
+  params.addRequiredParam<Real>("n", "Inverse Velocity Profile Number");
   return params;
 }
 
@@ -26,13 +30,20 @@ HeatConvection::HeatConvection(const InputParameters & parameters):
     Kernel(parameters),
     _massDensity(getParam<Real>("massDensity")),
     _heatCapacity(getParam<Real>("heatCapacity")),
-    _velocity(getParam<RealVectorValue>("velocity"))
+    _func(getFunction("function")),
+    _vmax(getParam<Real>("vmax")),
+    _radius(getParam<Real>("radius")),
+    _n(getParam<Real>("n"))
 {
 }
 
 Real
 HeatConvection::computeQpResidual()
 {
+  // calculate the velocity
+  Real z_velocity = _vmax * pow((1 - (_func.value(_t, _q_point[_qp]) / _radius)), _n);
+  // Put it in vector form
+  _velocity{2} = z_velocity;
   // Residual
   return _massDensity * _heatCapacity * _grad_u[_qp] * _velocity * _test[_i][_qp];
 }
@@ -40,6 +51,8 @@ HeatConvection::computeQpResidual()
 Real
 HeatConvection::computeQpJacobian()
 {
+  Real z_velocity = _vmax * pow((1 - (_func.value(_t, _q_point[_qp]) / _radius)), _n);
+  _velocity{2} = z_velocity;
   // Jacobian diagonal
   return _massDensity * _heatCapacity * _grad_phi[_j][_qp] * _velocity * _test[_i][_qp];
 }
