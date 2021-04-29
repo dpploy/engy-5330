@@ -25,9 +25,9 @@ InputParameters validParams<MixtureMassBalDivergence>()
 MixtureMassBalDivergence::MixtureMassBalDivergence(const InputParameters & parameters):
     Kernel(parameters),
     _rhoV(getParam<Real>("rhoV")),
-	_rhoL(getParam<Real>("rhoL")),
-	_vaporFraction(coupledValue("vaporFraction")),
-	_gradVaporFraction(coupledGradient("vaporFraction"))
+    _rhoL(getParam<Real>("rhoL")),
+    _vaporFraction(coupledValue("vaporFraction")),
+    _gradVaporFraction(coupledGradient("vaporFraction"))
 {
 }
 
