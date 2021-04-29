@@ -9,41 +9,39 @@
 
 #include "SourceTerm.h"
 
-/**
- * All MOOSE based object classes you create must be registered using this macro.
- * The first argument is the name of the App you entered in when running the stork.sh
- * script with an "App" suffix. If you ran "stork.sh Example", then the argument here
- * becomes "ExampleApp". The second argument is the name of the C++ class you created.
- */
 registerMooseObject("NeutronBallApp", SourceTerm);
 
-/**
- * This function defines the valid parameters for
- * this Kernel and their default values
- */
 template<>
 InputParameters validParams<SourceTerm>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The scaled Laplacian operator (SD\\nabla \\cdot \\nabla u$) with the weak form of S(D\\nabla)");
-  params.addParam<Real>("sourceS",1.0,"Source term");
+  params.addClassDescription("Source term kernel");
+  params.addRequiredCoupledVar("coupledGroupA", "Coupled group A.");
+  params.addRequiredCoupledVar("coupledGroupB", "Coupled group B.");
+  params.addParam<Real>("sourceS",0.0,"Source term");
+  params.addParam<Real>("sigma_sa",0.0,"Scatter to A");
+  params.addParam<Real>("sigma_sb",0.0,"Scatter to B");
   return params;
 }
 
-SourceTerm::SourceTerm(const InputParameters & parameters) : Kernel(parameters),
-    // Set the coefficient for the equation term
-    _sourceS(getParam<Real>("sourceS"))
+SourceTerm::SourceTerm(const InputParameters & parameters): 
+    Kernel(parameters),
+    _coupledGroupA(coupledValue("coupledGroupA")),
+    _coupledGroupB(coupledValue("coupledGroupB")),
+    _sourceS(getParam<Real>("sourceS")),
+    _sigma_sa(getParam<Real>("sigma_sa")),
+    _sigma_sb(getParam<Real>("sigma_sb"))
 {
 }
 
 Real
 SourceTerm::computeQpResidual()
 {
-  return _sourceS * _test[_i][_qp];
+ return (_sigma_sa * _coupledGroupA[_qp] + _sigma_sb * _coupledGroupB[_qp]) * _test[_i][_qp];
 }
 
 Real
 SourceTerm::computeQpJacobian()
 {
-  return 0.0;
+ return (_sigma_sa + _sigma_sb) * _phi[_j][_qp] * _test[_i][_qp];
 }

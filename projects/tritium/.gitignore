@@ -1,9 +1,9 @@
 *~
-.C
-.c
-.cxx
-.h
-.libs
+*.C
+*.c
+*.cxx
+*.h
+*.libs
 *.la
 *.lo
 *.d
