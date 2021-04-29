@@ -9,7 +9,7 @@
 
 #include "DiffusionFluxComponent.h"
 
-registerMooseObject("Engy5310p1App", DiffusionFluxComponent);
+registerMooseObject("FHRApp", DiffusionFluxComponent);
 
 defineLegacyParams(DiffusionFluxComponent);
 

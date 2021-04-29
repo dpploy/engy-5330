@@ -9,21 +9,17 @@
 
 #pragma once
 
-#include "Kernel.h"
+#include "MooseApp.h"
 
-class EquationTerm : public Kernel
+class FHRApp : public MooseApp
 {
 public:
+  static InputParameters validParams();
 
-  EquationTerm(const InputParameters & parameters);
+  FHRApp(InputParameters parameters);
+  virtual ~FHRApp();
 
-protected:
-  /// Residual
-  virtual Real computeQpResidual() override;
-
-  /// Jacobian diagonal
-  virtual Real computeQpJacobian() override;
-
-  /// User variables e.g.
-  const Real _equationTermCoeff;
+  static void registerApps();
+  static void registerAll(Factory & f, ActionFactory & af, Syntax & s);
 };
+

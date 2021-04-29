@@ -1,3 +1,5 @@
+
+
 //* This file is part of the MOOSE framework
 //* https://www.mooseframework.org
 //*
@@ -12,15 +14,31 @@
 #include "Kernel.h"
 
 /**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
+ * The forward declaration is so that we can declare the validParams() function
+ * before we actually define the class... that way the definition isn't lost
+ * at the bottom of the file.
  */
 
-/// VaporDriftDiffusion class inherits from Kernel class
-class VaporDriftDiffusion : public Kernel
+/// Forward Declarations
+class SourceTerm;
+
+/**
+ * validParams returns the parameters that this Kernel accepts / needs
+ * The actual body of the function MUST be in the .C file.
+ */
+template <>
+InputParameters validParams<SourceTerm>();
+
+/**
+ * This kernel implements the Laplacian operator:
+ *
+ * $\nabla u \cdot \nabla v$
+ *
+ * where v is test function and u is an admissible solution
+ */
+
+/// EquationTerm class inherits from Kernel class
+class SourceTerm : public Kernel
 {
 public:
 
@@ -29,7 +47,7 @@ public:
    * InputParameters object, just like other
    * Kernel-derived classes.
    */
-  VaporDriftDiffusion(const InputParameters & parameters);
+  SourceTerm(const InputParameters & parameters);
 
 protected:
   /// Required residual for standard kernels in MOOSE
@@ -41,14 +59,6 @@ protected:
    */
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the VaporDriftDiffusion coefficient
-  const Real _diffCoeff;
-  const Real _rhoV;
-  const Real _rhoL;
-  const VariableValue & _fractionVapor;
-  const VariableGradient & _grad_fractionVapor;
-  //const VariableValue & _velocityMixture;
-  //const VariableGradient & _grad_velocityMixture;
-  /// The variables which holds the value for the MixtureMassBalDivergence coefficient
-
+  /// The variables which holds the value for the EquationTerm coefficient
+  const Real _sourceS;
 };

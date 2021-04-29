@@ -11,14 +11,6 @@
 
 #include "AuxKernel.h"
 
-class FluxComponent;
-
-template <>
-InputParameters validParams<FluxComponent>();
-
-/**
- * Auxiliary kernel responsible for computing the flux of a variable.
- */
 class FluxComponent : public AuxKernel
 {
 public:
@@ -27,14 +19,9 @@ public:
   FluxComponent(const InputParameters & parameters);
 
 protected:
-  /**
-   * AuxKernels MUST override computeValue.  computeValue() is called on
-   * every quadrature point.  For Nodal Auxiliary variables those quadrature
-   * points coincide with the nodes.
-   */
   virtual Real computeValue() override;
   
-  /// Will hold 0, 1, or 2 corresponding to x, y, or z.
+  /// Will hold 0, 1, or 2 component corresponding to x, y, or z.
   int _component;
 
   /// The derivative of a coupled variable

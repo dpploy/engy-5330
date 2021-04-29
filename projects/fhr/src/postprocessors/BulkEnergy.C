@@ -10,7 +10,7 @@
 // Template includes
 #include "BulkEnergy.h"
 
-registerMooseObject("Engy5310p1App", BulkEnergy);
+registerMooseObject("FHRApp", BulkEnergy);
 
 InputParameters
 BulkEnergy::validParams()

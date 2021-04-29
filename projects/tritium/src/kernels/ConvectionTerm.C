@@ -7,7 +7,7 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "DiffusionTerm.h"
+#include "ConvectionTerm.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
@@ -15,44 +15,39 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("Engy5310p1App", DiffusionTerm);
+registerMooseObject("Engy5310P1App", ConvectionTerm);
 
 /**
  * This function defines the valid parameters for
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<DiffusionTerm>()
+InputParameters validParams<ConvectionTerm>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("diffCoeff",1.0,"Equation Term Coefficient");
+  params.addParam<RealVectorValue>("velocity","Bulk Velocity");
   return params;
 }
 
-DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parameters),
+ConvectionTerm::ConvectionTerm(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    diffCoeff(getParam<Real>("diffCoeff"))
+    _velocity(getParam<RealVectorValue>("velocity"))
 {
 }
 
 Real
-DiffusionTerm::computeQpResidual()
+ConvectionTerm::computeQpResidual()
 {
-  // Implement the return
-  Real blin =  - diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
-  //printf("%f ", _qp);
-  return blin;
-  //FIXME return 0.0 // remove this line
+ 
+  return  -_grad_u[_qp] *_velocity * _test[_i][_qp];
+
 }
 
 Real
-DiffusionTerm::computeQpJacobian()
+ConvectionTerm::computeQpJacobian()
 {
-  // Implement the return
-  Real din = - diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
-  //printf("%f ", _qp);
-  return din;
 
-  //FIXME return 0.0 // remove this line
+  return  -_grad_phi[_j][_qp] * _velocity * _test[_i][_qp];
+  
 }
