@@ -9,14 +9,16 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Fneutron-ball%2Freport.ipynb)
 
  >[Paul Johnson](https://github.com/marmolRBG
-), and [Name](https://github.com/xxx) <br>
+), and [Prof. Sukesh Aghara](https://github.com/xxx) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
 |  |
 |:---:|
-| <img width="380" src="pics/domain.png" title="My result"> |
+| <img width="380" src="pics/readme-domain.png" title="Domain"> |
 | <p style="text-align:center;"><b>Domain of netron absorption: spherical annulus.</b></p> |
+| <img width="380" src="pics/readme-result.png" title="Result"> |
+| <p style="text-align:center;"><b>Neutron scalar flux absorption for 3-energy group diffusion.</b></p> |
 
 
 References:
