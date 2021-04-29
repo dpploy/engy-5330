@@ -7,7 +7,7 @@
 xmin = 0.00000e+00
 xmax = 1.00000e+01
 diff_coeff = 1.00000e+01
-source_s = 1
+source_s = 1.1e+6
 rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
