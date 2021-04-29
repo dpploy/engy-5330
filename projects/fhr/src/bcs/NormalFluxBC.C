@@ -27,12 +27,12 @@ NormalFluxBC::validParams()
   return params;
 }
 
-NormalFluxBC::NormalFluxBC(const InputParameters & parameters)
-  : IntegratedBC(parameters),
+NormalFluxBC::NormalFluxBC(const InputParameters & parameters): 
+    IntegratedBC(parameters),
+    _func(getFunction("function")),
     _convectionCoeff(getParam<Real>("convectionCoeff")),
     _bias(getParam<Real>("bias")),
-    _zmax(getParam<Real>("zmax")),
-    _func(getFunction("function"))
+    _zmax(getParam<Real>("zmax"))
 {
 }
 

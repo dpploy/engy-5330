@@ -9,27 +9,17 @@
 
 #pragma once
 
-#include "IntegratedBC.h"
+#include "MooseApp.h"
 
-class Function;
-
-class NormalFluxBC : public IntegratedBC
+class Engy5310P1App : public MooseApp
 {
 public:
   static InputParameters validParams();
 
-  NormalFluxBC(const InputParameters & parameters);
+  Engy5310P1App(InputParameters parameters);
+  virtual ~Engy5310P1App();
 
-protected:
-  virtual Real computeQpResidual() override;
-  virtual Real computeQpJacobian() override;
-
-private:
-  const Function & _func;
-
-  // User variables
-  Real _convectionCoeff;
-  Real _bias;
-  Real _zmax;
-
+  static void registerApps();
+  static void registerAll(Factory & f, ActionFactory & af, Syntax & s);
 };
+
