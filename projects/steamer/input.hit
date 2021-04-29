@@ -7,7 +7,7 @@
 xmin = 0.00000e+00
 xmax = 1.00000e+01
 diff_coeff = 1.00000e+01
-source_s = 1e-5
+source_s = 1
 rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
@@ -78,9 +78,15 @@ vapor_fraction_left = 0.0
     boundary = left
     value = ${fparse mixture_velocity_left}
   []
-  [exit]
+  [exit-vapor-fraction]
     type = NeumannBC
     variable = vaporFraction
+    boundary = right
+    value = ${fparse vapor_fraction_left}
+  []
+  [exit-mixture-velocity]
+    type = NeumannBC
+    variable = mixtureVelocity
     boundary = right
     value = ${fparse vapor_fraction_left}
   []
