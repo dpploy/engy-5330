@@ -7,7 +7,7 @@
 xmin = 0.00000e+00
 xmax = 1.00000e+01
 diff_coeff = 1.00000e+01
-source_s = 1.1e+6
+source_s = 1
 rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
@@ -43,21 +43,21 @@ vapor_fraction_left = 0.0
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
   []
-  [vapor-convection]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction     
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-driftflux-diffusion]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction 
-    diffCoeff = ${replace diff_coeff}
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
+#  [vapor-convection]
+#    type = VaporDriftFluxDiffusion
+#    variable = vaporFraction     
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
+#  [vapor-driftflux-diffusion]
+#    type = VaporDriftFluxDiffusion
+#    variable = vaporFraction 
+#    diffCoeff = ${replace diff_coeff}
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
   [vapor-mass-transfer-source]
     type = VaporMassTransferSource
     variable = vaporFraction     # add to produced quantity
