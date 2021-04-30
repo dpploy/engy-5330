@@ -6,12 +6,12 @@
 # Parameters
 xmin = 0.00000e+00
 xmax = 1.00000e+01
-diff_coeff = 1.00000e+01
-source_s = 1
+#diff_coeff = 1.00000e+01
+#source_s = 1
 rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
-vapor_fraction_left = 0.0
+#vapor_fraction_left = 0.0
 
 [Mesh]
   [1d]
@@ -19,7 +19,7 @@ vapor_fraction_left = 0.0
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 50
+    nx = 10
   []
 []
 
@@ -29,9 +29,17 @@ vapor_fraction_left = 0.0
     family = lagrange
     initial_condition = ${fparse mixture_velocity_left}
   []
+  #[vaporFraction]
+  #  order = first
+  #  family = lagrange
+  #[]
+[]
+
+[AuxVariables]
   [vaporFraction]
     order = first
     family = lagrange
+    initial_condition = 0.5
   []
 []
 
@@ -58,38 +66,38 @@ vapor_fraction_left = 0.0
 #    rhoL = ${replace rho_l}
 #    velocity = mixtureVelocity
 #  []
-  [vapor-mass-transfer-source]
-    type = VaporMassTransferSource
-    variable = vaporFraction     # add to produced quantity
-    sourceS = ${replace source_s}
-  []
+#  [vapor-mass-transfer-source]
+#    type = VaporMassTransferSource
+#    variable = vaporFraction     # add to produced quantity
+#    sourceS = ${replace source_s}
+#  []
 []
 
 [BCs]
-  [entry-vapor-fraction]
-    type = DirichletBC
-    variable = vaporFraction
-    boundary = left
-    value = 0.00000e+00
-  []
   [entry-mixture-velocity]
     type = DirichletBC
     variable = mixtureVelocity
     boundary = left
     value = ${fparse mixture_velocity_left}
   []
-  [exit-vapor-fraction]
-    type = NeumannBC
-    variable = vaporFraction
-    boundary = right
-    value = ${fparse vapor_fraction_left}
-  []
-  [exit-mixture-velocity]
-    type = NeumannBC
-    variable = mixtureVelocity
-    boundary = right
-    value = ${fparse vapor_fraction_left}
-  []
+  #[entry-vapor-fraction]
+  #  type = DirichletBC
+  #  variable = vaporFraction
+  #  boundary = left
+  #  value = 0.00000e+00
+  #[]
+  #[exit-vapor-fraction]
+  #  type = NeumannBC
+  #  variable = vaporFraction
+  #  boundary = right
+  #  value = ${fparse vapor_fraction_left}
+  #[]
+  #[exit-mixture-velocity]
+  #  type = NeumannBC
+  #  variable = mixtureVelocity
+  #  boundary = right
+  #  value = ${fparse vapor_fraction_left}
+  #[]
 []
 
 [Preconditioning]
