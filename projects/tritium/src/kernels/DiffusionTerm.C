@@ -1,3 +1,5 @@
+
+
 //* This file is part of the MOOSE framework
 //* https://www.mooseframework.org
 //*
@@ -7,47 +9,48 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "SourceTerm.h"
+#include "DiffusionTerm.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
  * The first argument is the name of the App you entered in when running the stork.sh 
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
+ 
+ Replace X
  */
-registerMooseObject("Engy5310p1App", SourceTerm);
+registerMooseObject("Engy5310P1App", DiffusionTerm);
 
 /**
  * This function defines the valid parameters for
  * this Kernel and their default values
  */
 template<>
-InputParameters validParams<SourceTerm>()
+InputParameters validParams<DiffusionTerm>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("sourceS",1.0,"Equation Term Coefficient");
+  params.addClassDescription("The equation term ($$), with the weak form of $$.");
+  params.addParam<Real>("diffCoeff",1.0,"DiffusionTerm Coefficient");
   return params;
 }
-
-SourceTerm::SourceTerm(const InputParameters & parameters) : Kernel(parameters),
+	
+DiffusionTerm::DiffusionTerm(const InputParameters & parameters) : Kernel(parameters),
     // Set the coefficient for the equation term
-    sourceS(getParam<Real>("sourceS"))
+    _diffCoeff(getParam<Real>("diffCoeff"))
 {
 }
 
 Real
-SourceTerm::computeQpResidual()
+DiffusionTerm::computeQpResidual()
 {
-  // Implement the return
-  return sourceS * _test[_i][_qp];
-  //FIXME return 0.0 // remove this line
+   return - _diffCoeff * _grad_u[_qp] * _grad_test[_i][_qp];
+ 
 }
 
 Real
-SourceTerm::computeQpJacobian()
+DiffusionTerm::computeQpJacobian()
 {
-  // Implement the return
-  return 0.0;
-  //FIXME return 0.0 // remove this line
+	
+	
+  return - _diffCoeff * _grad_phi[_j][_qp] * _grad_test[_i][_qp];
 }
