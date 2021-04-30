@@ -43,7 +43,7 @@ HeatConvection::computeQpResidual()
   // calculate the velocity
   Real z_velocity = _vmax * pow((1 - (_func.value(_t, _q_point[_qp]) / _radius)), _n);
   // Put it in vector form
-  _velocity{2} = z_velocity;
+  _velocity =(0, 0, z_velocity);
   // Residual
   return _massDensity * _heatCapacity * _grad_u[_qp] * _velocity * _test[_i][_qp];
 }
@@ -52,7 +52,7 @@ Real
 HeatConvection::computeQpJacobian()
 {
   Real z_velocity = _vmax * pow((1 - (_func.value(_t, _q_point[_qp]) / _radius)), _n);
-  _velocity{2} = z_velocity;
+  _velocity = (0, 0, z_velocity);
   // Jacobian diagonal
   return _massDensity * _heatCapacity * _grad_phi[_j][_qp] * _velocity * _test[_i][_qp];
 }
