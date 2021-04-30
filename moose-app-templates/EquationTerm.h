@@ -11,52 +11,19 @@
 
 #include "Kernel.h"
 
-/**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
-
-/// Forward Declarations
-class EquationTerm;
-
-/**
- * validParams returns the parameters that this Kernel accepts / needs
- * The actual body of the function MUST be in the .C file.
- */
-template <> 
-InputParameters validParams<EquationTerm>();
-
-/**
- * This kernel implements the following operator:
- *
- * $ u ... v $
- *
- * where v is a test function and u is an admissible solution
- */
-
-/// EquationTerm class inherits from Kernel class
 class EquationTerm : public Kernel
 {
 public:
 
-  /**
-   * This is the constructor declaration.  This class takes a
-   * InputParameters object, just like other
-   * Kernel-derived classes.
-   */
   EquationTerm(const InputParameters & parameters);
 
 protected:
-  /// Required residual for standard kernels in MOOSE
+  /// Residual
   virtual Real computeQpResidual() override;
 
-  /// Required Jacobian for standard kernels in MOOSE
-  /** This function returns the diagonal of the Jacobian to be used as a preconditioner
-   * in the linear sub-problem.
-   */
+  /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// The variables which holds the value for the EquationTerm coefficient
+  /// User variables e.g.
   const Real _equationTermCoeff;
 };

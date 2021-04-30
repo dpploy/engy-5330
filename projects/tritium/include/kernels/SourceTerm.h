@@ -1,3 +1,5 @@
+
+
 //* This file is part of the MOOSE framework
 //* https://www.mooseframework.org
 //*
@@ -18,21 +20,21 @@
  */
 
 /// Forward Declarations
-class DiffusionTerm;
+class SourceTerm;
 
 /**
  * validParams returns the parameters that this Kernel accepts / needs
  * The actual body of the function MUST be in the .C file.
  */
-template <> 
-InputParameters validParams<DiffusionTerm>();
+template <>
+InputParameters validParams<SourceTerm>();
 
 /**
- * This kernel implements the following operator:
+ * This kernel implements the Laplacian operator:
  *
- * $ u ... v $
+ * $\nabla u \cdot \nabla v$
  *
- * where v is a test function and u is an admissible solution
+ * where v is test function and u is an admissible solution
  */
 
 /// EquationTerm class inherits from Kernel class
@@ -47,6 +49,7 @@ public:
    */
   SourceTerm(const InputParameters & parameters);
 
+protected:
   /// Required residual for standard kernels in MOOSE
   virtual Real computeQpResidual() override;
 
@@ -57,5 +60,5 @@ public:
   virtual Real computeQpJacobian() override;
 
   /// The variables which holds the value for the EquationTerm coefficient
-  Real sourceS;
+  const Real _sourceS;
 };

@@ -1,0 +1,107 @@
+# Engy-5310 Problem 1: Poisson 1D FEM Neutron Diffusion Equation
+# UMass Lowell Nuclear Chemical Engineering
+# Paul Johnson
+
+# Parameters
+xmin = 1.00000e-01
+xmax = 1.00000e+03
+diff_coeff = 2.04000e+00
+u_left = 4.17000e+00
+velocity = 2.393E+09
+transfer_coeff_right = velocity/2
+sigma_a = 0.13
+sigma_s12 = 0.07
+
+[Problem]
+  type = FEProblem
+  coord_type = RSPHERICAL
+[]
+
+[Mesh]
+  [1d]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = ${replace xmin}
+    xmax = ${replace xmax}
+    nx = 1000
+    elem_type = edge3
+  []
+[]
+
+[Variables]
+  [u]
+    order = second
+    family = lagrange
+    initial_condition = ${replace u_left}
+  []
+[]
+
+[Kernels]
+  [diffusion-term]
+    type = DiffusionTerm
+    variable = u     # produced quantity
+    diffCoeff = ${replace diff_coeff}
+  []
+  [absorption-term]
+    type = AbsorptionTerm
+    variable = u     # produced quantity
+    sigmaA = ${replace sigma_a}
+  []
+  [source-term]
+    variable = u
+    Sigma_s12 = ${replace Sigma_s12}
+    # sourceS = 0
+  []
+[]
+
+[BCs]
+  [entry-u]
+    type = DirichletBC
+    variable = u
+    boundary = left
+    value = ${replace u_left}
+  []
+  [exit-u]
+    type = NeumannBC
+    variable = u
+    boundary = right
+      value = 0.0
+  []
+[]
+
+[Preconditioning]
+  active = 'fdp-newt-full'
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = 'NEWTON'
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  9.9999999999999995474811182588626e-07               ds'
+  []
+[]
+
+[Executioner]
+  type = Steady
+[]
+
+[VectorPostprocessors]
+  [x-data]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'u'    # output data
+    start_point = '${replace xmin} 0 0'
+    end_point = '${replace xmax} 0 0'
+    num_points = 6001
+    sort_by = id
+  []
+[]
+
+[Outputs]
+  console = true
+  [file-x-data]
+    type = CSV
+    file_base = 'output2G'
+    execute_on = 'final'
+    show = 'x-data'
+  []
+[]

@@ -12,18 +12,6 @@
 #include "SideIntegralPostprocessor.h"
 #include "MooseVariableInterface.h"
 
-// Forward Declarations
-class ScalarVariableSideIntegralPostprocessor;
-
-template <>
-InputParameters validParams<ScalarVariableSideIntegralPostprocessor>();
-
-/**
- * This postprocessor computes a surface integral of the specified variable.
- *
- * Note that specializations of this integral are possible by deriving from this
- * class and overriding computeQpIntegral().
- */
 class ScalarVariableSideIntegralPostprocessor : public SideIntegralPostprocessor,
                                           public MooseVariableInterface<Real>
 {
@@ -37,6 +25,7 @@ protected:
 
   /// Holds the solution at current quadrature points
   const VariableValue & _u;
+
   /// Holds the solution gradient at the current quadrature points
   const VariableGradient & _grad_u;
 
