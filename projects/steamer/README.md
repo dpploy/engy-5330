@@ -26,5 +26,5 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 References:
 
  + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5310)
- + [MOOSE](https://mooseframework.inl.gov/)
+ + [Multiphysics Object-Oriented Simulation Environment (MOOSE)](https://mooseframework.inl.gov/)
 
