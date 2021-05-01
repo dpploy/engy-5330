@@ -17,9 +17,9 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |:---:|
 | <img width="380" src="pics/readme-flowregimes.jpg" title="Steaming the Steamer"> |
 | <p style="text-align:center;"><b>Two-phase fluid flow development in a nuclear heat exchanger.</b></p> |
-| <img width="380" src="pics/readme-domain.jpg" title="Steaming the Steamer"> |
+| <img width="380" src="pics/readme-domain.png" title="Steaming the Steamer"> |
 | <p style="text-align:center;"><b>Computational domain.</b></p> |
-| <img width="380" src="pics/readme-result.jpg" title="Steaming the Steamer"> |
+| <img width="380" src="pics/readme-result.png" title="Steaming the Steamer"> |
 | <p style="text-align:center;"><b>Computed vapor fraction and mixture velocity along pipe during phase change.</b></p> |
 
 
