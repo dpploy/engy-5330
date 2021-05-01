@@ -5,13 +5,14 @@
 
 # Parameters
 xmin = 0.00000e+00
-xmax = 1.00000e+01
-#diff_coeff = 1.00000e+01
-#source_s = 1
-rho_l = 10.0000
+xmax = 2.50000e+01
+diff_coeff = 2.00000e+00
+artificial_viscosity = 0.0001
+source_s = 0.1
+rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
-vapor_fraction_left = 0.1
+vapor_fraction_left = 0.0
 mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_left)}
 
 [Mesh]
@@ -21,6 +22,7 @@ mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_
     xmin = ${replace xmin}
     xmax = ${replace xmax}
     nx = 100
+    #elem_type = edge3
   []
 []
 
@@ -30,26 +32,34 @@ mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_
     family = lagrange
     initial_condition = ${fparse mixture_velocity_left}
   []
-  #[vaporFraction]
-  #  order = first
-  #  family = lagrange
-  #[]
-[]
-
-[AuxVariables]
   [vaporFraction]
     order = first
     family = lagrange
-    #order = constant
-    #family = monomial
-    #initial_condition = ${replace vapor_fraction_left}
-    #initial_condition = alpha
-    [InitialCondition]
-      type = ExampleIC
-      coefficient = ${fparse 1/2/10}
-    []
+    initial_condition = 0.4
   []
 []
+
+#[AuxVariables]
+#  [vaporFraction]
+#    order = first
+#    family = lagrange
+#    [InitialCondition]
+#      type = ExampleIC
+#      coefficient = ${fparse 1/100}
+#      bias = 0
+#    []
+#  []
+#  [mixtureVelocity]
+#    order = first
+#    family = lagrange
+#    [InitialCondition]
+#      type = ExampleIC
+#      #coefficient = ${fparse 9/10}
+#      coefficient = ${fparse 0}
+#      bias = ${replace mixture_velocity_left}
+#    []
+#  []
+#[]
 
 #[Functions]
 #  [alpha]
@@ -68,31 +78,31 @@ mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
   []
-  [mixture-artificial-diffusion]
-    type = ArtificialDiffusion
+  [mixture-artificial-viscosity]
+    type = ArtificialViscosity
     variable = mixtureVelocity
-    diffCoeff = 0.0001
+    viscosity = ${replace artificial_viscosity}
   []
-#  [vapor-convection]
-#    type = VaporDriftFluxDiffusion
-#    variable = vaporFraction     
-#    rhoV = ${replace rho_v}
-#    rhoL = ${replace rho_l}
-#    velocity = mixtureVelocity
-#  []
-#  [vapor-driftflux-diffusion]
-#    type = VaporDriftFluxDiffusion
-#    variable = vaporFraction 
-#    diffCoeff = ${replace diff_coeff}
-#    rhoV = ${replace rho_v}
-#    rhoL = ${replace rho_l}
-#    velocity = mixtureVelocity
-#  []
-#  [vapor-mass-transfer-source]
-#    type = VaporMassTransferSource
-#    variable = vaporFraction     # add to produced quantity
-#    sourceS = ${replace source_s}
-#  []
+  [vapor-convection]
+    type = VaporConvection
+    variable = vaporFraction     
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    velocity = mixtureVelocity
+  []
+  [vapor-driftflux-diffusion]
+    type = VaporDriftFluxDiffusion
+    variable = vaporFraction 
+    diffCoeff = ${replace diff_coeff}
+    rhoV = ${replace rho_v}
+    rhoL = ${replace rho_l}
+    velocity = mixtureVelocity
+  []
+  [vapor-mass-transfer-source]
+    type = VaporMassTransferSource
+    variable = vaporFraction     # add to produced quantity
+    sourceS = ${replace source_s}
+  []
 []
 
 [BCs]
@@ -107,27 +117,26 @@ mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_
     type = NeumannBC
     variable = mixtureVelocity
     boundary = right
-    #value = ${fparse mixture_rho_left * mixture_velocity_left}
     value = 0.000843
   []
-  #[entry-vapor-fraction]
-  #  type = DirichletBC
-  #  variable = vaporFraction
-  #  boundary = left
-  #  value = 0.00000e+00
-  #[]
-  #[exit-vapor-fraction]
-  #  type = NeumannBC
-  #  variable = vaporFraction
-  #  boundary = right
-  #  value = ${fparse vapor_fraction_left}
-  #[]
   #[exit-mixture-velocity]
-  #  type = NeumannBC
+  #  type = VacuumBC
   #  variable = mixtureVelocity
   #  boundary = right
-  #  value = ${fparse vapor_fraction_left}
+  #  alpha = 1
   #[]
+  [entry-vapor-fraction]
+    type = DirichletBC
+    variable = vaporFraction
+    boundary = left
+    value = ${replace vapor_fraction_left}
+  []
+  [exit-vapor-fraction]
+    type = NeumannBC
+    variable = vaporFraction
+    boundary = right
+    value = ${fparse vapor_fraction_left}
+  []
 []
 
 [Preconditioning]
@@ -137,7 +146,7 @@ mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_
     full = true
     solve_type = 'NEWTON'
     petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
-    petsc_options_value = 'lu  9.9999999999999995474811182588626e-07               ds'
+    petsc_options_value = 'lu  1e-8          ds'
   []
 []
 [Executioner]

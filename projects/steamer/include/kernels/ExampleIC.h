@@ -38,5 +38,6 @@ public:
 
 private:
   Real _coefficient;
+  Real _bias;
 };
 
