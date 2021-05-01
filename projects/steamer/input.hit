@@ -6,12 +6,13 @@
 # Parameters
 xmin = 0.00000e+00
 xmax = 1.00000e+01
-diff_coeff = 1.00000e+01
-source_s = 0.0e-5
-rho_l = 1000.0000
+#diff_coeff = 1.00000e+01
+#source_s = 1
+rho_l = 10.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
-vapor_fraction_left = 0.0
+vapor_fraction_left = 0.1
+mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_left)}
 
 [Mesh]
   [1d]
@@ -19,7 +20,7 @@ vapor_fraction_left = 0.0
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 50
+    nx = 100
   []
 []
 
@@ -29,61 +30,104 @@ vapor_fraction_left = 0.0
     family = lagrange
     initial_condition = ${fparse mixture_velocity_left}
   []
+  #[vaporFraction]
+  #  order = first
+  #  family = lagrange
+  #[]
+[]
+
+[AuxVariables]
   [vaporFraction]
     order = first
     family = lagrange
+    #order = constant
+    #family = monomial
+    #initial_condition = ${replace vapor_fraction_left}
+    #initial_condition = alpha
+    [InitialCondition]
+      type = ExampleIC
+      coefficient = ${fparse 1/2/10}
+    []
   []
 []
 
+#[Functions]
+#  [alpha]
+#    type = ParsedFunction
+#    value = 1.0/10 * x
+#    #vars = 'alpha'
+#    #vals = '16'
+#  []
+#[]
+
 [Kernels]
-  [mixture]
+  [mixture-convection]
     type = MixtureMassBalDivergence
     variable = mixtureVelocity     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
   []
-  [vapor-convection]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction     
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
+  [mixture-artificial-diffusion]
+    type = ArtificialDiffusion
+    variable = mixtureVelocity
+    diffCoeff = 0.0001
   []
-  [vapor-driftflux-diffusion]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction 
-    diffCoeff = ${replace diff_coeff}
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-mass-transfer-source]
-    type = VaporMassTransferSource
-    variable = vaporFraction     # add to produced quantity
-    sourceS = ${replace source_s}
-  []
+#  [vapor-convection]
+#    type = VaporDriftFluxDiffusion
+#    variable = vaporFraction     
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
+#  [vapor-driftflux-diffusion]
+#    type = VaporDriftFluxDiffusion
+#    variable = vaporFraction 
+#    diffCoeff = ${replace diff_coeff}
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
+#  [vapor-mass-transfer-source]
+#    type = VaporMassTransferSource
+#    variable = vaporFraction     # add to produced quantity
+#    sourceS = ${replace source_s}
+#  []
 []
 
 [BCs]
-  [entry-vapor-fraction]
-    type = DirichletBC
-    variable = vaporFraction
-    boundary = left
-    value = 0.00000e+00
-  []
   [entry-mixture-velocity]
     type = DirichletBC
     variable = mixtureVelocity
     boundary = left
+    #value = ${fparse mixture_rho_left * mixture_velocity_left}
     value = ${fparse mixture_velocity_left}
   []
-  [exit]
+  [exit-mixture-velocity]
     type = NeumannBC
-    variable = vaporFraction
+    variable = mixtureVelocity
     boundary = right
-    value = ${fparse vapor_fraction_left}
+    #value = ${fparse mixture_rho_left * mixture_velocity_left}
+    value = 0.000843
   []
+  #[entry-vapor-fraction]
+  #  type = DirichletBC
+  #  variable = vaporFraction
+  #  boundary = left
+  #  value = 0.00000e+00
+  #[]
+  #[exit-vapor-fraction]
+  #  type = NeumannBC
+  #  variable = vaporFraction
+  #  boundary = right
+  #  value = ${fparse vapor_fraction_left}
+  #[]
+  #[exit-mixture-velocity]
+  #  type = NeumannBC
+  #  variable = mixtureVelocity
+  #  boundary = right
+  #  value = ${fparse vapor_fraction_left}
+  #[]
 []
 
 [Preconditioning]
