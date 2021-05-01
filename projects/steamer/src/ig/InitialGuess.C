@@ -7,13 +7,13 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ExampleIC.h"
+#include "InitialGuess.h"
 
-registerMooseObject("SteamerApp", ExampleIC);
+registerMooseObject("SteamerApp", InitialGuess);
 
 template <>
 InputParameters
-validParams<ExampleIC>()
+validParams<InitialGuess>()
 {
   InputParameters params = validParams<InitialCondition>();
   params.addRequiredParam<Real>("coefficient", "The value of the initial condition");
@@ -21,18 +21,18 @@ validParams<ExampleIC>()
   return params;
 }
 
-ExampleIC::ExampleIC(const InputParameters & parameters): 
+InitialGuess::InitialGuess(const InputParameters & parameters): 
     InitialCondition(parameters), 
     _coefficient(getParam<Real>("coefficient")),
     _bias(getParam<Real>("bias"))
 {
 }
 
-// This is the primary function custom ICs must implement.
 Real
-ExampleIC::value(const Point & p)
+InitialGuess::value(const Point & p)
 {
-  // The Point class is defined in libMesh.  The spatial coordinates x,y,z can be accessed
+  // The Point class is defined in libMesh. The spatial coordinates x,y,z can be accessed
   // individually using the parenthesis operator and a numeric index from 0..2
+  // Linear wrt x initial guess
   return _bias + _coefficient * std::abs(p(0));
 }

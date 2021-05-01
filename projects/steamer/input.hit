@@ -7,7 +7,7 @@
 xmin = 0.00000e+00
 xmax = 2.50000e+01
 diff_coeff = 2.00000e+00
-artificial_viscosity = 0.0001
+artificial_viscosity = 0.0001 # this should be small enough but not zero
 source_s = 0.1
 rho_l = 1000.0000
 rho_v = 1.00000
@@ -29,21 +29,32 @@ vapor_fraction_left = 0.0
   [mixtureVelocity]
     order = first
     family = lagrange
-    initial_condition = ${fparse mixture_velocity_left}
+    #initial_condition = ${fparse mixture_velocity_left}
+    [InitialCondition]
+      type = InitialGuess
+      bias = ${replace mixture_velocity_left}
+      coefficient = 0
+    []
   []
   [vaporFraction]
     order = first
     family = lagrange
-    initial_condition = 0.4
+    #initial_condition = 0.5
+    [InitialCondition]
+      type = InitialGuess
+      bias = 0.5
+      coefficient = 0
+    []
   []
 []
 
+# Tests
 #[AuxVariables]
 #  [vaporFraction]
 #    order = first
 #    family = lagrange
 #    [InitialCondition]
-#      type = ExampleIC
+#      type = InitialGuess
 #      coefficient = ${fparse 1/100}
 #      bias = 0
 #    []
@@ -52,7 +63,7 @@ vapor_fraction_left = 0.0
 #    order = first
 #    family = lagrange
 #    [InitialCondition]
-#      type = ExampleIC
+#      type = InitialGuess
 #      #coefficient = ${fparse 9/10}
 #      coefficient = ${fparse 0}
 #      bias = ${replace mixture_velocity_left}
@@ -117,6 +128,7 @@ vapor_fraction_left = 0.0
     boundary = right
     value = 0.000843
   []
+  # Test
   #[exit-mixture-velocity]
   #  type = VacuumBC
   #  variable = mixtureVelocity

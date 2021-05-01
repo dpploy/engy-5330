@@ -9,31 +9,13 @@
 
 #pragma once
 
-// MOOSE Includes
 #include "InitialCondition.h"
 
-// Forward Declarations
-class ExampleIC;
-
-template <>
-InputParameters validParams<ExampleIC>();
-
-/**
- * ExampleIC just returns a constant value.
- */
-class ExampleIC : public InitialCondition
+class InitialGuess : public InitialCondition
 {
 public:
-  /**
-   * Constructor: Same as the rest of the MOOSE Objects
-   */
-  ExampleIC(const InputParameters & parameters);
+  InitialGuess(const InputParameters & parameters);
 
-  /**
-   * The value of the variable at a point.
-   *
-   * This must be overriden by derived classes.
-   */
   virtual Real value(const Point & p) override;
 
 private:

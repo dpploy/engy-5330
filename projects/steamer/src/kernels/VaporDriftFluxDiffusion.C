@@ -27,9 +27,7 @@ VaporDriftFluxDiffusion::VaporDriftFluxDiffusion(const InputParameters & paramet
     Kernel(parameters),
     _diffCoeff(getParam<Real>("diffCoeff")),
 	_rhoV(getParam<Real>("rhoV")),
-	_rhoL(getParam<Real>("rhoL")),
-	_velocity(coupledValue("velocity")),
-	_gradVelocity(coupledGradient("velocity"))
+	_rhoL(getParam<Real>("rhoL"))
 {
 }
 
@@ -38,18 +36,15 @@ Real VaporDriftFluxDiffusion::computeQpResidual()
  Real alpha = _u[_qp];
  RealVectorValue alphaPrime = _grad_u[_qp];
 
- Real v = _velocity[_qp];
- Real vPrime = _gradVelocity[_qp](0);
-
  Real rho = alpha *_rhoV + (1-alpha)*_rhoL;
  Real delRho = _rhoV - _rhoL;
 
- Real wL = _rhoL/rho;
- Real wV = _rhoV/rho;
+ Real rhoRatioL = _rhoL/rho;
+ Real rhoRatioV = _rhoV/rho;
 
  RealVectorValue thetaPrime = _grad_test[_i][_qp];
 
- return - alpha * wL * wV * delRho * _diffCoeff * alphaPrime * thetaPrime;
+ return - alpha * rhoRatioL * rhoRatioV * delRho * _diffCoeff * alphaPrime * thetaPrime;
 }
 
 Real
