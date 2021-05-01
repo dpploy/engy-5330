@@ -5,7 +5,7 @@
 
 # Parameters
 xmin = 0 #m
-xmax = 0.014 #m
+xmax = 0.1 #m
 ymin = 0 #m
 ymax = 12 #m
 therm_cond_fuel = 80 #w/m-k
@@ -34,7 +34,8 @@ convectionCoeff = 605
 #Pr_ave = (Pr_high + Pr_low) / 2
 #Nu = 0.023 * Re_ave ** 0.8 * Pr_ave ** 0.4
 #convectionCoef = Nu * (0.5 * therm_cond_fuel / ymax)
-
+# n = 1.03ln(re) - 3.6
+#
 [Problem]
   type = FEProblem
   coord_type = RZ
@@ -63,21 +64,30 @@ convectionCoeff = 605
 []
 
 [Kernels]
+  [heat-convection-salt]
+    type = HeatConvection
+    variable = T
+    massDensity = 1
+    heatCapacity = 2
+    velocity = '0'
+    radius = 0.1
+    n = 2
+    vmax = 2
+  []
   [heat-conduction-salt]
     type = HeatConduction
-    variable = T     
-    thermCond = ${replace therm_cond_fuel}
+    variable = T
+    thermCond = 1
   []
 []
 
+
 [BCs]
   [east]
-    type = NormalFluxBC
+    type = NeumannBC
     variable = T
     boundary = left
-    convectionCoeff = -45000
-    zmax = ${replace ymax}
-    function = 'z'
+    value = -5
   []
   [west]
     type = NeumannBC

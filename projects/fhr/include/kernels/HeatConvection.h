@@ -30,7 +30,7 @@ public:
   const Real _vmax;
   const Real _radius;
   const Real _n;
-  RealVectorValue _velocity = {0, 0, 0};
+  RealVectorValue _velocity_vec = {0, 2, 0};
   
 
 };
