@@ -28,8 +28,8 @@ ScalarVariableIntegralPostprocessor::validParams()
   return params;
 }
 
-ScalarVariableIntegralPostprocessor::ScalarVariableIntegralPostprocessor(const InputParameters & parameters)
-  : ElementIntegralPostprocessor(parameters),
+ScalarVariableIntegralPostprocessor::ScalarVariableIntegralPostprocessor(const InputParameters & parameters):
+    ElementIntegralPostprocessor(parameters),
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2")),
     _variableName1(coupledValue("variable1")),

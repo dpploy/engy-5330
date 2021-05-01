@@ -27,8 +27,8 @@ VectorFlux::validParams()
   return params;
 }
 
-VectorFlux::VectorFlux(const InputParameters & parameters)
-  : VectorAuxKernel(parameters),
+VectorFlux::VectorFlux(const InputParameters & parameters):
+    VectorAuxKernel(parameters),
     // Initialize variable gradient
     _gradVariableName(coupledGradient("variableName")),
     // Initialize parameters

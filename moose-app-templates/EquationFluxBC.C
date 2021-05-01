@@ -27,8 +27,8 @@ EquationFluxBC::validParams()
   return params;
 }
 
-EquationFluxBC::EquationFluxBC(const InputParameters & parameters)
-  : IntegratedBC(parameters),
+EquationFluxBC::EquationFluxBC(const InputParameters & parameters):
+    IntegratedBC(parameters),
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2"))
 {

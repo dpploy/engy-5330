@@ -31,8 +31,8 @@ FluxComponent::validParams()
   return params;
 }
 
-FluxComponent::FluxComponent(const InputParameters & parameters)
-  : AuxKernel(parameters),
+FluxComponent::FluxComponent(const InputParameters & parameters):
+    AuxKernel(parameters),
     _component(getParam<MooseEnum>("component")),
     // Initialize variable gradient
     _gradVariableName_component(coupledGradient("field")),

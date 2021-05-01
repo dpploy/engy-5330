@@ -26,9 +26,8 @@ ScalarVariableSideIntegralPostProcessor::validParams()
   return params;
 }
 
-ScalarVariableSideIntegralPostProcessor::ScalarVariableSideIntegralPostProcessor(
-    const InputParameters & parameters)
-  : SideIntegralPostprocessor(parameters),
+ScalarVariableSideIntegralPostProcessor::ScalarVariableSideIntegralPostProcessor(const InputParameters & parameters):
+    SideIntegralPostprocessor(parameters),
     MooseVariableInterface<Real>(this,
                                  false,
                                  "variable",
