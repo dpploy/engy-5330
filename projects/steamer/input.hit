@@ -11,7 +11,8 @@ xmax = 1.00000e+01
 rho_l = 1000.0000
 rho_v = 1.00000
 mixture_velocity_left = 0.9367
-#vapor_fraction_left = 0.0
+vapor_fraction_left = 0.1
+mixture_rho_left = ${fparse rho_v*vapor_fraction_left + rho_l*(1-vapor_fraction_left)}
 
 [Mesh]
   [1d]
@@ -39,9 +40,25 @@ mixture_velocity_left = 0.9367
   [vaporFraction]
     order = first
     family = lagrange
-    initial_condition = 0.5
+    #order = constant
+    #family = monomial
+    #initial_condition = ${replace vapor_fraction_left}
+    #initial_condition = alpha
+    [InitialCondition]
+      type = ExampleIC
+      coefficient = ${fparse 1/2/10}
+    []
   []
 []
+
+#[Functions]
+#  [alpha]
+#    type = ParsedFunction
+#    value = 1.0/10 * x
+#    #vars = 'alpha'
+#    #vals = '16'
+#  []
+#[]
 
 [Kernels]
   [mixture]
@@ -78,6 +95,7 @@ mixture_velocity_left = 0.9367
     type = DirichletBC
     variable = mixtureVelocity
     boundary = left
+    #value = ${fparse mixture_rho_left * mixture_velocity_left}
     value = ${fparse mixture_velocity_left}
   []
   #[entry-vapor-fraction]
