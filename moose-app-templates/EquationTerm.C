@@ -6,6 +6,8 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// https://github.com/dpploy/engy-5310
 
 #include "EquationTerm.h"
 
@@ -15,7 +17,7 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("Engy5310PXApp-FIXME", EquationTerm);
+registerMooseObject("Engy5310App-FIXME", EquationTerm);
 
 /**
  * This function defines the valid parameters for

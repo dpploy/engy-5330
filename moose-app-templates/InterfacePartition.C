@@ -6,10 +6,14 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// https://github.com/dpploy/engy-5310
+//
+// https://github.com/dpploy/engy-5310
 
 #include "InterfacePartition.h"
 
-registerMooseObject("Engy5310P1App", InterfacePartition);
+registerMooseObject("Engy5310App-FIXME", InterfacePartition);
 
 defineLegacyParams(InterfacePartition);
 

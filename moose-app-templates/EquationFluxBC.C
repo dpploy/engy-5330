@@ -6,10 +6,13 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// https://github.com/dpploy/engy-5310
+
 
 #include "EquationFluxBC.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", EquationFluxBC);
+registerMooseObject("Engy5310App-FIXME", EquationFluxBC);
 
 defineLegacyParams(EquationFluxBC);
 
