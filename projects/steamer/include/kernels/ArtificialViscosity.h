@@ -11,11 +11,11 @@
 
 #include "Kernel.h"
 
-class VaporConvection : public Kernel
+class ArtificialViscosity : public Kernel
 {
 public:
 
-  VaporConvection(const InputParameters & parameters);
+  ArtificialViscosity(const InputParameters & parameters);
 
 protected:
   // Residual
@@ -24,11 +24,6 @@ protected:
   // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  // Property Variables
-  const Real _rhoV;
-  const Real _rhoL;
-
-  // Coupled variables
-  const VariableValue & _velocity;
-  const VariableGradient & _gradVelocity;
+  // Property variables
+  const Real _viscosity;
 };

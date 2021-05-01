@@ -31,7 +31,7 @@ VaporMassTransferSource::VaporMassTransferSource(const InputParameters & paramet
 Real
 VaporMassTransferSource::computeQpResidual()
 {
-  return  _sourceS *_test[_i][_qp] ;
+  return - _sourceS *_test[_i][_qp] ;
 }
 
 Real
