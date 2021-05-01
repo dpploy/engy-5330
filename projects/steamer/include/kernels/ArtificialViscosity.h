@@ -11,11 +11,11 @@
 
 #include "Kernel.h"
 
-class ArtificialDiffusion : public Kernel
+class ArtificialViscosity : public Kernel
 {
 public:
 
-  ArtificialDiffusion(const InputParameters & parameters);
+  ArtificialViscosity(const InputParameters & parameters);
 
 protected:
   // Residual
@@ -25,5 +25,5 @@ protected:
   virtual Real computeQpJacobian() override;
 
   // Property variables
-  const Real _diffCoeff;
+  const Real _viscosity;
 };

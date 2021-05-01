@@ -7,35 +7,35 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 
-#include "ArtificialDiffusion.h"
+#include "ArtificialViscosity.h"
 
-registerMooseObject("SteamerApp", ArtificialDiffusion);
+registerMooseObject("SteamerApp", ArtificialViscosity);
 
 template<>
-InputParameters validParams<ArtificialDiffusion>()
+InputParameters validParams<ArtificialViscosity>()
 {
   InputParameters params = validParams<Kernel>();
-  params.addClassDescription("Artifical diffusion term.");
-  params.addParam<Real>("diffCoeff",1.0,"Drift flux diffusion coefficient");
+  params.addClassDescription("Artifical viscosity term.");
+  params.addParam<Real>("viscosity",1.0,"Artificial viscosity coefficient");
   return params;
 }
 
-ArtificialDiffusion::ArtificialDiffusion(const InputParameters & parameters): 
+ArtificialViscosity::ArtificialViscosity(const InputParameters & parameters): 
     Kernel(parameters),
-    _diffCoeff(getParam<Real>("diffCoeff"))
+    _viscosity(getParam<Real>("viscosity"))
 {
 }
 
-Real ArtificialDiffusion::computeQpResidual()
+Real ArtificialViscosity::computeQpResidual()
 {
  const RealVectorValue & vPrime = _grad_u[_qp];
  const RealVectorValue & thetaPrime = _grad_test[_i][_qp];
 
- return _diffCoeff * vPrime * thetaPrime;
+ return _viscosity * vPrime * thetaPrime;
 }
 
 Real
-ArtificialDiffusion::computeQpJacobian()
+ArtificialViscosity::computeQpJacobian()
 {
  return 0.0;
 }
