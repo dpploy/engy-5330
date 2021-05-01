@@ -25,8 +25,6 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 References:
 
- + [Cortix](https://cortix.org/)
- + [Eng-4350: Nuclear Reactor Engineering: course notes](https://github.com/dpploy/engy-4350)
- + [IAPWS 97 Standards](http://www.iapws.org/relguide/IF97-Rev.html)
- + [IAPWS PyPi Library](https://pypi.org/project/iapws/)
+ + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5310)
+ + [MOOSE](https://mooseframework.inl.gov/)
 
