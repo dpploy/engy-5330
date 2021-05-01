@@ -8,7 +8,7 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Ffhr%2Freport.ipynb)
 
- >[Austin Rotker](https://github.com/arotker45), and [Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
+ >[Austin Rotker](https://github.com/arotker45), and [prof. Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
@@ -21,4 +21,4 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 References:
 
  + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5310)
- + [Other references, MOOSE etc.](https://github.com/dpploy/engy-5310)
+ + [Multiphysics Object-Oriented Simulation Environment (MOOSE)](https://mooseframework.inl.gov/)
