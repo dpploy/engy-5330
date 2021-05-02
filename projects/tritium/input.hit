@@ -6,14 +6,14 @@
 
 # Parameters [cm]
 xmin = 0
-xmax = 150 			
+xmax = 150 
 ymin = 0
 ymax = 7.5
 diff_coeff =  .000266493 #Diffusion of Tritium in Bulk Fluid
 source_s = 0
 mesh_type=QUAD9
 n_felem_x=1
-n_felem_y=50
+n_felem_y=25
 
 degree=Second
 flux_exit = 0   # Tritium is completely removed before leaving outflow
@@ -38,8 +38,7 @@ Ambient_conc = 0
     xmax = ${replace xmax}
     ymin = ${replace ymin}
     ymax = ${replace ymax}
-    #nx=1
-	#ny=2
+    
 	
 	
 	nx=${replace n_felem_x}
