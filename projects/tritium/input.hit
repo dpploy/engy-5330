@@ -13,12 +13,12 @@ diff_coeff =  .000266493 #Diffusion of Tritium in Bulk Fluid
 source_s = 0
 mesh_type=QUAD9
 n_felem_x=1
-n_felem_y=25
+n_felem_y=300
 
 degree=Second
 flux_exit = 0   # Tritium is completely removed before leaving outflow
 u_inlet = 3.6e-07   #Concentration of Tritium in the bulk fluid at inlet
-velocity = '5.45708 0 0' #Velocity of fluid taken from RE 10,000 
+velocity = '5.46 0 0' #Velocity of fluid taken from RE 10,000 
 flux_center= 0
 Mass_transfer_coeff=2.35e-03
 Ambient_conc = 0
