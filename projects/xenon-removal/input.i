@@ -1,7 +1,7 @@
-# Engy-5310 Problem 1: Poisson 1D FEM
-# UMass Lowell Nuclear Chemical Engineering
-# Prof. Valmor F. de Almeida
-# 20Apr21 16:12:37
+# Student: Anadi Mondal
+# Mentor: Dr. Subash Sharma
+# Instructor:Prof. Valmor F. de Almeida
+
 
 # Parameters
 xmin = 0
