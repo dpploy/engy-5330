@@ -7,6 +7,8 @@
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 //
+// Engy-5310: Computational Continuum Transport Phenomena
+// UMass Lowell, Nuclear Chemical Engineering
 // https://github.com/dpploy/engy-5310
 
 // Template includes
