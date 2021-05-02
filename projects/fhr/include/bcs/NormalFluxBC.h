@@ -6,27 +6,30 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-//
-// https://github.com/dpploy/engy-5310
 
 #pragma once
 
-#include "AuxKernel.h"
+#include "IntegratedBC.h"
 
-class VectorFlux : public VectorAuxKernel
+class Function;
+
+class NormalFluxBC : public IntegratedBC
 {
 public:
   static InputParameters validParams();
 
-  VectorFlux(const InputParameters & parameters);
+  NormalFluxBC(const InputParameters & parameters);
 
 protected:
-  virtual RealVectorValue computeValue() override;
+  virtual Real computeQpResidual() override;
+  virtual Real computeQpJacobian() override;
 
-  /// The gradient of a coupled variable
-  const VariableGradient & _gradientVariableName;
+private:
+  const Function & _func;
 
-  /// Add here other parameters needed
-  Real _param1;
-  Real _param2;
-};  
+  // User variables
+  Real _convectionCoeff;
+  Real _bias;
+  Real _zmax;
+
+};

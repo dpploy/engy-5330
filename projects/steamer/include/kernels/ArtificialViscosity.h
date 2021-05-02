@@ -11,23 +11,19 @@
 
 #include "Kernel.h"
 
-class SourceTerm : public Kernel
+class ArtificialViscosity : public Kernel
 {
 public:
-  SourceTerm(const InputParameters & parameters);
+
+  ArtificialViscosity(const InputParameters & parameters);
 
 protected:
-  /// Residual
+  // Residual
   virtual Real computeQpResidual() override;
 
-  /// Jacobian diagonal
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables
-  const VariableValue & _coupledGroupA;
-  const VariableValue & _coupledGroupB;
-  const Real _sourceS;
-  const Real _sigma_sa;
-  const Real _sigma_sb;
-
+  // Property variables
+  const Real _viscosity;
 };

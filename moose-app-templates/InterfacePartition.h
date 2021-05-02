@@ -11,23 +11,19 @@
 
 #pragma once
 
-#include "ElementIntegralPostprocessor.h"
+#include "InterfaceKernel.h"
 
-class ScalarVariableIntegralPostprocessor : public ElementIntegralPostprocessor
+class InterfacePartition : public InterfaceKernel
 {
 public:
   static InputParameters validParams();
 
-  ScalarVariableIntegralPostprocessor(const InputParameters & parameters);
-
-  virtual Real getValue();
+  InterfacePartition(const InputParameters & parameters);
 
 protected:
-  virtual Real computeQpIntegral() override;
+  virtual Real computeQpResidual(Moose::DGResidualType type) override;
+  virtual Real computeQpJacobian(Moose::DGJacobianType type) override;
 
-  Real _param1;
-  Real _param2;
-
-  const VariableValue & _variableName1;
-  const VariableValue & _variableName2;
+  /// Partition coefficient
+  Real _kCoeff;
 };

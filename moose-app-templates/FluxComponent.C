@@ -6,10 +6,12 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// https://github.com/dpploy/engy-5310
 
 #include "FluxComponent.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", FluxComponent);
+registerMooseObject("Engy5310App-FIXME", FluxComponent);
 
 defineLegacyParams(FluxComponent);
 
@@ -29,8 +31,8 @@ FluxComponent::validParams()
   return params;
 }
 
-FluxComponent::FluxComponent(const InputParameters & parameters)
-  : AuxKernel(parameters),
+FluxComponent::FluxComponent(const InputParameters & parameters):
+    AuxKernel(parameters),
     _component(getParam<MooseEnum>("component")),
     // Initialize variable gradient
     _gradVariableName_component(coupledGradient("field")),

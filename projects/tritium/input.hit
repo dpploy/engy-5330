@@ -21,7 +21,11 @@ u_inlet = 3.6e-07   #Concentration of Tritium in the bulk fluid at inlet
 velocity = '5.45708 0 0' #Velocity of fluid taken from RE 10,000 
 flux_center= 0
 Mass_transfer_coeff=2.35e-03
+<<<<<<< HEAD
 Ambient_conc = 2.9e-08
+=======
+Ambient_conc = 0
+>>>>>>> main
 [Problem]
   type = FEProblem
    coord_type = RZ

@@ -6,6 +6,8 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// https://github.com/dpploy/engy-5310
 
 // Template includes
 #include "ScalarVariableIntegralPostprocessor.h"
@@ -26,8 +28,8 @@ ScalarVariableIntegralPostprocessor::validParams()
   return params;
 }
 
-ScalarVariableIntegralPostprocessor::ScalarVariableIntegralPostprocessor(const InputParameters & parameters)
-  : ElementIntegralPostprocessor(parameters),
+ScalarVariableIntegralPostprocessor::ScalarVariableIntegralPostprocessor(const InputParameters & parameters):
+    ElementIntegralPostprocessor(parameters),
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2")),
     _variableName1(coupledValue("variable1")),
