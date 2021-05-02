@@ -8,8 +8,6 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 //
 // https://github.com/dpploy/engy-5310
-//
-// https://github.com/dpploy/engy-5310
 
 #include "InterfacePartition.h"
 
