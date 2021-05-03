@@ -73,14 +73,14 @@ vapor_fraction_left = 0.0  # []
 #  []
 #[]
 
-#[Functions]
-#  [alpha]
-#    type = ParsedFunction
-#    value = 1.0/10 * x
-#    #vars = 'alpha'
-#    #vals = '16'
-#  []
-#[]
+[Functions]
+  [alpha]
+    type = ParsedFunction
+    value = '1.0/10 * x'
+    vars = 'alpha'
+    vals = '16'
+  []
+[]
 
 [Kernels]
   [mixture-convection]
@@ -100,7 +100,7 @@ vapor_fraction_left = 0.0  # []
     variable = vaporFraction     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
+   velocity = mixtureVelocity
   []
   [vapor-driftflux-diffusion]
     type = VaporDriftFluxDiffusion
