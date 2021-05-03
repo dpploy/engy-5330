@@ -6,28 +6,24 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
-//
-// Engy-5310: Computational Continuum Transport Phenomena
-// UMass Lowell, Nuclear Chemical Engineering
-// https://github.com/dpploy/engy-5310
 
 #pragma once
 
-#include "IntegratedBC.h"
+#include "Kernel.h"
 
-class EquationFluxBC : public IntegratedBC
+class ArtificialViscosity : public Kernel
 {
 public:
-  static InputParameters validParams();
 
-  EquationFluxBC(const InputParameters & parameters);
+  ArtificialViscosity(const InputParameters & parameters);
 
 protected:
+  // Residual
   virtual Real computeQpResidual() override;
+
+  // Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-private:
-  // Parameters of the flux boundary condition. Rename and/or add parameter names below.
-  Real _param1;
-  Real _param2;
+  // Property variables
+  const Real _viscosity;
 };

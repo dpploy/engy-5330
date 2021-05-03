@@ -6,6 +6,10 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// Engy-5310: Computational Continuum Transport Phenomena
+// UMass Lowell, Nuclear Chemical Engineering
+// https://github.com/dpploy/engy-5310
 
 #include "InterfacePartition.h"
 
@@ -35,15 +39,15 @@ InterfacePartition::computeQpResidual(Moose::DGResidualType type)
   switch (type)
   {
     // Primary residual = u_primary - k * u_neighbor
-    // Weak form for primary domain is: (u_primary - k*u_neighbor, test)
+    // Weak form for primary: (u_primary - k*u_neighbor, test)
     case Moose::Element:
-      r = _test[_i][_qp] * (_u[_qp] - _kCoeff * _neighbor_value[_qp]);
+      r = (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test[_i][_qp];
       break;
 
-    // Secondary residual: -(u_primary - k*u_neighbor, test),
-    // flip the sign because the integration direction is opposite.
+    // Neighbor residual: -(u_primary - k * u_neighbor, test_neighbor),
+    // negative sign because the integration direction is opposite.
     case Moose::Neighbor:
-      r = - _test_neighbor[_i][_qp] * (_u[_qp] - _kCoeff * _neighbor_value[_qp]);
+      r = - (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test_neighbor[_i][_qp];
       break;
   }
   return r;
