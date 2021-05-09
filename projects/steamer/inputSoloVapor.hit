@@ -1,0 +1,187 @@
+#Engy-5310 Project: Steamer
+# UMass Lowell Nuclear Chemical Engineering
+# Nikolaus R. Kemper and Jack J. F. Kennedy
+# Sat May  1 12:18:50 PM EST 2021
+#
+
+# Parameters
+xmin = 0.00000e+00  # [m]
+xmax = 2.50000e+01  # [m]
+diff_coeff = 2.00000e+00 # [unit]
+artificial_viscosity = 0.0001 # [unit] this should be small enough but not zero
+source_s = 0.1 # [unit]
+rho_l = 1000.0000 # [kg/m^3]
+rho_v = 1.00000   # [kg/m^3]
+mixture_velocity_left = 5 # [m/s]
+vapor_fraction_left = 0.1  # []
+
+[Mesh]
+ [1d]
+   type = GeneratedMeshGenerator
+   dim = 1
+   xmin = ${replace xmin}
+   xmax = ${replace xmax}
+   nx = 100
+   #elem_type = edge3
+ []
+[]
+
+[Variables]
+ #[mixtureVelocity]
+  # order = first
+  # family = lagrange
+   #initial_condition = ${fparse mixture_velocity_left}
+  # [InitialCondition]
+  #   type = InitialGuess
+  #   bias = ${replace mixture_velocity_left}
+  #   coefficient = 0
+   #[]
+ #[]
+ [vaporFraction]
+   order = first
+   family = lagrange
+   #initial_condition = 0.5
+   [InitialCondition]
+     type = InitialGuess
+     bias = 0.5
+     coefficient = 0
+   []
+ []
+[]
+
+# Tests
+ [AuxVariables]
+# [vaporFraction]
+#   order = first
+#   family = lagrange
+#   [InitialCondition]
+#     type = InitialGuess
+#     coefficient = ${fparse 4/100}
+#     bias = 0
+#   []
+# []
+  [mixtureVelocity]
+    order = first
+    family = lagrange
+    [InitialCondition]
+      type = InitialGuess
+      #coefficient = ${fparse 9/10}
+      coefficient = ${fparse 4/100}
+      bias = ${replace mixture_velocity_left}
+    []
+  []
+[]
+
+[Functions]
+ [alpha]
+   type = ParsedFunction
+   value = x*6.0/25
+   #vars = 'alpha'
+   #vals = '16'
+ []
+[]
+
+[Kernels]
+ #[mixture-convection]
+ # type = MixtureMassBalDivergence
+  # variable = mixtureVelocity
+   # rhoV = ${replace rho_v}
+   # rhoL = ${replace rho_l}
+   # vaporFraction = vaporFraction
+ #[]
+ #[mixture-artificial-viscosity]
+ #  type = ArtificialViscosity
+ #  variable = mixtureVelocity
+ #  viscosity = ${replace artificial_viscosity}
+ #[]
+ [vapor-convection]
+   type = VaporConvection
+   variable = vaporFraction
+   rhoV = ${replace rho_v}
+   rhoL = ${replace rho_l}
+   velocity = mixtureVelocity
+ []
+ #[vapor-driftflux-diffusion]
+ #  type = VaporDriftFluxDiffusion
+ #  variable = vaporFraction
+ #  diffCoeff = ${replace diff_coeff}
+ #  rhoV = ${replace rho_v}
+ #  rhoL = ${replace rho_l}
+ #  velocity = mixtureVelocity
+ #[]
+ #[vapor-mass-transfer-source]
+ #  type = VaporMassTransferSource
+ #  variable = vaporFraction     # add to produced quantity
+ #  sourceS = ${replace source_s}
+ #[]
+[]
+
+[BCs]
+ #[entry-mixture-velocity]
+  # type = DirichletBC
+  # variable = mixtureVelocity
+  # boundary = left
+  # value = ${fparse mixture_velocity_left}
+# []
+ #[exit-mixture-velocity]
+ #  type = NeumannBC
+ #  variable = mixtureVelocity
+ #  boundary = right
+ #  value = 0.000843
+ #[]
+ # Test
+ #[exit-mixture-velocity]
+#   type = VacuumBC
+#   variable = mixtureVelocity
+#   boundary = right
+#   alpha = 1
+ #[]
+ [entry-vapor-fraction]
+   type = DirichletBC
+   variable = vaporFraction
+   boundary = left
+   value = ${replace vapor_fraction_left}
+ []
+ [exit-vapor-fraction]
+   type = NeumannBC
+   variable = vaporFraction
+   boundary = right
+   value = ${fparse vapor_fraction_left}
+ []
+[]
+
+[Preconditioning]
+ active = 'fdp-newt-full'
+ [fdp-newt-full]
+   type = FDP
+   full = true
+   solve_type = 'NEWTON'
+   petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+   petsc_options_value = 'lu  1e-8          ds'
+ []
+[]
+[Executioner]
+ type = Steady
+[]
+
+[VectorPostprocessors]
+ [x-data]
+   type = LineValueSampler
+   execute_on = 'timestep_end final'
+   variable = 'mixtureVelocity vaporFraction'    # output data
+   start_point = '${replace xmin} 0 0'
+   end_point = '${replace xmax} 0 0'
+   num_points = 51
+   sort_by = id
+ []
+[]
+
+[Outputs]
+ console = true
+ [file-x-data]
+   type = CSV
+   file_base = 'output'
+   execute_on = 'final'
+   show = 'x-data'
+ []
+[]
