@@ -1,6 +1,7 @@
 # local
 *~
-*.png
+#*.png
+*.PNG
 *.svg
 toolkit.py
 *solution*
