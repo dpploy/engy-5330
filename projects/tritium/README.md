@@ -16,9 +16,6 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |:---:|
 | <img width="380" src="pics/ProblemStatement.png" title="Environment of Domain"> |
 | <p style="text-align:center;"><b>Caption.</b></p> |
-
-|  |
-|:---:|
 | <img width="380" src="pics/contour.png" title="Results"> |
 | <p style="text-align:center;"><b>Caption.</b></p> |
 
