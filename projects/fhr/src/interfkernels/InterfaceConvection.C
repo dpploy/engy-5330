@@ -13,7 +13,7 @@
 
 #include "InterfaceConvection.h"
 
-registerMooseObject("Engy5310p1App", InterfaceConvection);
+registerMooseObject("FHRApp", InterfaceConvection);
 
 defineLegacyParams(InterfaceConvection);
 

@@ -13,7 +13,7 @@
 
 #include "InterfaceFlux.h"
 
-registerMooseObject("Engy5310p1app", InterfaceFlux);
+registerMooseObject("FHRApp", InterfaceFlux);
 
 InputParameters
 InterfaceFlux::validParams()
