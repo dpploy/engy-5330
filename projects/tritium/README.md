@@ -4,7 +4,7 @@ UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
 Engy-5310: Computational Continuum Transport Phenomena
 
-View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/blob/anthony/projects/tritium/report.ipynb)
+View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/blob/main/projects/tritium/report.ipynb)
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Ftritium%2Freport.ipynb)
 
@@ -14,12 +14,16 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/pic.png" title="My result"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
-
+| <img width="380" src="pics/ProblemStatement.PNG" title="Environment of Domain"> |
+| <p style="text-align:center;"><b>Environment of Domian.</b></p> |
+| <img width="380" src="pics/mesh.PNG" title="mesh"> |
+| <p style="text-align:center;"><b> FEM meshing technique .</b></p> |
+| <img width="380" src="pics/contour.PNG" title="Results"> |
+| <p style="text-align:center;"><b> Results .</b></p> |
 
 References:
 
- + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5310)
- + [Other references, MOOSE etc.](https://github.com/dpploy/engy-5310)
-
+- [1] V. F. de Almeida, [*Engy-5310: Computational Continuum Transport Phenomena*](https://github.com/dpploy/engy-5310),  University of Massachusetts Lowell, Dept. of Chemical Engineering (Nuclear Energy Program).
+- [2] Multiphysics Object-Oriented Simulation Environment [(MOOSE)](https://mooseframework.org)
+- [3] Stempien D. John, “Tritium Transport, Corrosion, and Fuel Performance Modeling in Fluoride Salt-Cooled High-Temperature Reactor (FHR)”. Massachusetts Institute of Technology. PDF. June 2017
+- [4] R. Serrano-Lópeza, J. Fraderaa, S. Cuesta-Lópeza. “Molten salts database for energy applications”. PDF. September 2014.
