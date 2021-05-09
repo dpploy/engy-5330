@@ -10,9 +10,9 @@ u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
 sigma_a = 0.13
-sigma_s12 = 0.0
-sigma_s13 = 0.0
-sigma_s23 = 0.0
+sigma_s12 = 0.1
+sigma_s13 = 0.1
+sigma_s23 = 0.1
 
 [Problem]
   type = FEProblem
