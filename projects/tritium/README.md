@@ -16,7 +16,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |:---:|
 | <img width="380" src="pics/problem.png" title="Problem domain"> |
 | <p style="text-align:center;"><b>Problem domain sketch.</b></p> |
-| <img width="380" src="pics/fem.png" title="mesh"> |
+| <img width="380" src="pics/fem.png" title="finite element"> |
 | <p style="text-align:center;"><b>Quadratic finite element.</b></p> |
 | <img width="380" src="pics/results.png" title="Results"> |
 | <p style="text-align:center;"><b> Results.</b></p> |
