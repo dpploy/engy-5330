@@ -14,12 +14,12 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/ProblemStatement.PNG" title="Environment of Domain"> |
-| <p style="text-align:center;"><b>Environment of Domian.</b></p> |
-| <img width="380" src="pics/mesh.PNG" title="mesh"> |
-| <p style="text-align:center;"><b> FEM meshing technique .</b></p> |
-| <img width="380" src="pics/contour.PNG" title="Results"> |
-| <p style="text-align:center;"><b> Results .</b></p> |
+| <img width="380" src="pics/problem.png" title="Problem domain"> |
+| <p style="text-align:center;"><b>Problem domain sketch.</b></p> |
+| <img width="380" src="pics/fem.png" title="finite element"> |
+| <p style="text-align:center;"><b>Quadratic finite element.</b></p> |
+| <img width="380" src="pics/results.png" title="Results"> |
+| <p style="text-align:center;"><b> Results.</b></p> |
 
 References:
 
