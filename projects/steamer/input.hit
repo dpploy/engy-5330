@@ -8,13 +8,13 @@
 # Parameters
 xmin = 0.00000e+00  # [m]
 xmax = 2.50000e+01  # [m]
-diff_coeff = 2.00000e-9 # [unit]
-artificial_viscosity = 1e-7 # [unit] this should be small enough but not zero
-source_s = .2 # [unit] #no Conv at 125
+diff_coeff = 2.00000e-9 # [m-2/s]
+artificial_viscosity = 1e-7 # [unit] Artificial term to "smooth" boundary layer effects
+source_s = .2 # [kg/s] Rate of mass transfer to vapor phase i.e rate of vaporization
 rho_l = 1000.0000 # [kg/m^3]
 rho_v = 1.00000   # [kg/m^3]
-mixture_velocity_left = 0.1 # [m/s]
-vapor_fraction_left = 0  # []
+mixture_velocity_left = 0.1 # [m/s] Initial value
+vapor_fraction_left = 0  # Initial value
 pts = 101
 
 exit_V = 1e-2
