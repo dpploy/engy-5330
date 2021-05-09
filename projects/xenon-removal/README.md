@@ -34,4 +34,6 @@ References:
 
  + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5310)
  + [Other references, MOOSE etc.](https://github.com/dpploy/engy-5310)
+ + [A.Bowers J,S. Sharma,M. Howley, “CFD Analysis of xenon-135 reomoval from molten salt reactors by helium gas bubbles”. ANS Conference,2020.]
+ + [R.J Kedl,A. Houfzeel,"Development of a model for computing Xe-135 migration in MSRE".Oak Ridge National Laboratory .]
 
