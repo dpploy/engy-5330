@@ -1,18 +1,20 @@
 # Engy-5310 Problem 1: Poisson 1D FEM Neutron Diffusion Equation
-# UMass Lowell Nuclear Chemical Engineering
+# UMass Lowell Energy Engineering
 # Paul Johnson
 
 # Parameters
 xmin = 1.00000e-01
 xmax = 1.00000e+03
-diff_coeff = 2.04000e+00
+diff_coeff1 = 2.04000e+00
+diff_coeff2 = 2.04000e+00
+diff_coeff3 = 2.04000e+00
 u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
 sigma_a = 0.13
-sigma_s12 = 0.1
-sigma_s13 = 0.1
-sigma_s23 = 0.1
+sigma_s12 = 0.03
+sigma_s13 = 0.01
+sigma_s23 = 0.08
 
 [Problem]
   type = FEProblem
@@ -52,17 +54,17 @@ sigma_s23 = 0.1
   [diffusion-term-1]
     type = DiffusionTerm
     variable = u1     # produced quantity
-    diffCoeff = ${replace diff_coeff}
+    diffCoeff = ${replace diff_coeff1}
   []
   [diffusion-term-2]
     type = DiffusionTerm
     variable = u2     # produced quantity
-    diffCoeff = ${replace diff_coeff}
+    diffCoeff = ${replace diff_coeff2}
   []
   [diffusion-term-3]
     type = DiffusionTerm
     variable = u3     # produced quantity
-    diffCoeff = ${replace diff_coeff}
+    diffCoeff = ${replace diff_coeff3}
   []
   [absorption-term-1]
     type = AbsorptionTerm
@@ -84,21 +86,23 @@ sigma_s23 = 0.1
     variable = u1
     coupledGroupA = u1
     coupledGroupB = u1
+    sigma_sb = -0.03 # Is loss term so negative
   []
   [source-term-2]
     type = SourceTerm
     variable = u2
     coupledGroupA = u1
-    sigma_sa = 0
-    coupledGroupB = u1
+    sigma_sa = ${replace sigma_s12}
+    coupledGroupB = u3
+    sigma_sb = -0.08 # Is loss term so negative
   []
   [source-term-3]
     type = SourceTerm
     variable = u3
     coupledGroupA = u1
-    sigma_sa = 0
+    sigma_sa = ${replace sigma_s13}
     coupledGroupB = u2
-    sigma_sb = 0
+    sigma_sb = ${replace sigma_s23}
   []
 []
 
@@ -119,7 +123,7 @@ sigma_s23 = 0.1
     type = DirichletBC
     variable = u2
     boundary = left
-    value = ${replace u_left}
+    value = 0
   []
   [exit-u2]
     type = NeumannBC
@@ -131,7 +135,7 @@ sigma_s23 = 0.1
     type = DirichletBC
     variable = u3
     boundary = left
-    value = ${replace u_left}
+    value = 0
   []
   [exit-u3]
     type = NeumannBC
