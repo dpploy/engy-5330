@@ -15,9 +15,11 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |  |
 |:---:|
 | <img width="380" src="pics/ProblemStatement.PNG" title="Environment of Domain"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
+| <p style="text-align:center;"><b>Environment of Domian.</b></p> |
+| <img width="380" src="pics/mesh.PNG" title="mesh"> |
+| <p style="text-align:center;"><b> FEM meshing technique .</b></p> |
 | <img width="380" src="pics/contour.PNG" title="Results"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
+| <p style="text-align:center;"><b> Results .</b></p> |
 
 References:
 
