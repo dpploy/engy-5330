@@ -1,4 +1,4 @@
-# Removal of Xe-135 from Molten Salt Reactor by Circulation of Helium Bubbles
+# Xenon-135 Removal from Molten Salt Reactors by Helium Gas Bubbles
 
 UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
@@ -15,6 +15,16 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
+| <img width="380" src="pics/readme-domain.png" title="My result"> |
+| <p style="text-align:center;"><b>Caption.</b></p> |
+| <img width="380" src="pics/readme-result.png" title="My result"> |
+| <p style="text-align:center;"><b>Caption.</b></p> |
+
+| <img width="380" src="pics/readme-domain.png" title="My result"> |
+| <p style="text-align:center;"><b>Caption.</b></p> |
+| <img width="380" src="pics/readme-result.png" title="My result"> |
+| <p style="text-align:center;"><b>Caption.</b></p> |
+
 | <img width="380" src="pics/readme-domain.png" title="My result"> |
 | <p style="text-align:center;"><b>Caption.</b></p> |
 | <img width="380" src="pics/readme-result.png" title="My result"> |
