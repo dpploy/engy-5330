@@ -31,16 +31,16 @@ exit_V = 1e-2
 []
 
 [Variables]
-  [mixtureVelocity]
-    order = first
-    family = lagrange
-    #initial_condition = ${fparse mixture_velocity_left}
-    [InitialCondition]
-      type = InitialGuess
-      bias = ${replace mixture_velocity_left}
-      coefficient = 100
-    []
-  []
+#  [mixtureVelocity]
+#    order = first
+#    family = lagrange
+#    #initial_condition = ${fparse mixture_velocity_left}
+#    [InitialCondition]
+#      type = InitialGuess
+#      bias = ${replace mixture_velocity_left}
+#      coefficient = 100
+#    []
+#  []
   [vaporFraction]
     order = first
     family = lagrange
@@ -54,7 +54,7 @@ exit_V = 1e-2
 []
 
 # Tests
-#[AuxVariables]
+[AuxVariables]
 #  [vaporFraction]
 #    order = first
 #    family = lagrange
@@ -64,26 +64,26 @@ exit_V = 1e-2
 #      bias = 0
 #    []
 #  []
-#  [mixtureVelocity]
-#    order = first
-#    family = lagrange
-#    [InitialCondition]
-#      type = InitialGuess
-#      #coefficient = ${fparse 9/10}
-#      coefficient = ${fparse 0}
-#      bias = ${replace mixture_velocity_left}
-#    []
-#  []
-#[]
+  [mixtureVelocity]
+    order = first
+    family = lagrange
+    [InitialCondition]
+      type = InitialGuess
+      #coefficient = ${fparse 9/10}
+      coefficient = ${fparse 0}
+      bias = ${replace mixture_velocity_left}
+    []
+  []
+[]
 
-#[Functions]
-#  [alpha]
-#    type = ParsedFunction
-#    value = 1.0/10 * x
-#    #vars = 'alpha'
-#    #vals = '16'
-#  []
-#[]
+[Functions]
+  [alpha]
+    type = ParsedFunction
+    value = 1.0/25*x
+    vars = alpha
+    vals = '16'
+  []
+[]
 
 [Kernels]
   [mixture-convection]
@@ -93,32 +93,33 @@ exit_V = 1e-2
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
   []
-  [mixture-artificial-viscosity]
-    type = ArtificialViscosity
-    variable = mixtureVelocity
-    viscosity = ${replace artificial_viscosity}
-  []
-  [vapor-convection]
-    type = VaporConvection
-    variable = vaporFraction     
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-driftflux-diffusion]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction 
-    diffCoeff = ${replace diff_coeff}
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-mass-transfer-source]
-    type = VaporMassTransferSource
-    variable = vaporFraction     # add to produced quantity
-    sourceS = ${replace source_s}
-  []
+#  [mixture-artificial-viscosity]
+#    type = ArtificialViscosity
+#    variable = mixtureVelocity
+#    viscosity = ${replace artificial_viscosity}
+#  []
+#  [vapor-convection]
+#    type = VaporConvection
+#    variable = vaporFraction     
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
+#  [vapor-driftflux-diffusion]
+#    type = VaporDriftFluxDiffusion
+#    variable = vaporFraction 
+#    diffCoeff = ${replace diff_coeff}
+#    rhoV = ${replace rho_v}
+#    rhoL = ${replace rho_l}
+#    velocity = mixtureVelocity
+#  []
+#  [vapor-mass-transfer-source]
+#    type = VaporMassTransferSource
+#    variable = vaporFraction     # add to produced quantity
+#    sourceS = ${replace source_s}
+# []
 []
+
 
 [BCs]
   [entry-mixture-velocity]
