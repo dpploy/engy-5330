@@ -1,0 +1,272 @@
+# Engy-5310 Problem: Poisson 2D FEM
+# UMass Lowell Nuclear Chemical Engineering
+# Prof. Valmor F. de Almeida
+# 25Apr21 19:25:00
+
+# Parameters
+xmin = 0 #m
+xmax = 0.1 #m
+x_interface = 0.014
+ymin = 0 #m
+ymax = 12 #m
+therm_cond_fuel = 80 #w/m-k
+therm_cond_salt = 60
+source_s = 0 # no source
+u_left = 600 # initial temp of 600 k
+ConvectionCoeff = 605
+
+# calculate exterior heat transfer coefficient
+#t_high = 700 + 373.15
+#t_low = 600 + 373.15
+#rho_high = 2413 - 0.488 * t_high # Janz et al. [1974], Janz [1988]
+#rho_low = 2413 - 0.488 * t_low
+#mu_high = 0.000116 * exp(3755/t_high) # Williams et al. [2006]
+#mu_low = 0.000116 * exp(3755/t_low)
+#c_high = 2416 # j/kg-k
+#c_low = 2416
+#k_high = 0.629697 + 0.0005 * t_high #Ignat'ev [2006], Williams [2006] and Allen [2010] et. al
+#k_low = 0.629697 + 0.0005 * t_low
+#D_h = 2 * xmax
+#v = 2 #m/s
+#Re_high = (rho_high * v * D_h) / mu_high
+#Re_low = (rho_low * v * D_h) / mu_low
+#Pr_high = (mu_high * c_high) / k_high
+#Pr_low = (mu_low * c_low) / k_low
+#Re_ave = (Re_high + Re_low) / 2
+#Pr_ave = (Pr_high + Pr_low) / 2
+#Nu = 0.023 * Re_ave ** 0.8 * Pr_ave ** 0.4
+#convectionCoef = Nu * (0.5 * therm_cond_fuel / ymax)
+
+[Problem]
+  type = FEProblem
+  coord_type = RZ
+  rz_coord_axis = Y
+[]
+
+[Mesh]
+  [omega-mesh-2d]
+    type = GeneratedMeshGenerator
+    dim = 2
+    xmin = ${replace xmin}
+    xmax = ${replace xmax}
+    ymin = ${replace ymin}
+    ymax = ${replace ymax}
+    nx = 25
+    ny = 225
+  []
+  [mod1]
+    type = SubdomainBoundingBoxGenerator
+    input = omega-mesh-2d
+    block_id = 1
+    block_name = omega_1
+    bottom_left = '${replace xmin} ${replace ymin} 0'
+    top_right = '${replace x_interface} ${replace ymax} 0'
+  []
+  [mod2]
+   type = SubdomainBoundingBoxGenerator
+   input = mod1
+   block_id = 2
+   block_name = omega_2
+   bottom_left = '${replace x_interface} ${replace ymin} 0'
+   top_right = '${replace xmax} ${replace ymax} 0'
+  []
+  [mod3]
+   type = SideSetsBetweenSubdomainsGenerator
+   input = mod2
+   primary_block = omega_1
+   paired_block = omega_2
+   new_boundary = interface_12
+  []
+
+  [mod4]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod3
+    block = omega_1
+    normal = '-1 0 0'
+    new_boundary = omega_1_left
+  []
+
+  [mod5]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod4
+    block = omega_1
+    normal = '0 1 0'
+    new_boundary = omega_1_top
+  []
+
+  [mod6]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod5
+    block = omega_1
+    normal = '0 -1 0'
+    new_boundary = omega_1_bottom
+  []
+
+  [mod7]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod6
+    block = omega_2
+    normal = '1 0 0'
+    new_boundary = omega_2_right
+  []
+
+  [mod8]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod7
+    block = omega_2
+    normal = '0 1 0'
+    new_boundary = omega_2_top
+  []
+
+  [mod9]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod8
+    block = omega_2
+    normal = '0 -1 0'
+    new_boundary = omega_2_bottom
+  []
+[]
+
+[Variables]
+  [T1]
+    order = first
+    family = lagrange
+    initial_condition = ${fparse (u_left)/1}
+  []
+  [T2]
+    order = first
+    family = lagrange
+    initial_condition = ${fparse (u_left/1)}
+  []
+[]
+
+[Kernels]
+  [heat-conduction-salt]
+    type = HeatConduction
+    variable = T1     
+    thermCond = ${replace therm_cond_fuel}
+  []
+  [heat-conduction-fuel]
+    type = HeatConduction
+    variable = T2
+    thermCond = ${replace therm_cond_salt}
+  []
+[]
+[InterfaceKernels]
+   [convection]
+    type = InterfaceConvection
+    variable = T1
+    neighbor_var = T2
+    boundary = interface_12
+    convectionCoeff = ${replace ConvectionCoeff}
+    conductivity = ${replace therm_cond_fuel}
+    neighborConductivity = ${replace therm_cond_salt}
+   []
+   [normal-flux]
+    type = InterfaceFlux
+    variable = T1
+    neighbor_var = T2
+    boundary = inteface_12
+    conductivity = ${replace therm_cond_fuel}
+    neighborConductivity = ${replace therm_cond_salt}
+   []
+[]
+[BCs]
+  [east]
+    type = NormalFluxBC
+    variable = T1
+    boundary = omega_1_left
+    convectionCoeff = 250
+    zmax = ${replace ymax}
+    function = 'z'
+  []
+  [west]
+    type = NeumannBC
+    variable = T2
+    boundary = omega_2_right
+    value = -250
+  []
+  [south-left]
+    type = DirichletBC
+    variable = T1
+    boundary = omega_1_bottom
+    value = 600
+  []
+  [south-right]
+    type = DirichletBC
+    variable = T2
+    boundary = omega_2_bottom
+    value = 600
+  []
+  [north-left]
+   type = NeumannBC
+   variable = T1
+   boundary = omega_1_top
+   value = 0
+  []
+  [north-right]
+   type = NeumannBC
+   variable = T2
+   boundary = omega_2_top
+   value = 0
+  []
+[]
+
+[Preconditioning]
+  active = 'fdp-newt-full'
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = 'NEWTON'
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err'
+    petsc_options_value = 'lu 9.9999999e-07'
+  []
+[]
+[Executioner]
+  type = Steady
+  #solve_type = 'PJFNK'
+  #petsc_options_iname = '-pc_type -pc_hypre_type'
+  #petsc_options_value = 'hypre boomeramg'
+[]
+
+[VectorPostprocessors]
+  [x-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T1'    # output data
+    start_point = '${replace xmin} ${fparse (ymax+ymin)/2} 0'
+    end_point = '${replace x_interface} ${fparse (ymax+ymin)/2} 0'
+    num_points = 20
+    sort_by = id
+  []
+  [y-line]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'T1'    # output data
+    start_point = '${fparse (x_interface+xmin)/2} ${replace ymin} 0'
+    end_point = '${fparse (x_interface+xmin)/2} ${replace ymax} 0'
+    num_points = 20
+    sort_by = id
+  []
+[]
+
+[Outputs]
+  console = true
+  [vtk]
+    type = VTK
+    execute_on = final
+    file_base = out
+  []
+  [x]
+    type = CSV
+    execute_on = 'final'
+    show = 'x-line'
+    file_base = out-x
+  []
+  [y]
+    type = CSV
+    execute_on = 'final'
+    show = 'y-line'
+    file_base = out-y
+  []
+[]
