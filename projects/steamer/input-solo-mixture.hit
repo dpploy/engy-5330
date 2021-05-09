@@ -1,4 +1,3 @@
-
 # Engy-5310 Project: Steamer
 # UMass Lowell Nuclear Chemical Engineering
 # Nikolaus R. Kemper and Jack J. F. Kennedy
@@ -8,16 +7,11 @@
 # Parameters
 xmin = 0.00000e+00  # [m]
 xmax = 2.50000e+01  # [m]
-diff_coeff = 2.00000e-9 # [m-2/s]
-artificial_viscosity = 1e-7 # [unit] Artificial term to "smooth" boundary layer effects
-source_s = .2 # [kg/s] Rate of mass transfer to vapor phase i.e rate of vaporization
 rho_l = 1000.0000 # [kg/m^3]
 rho_v = 1.00000   # [kg/m^3]
-mixture_velocity_left = 0.1 # [m/s] Initial value
-vapor_fraction_left = 0  # Initial value
-pts = 101
-
-exit_V = 1e-2
+mixture_velocity_left = 0.9367 # [m/s]
+vapor_fraction_left = 0.0  # []
+artificial_viscosity = 5e-1 # [unit] Artificial term to "smooth" boundary layer effects
 
 [Mesh]
   [1d]
@@ -25,7 +19,7 @@ exit_V = 1e-2
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 100
+    nx = 200
     #elem_type = edge3
   []
 []
@@ -38,52 +32,23 @@ exit_V = 1e-2
     [InitialCondition]
       type = InitialGuess
       bias = ${replace mixture_velocity_left}
-      coefficient = 100
-    []
-  []
-  [vaporFraction]
-    order = first
-    family = lagrange
-    #initial_condition = 0.5
-    [InitialCondition]
-      type = InitialGuess
-      bias = 0.9
       coefficient = 0
     []
   []
 []
 
 # Tests
-#[AuxVariables]
-#  [vaporFraction]
-#    order = first
-#    family = lagrange
-#    [InitialCondition]
-#      type = InitialGuess
-#      coefficient = ${fparse 1/100}
-#      bias = 0
-#    []
-#  []
-#  [mixtureVelocity]
-#    order = first
-#    family = lagrange
-#    [InitialCondition]
-#      type = InitialGuess
-#      #coefficient = ${fparse 9/10}
-#      coefficient = ${fparse 0}
-#      bias = ${replace mixture_velocity_left}
-#    []
-#  []
-#[]
-
-#[Functions]
-#  [alpha]
-#    type = ParsedFunction
-#    value = 1.0/10 * x
-#    #vars = 'alpha'
-#    #vals = '16'
-#  []
-#[]
+[AuxVariables]
+  [vaporFraction]
+    order = first
+    family = lagrange
+    [InitialCondition]
+      type = InitialGuess
+      coefficient = ${fparse 1/xmax}
+      bias = 0
+    []
+  []
+[]
 
 [Kernels]
   [mixture-convection]
@@ -98,26 +63,6 @@ exit_V = 1e-2
     variable = mixtureVelocity
     viscosity = ${replace artificial_viscosity}
   []
-  [vapor-convection]
-    type = VaporConvection
-    variable = vaporFraction
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-driftflux-diffusion]
-    type = VaporDriftFluxDiffusion
-    variable = vaporFraction
-    diffCoeff = ${replace diff_coeff}
-    rhoV = ${replace rho_v}
-    rhoL = ${replace rho_l}
-    velocity = mixtureVelocity
-  []
-  [vapor-mass-transfer-source]
-    type = VaporMassTransferSource
-    variable = vaporFraction     # add to produced quantity
-    sourceS = ${replace source_s}
-  []
 []
 
 [BCs]
@@ -131,7 +76,9 @@ exit_V = 1e-2
     type = NeumannBC
     variable = mixtureVelocity
     boundary = right
-    value = ${replace exit_V}
+    value = 0.000843
+    #value = 0.100843
+    #value = 1
   []
   # Test
   #[exit-mixture-velocity]
@@ -140,18 +87,6 @@ exit_V = 1e-2
   #  boundary = right
   #  alpha = 1
   #[]
-  [entry-vapor-fraction]
-    type = DirichletBC
-    variable = vaporFraction
-    boundary = left
-    value = ${replace vapor_fraction_left}
-  []
-  [exit-vapor-fraction]
-    type = NeumannBC
-    variable = vaporFraction
-    boundary = right
-    value = ${fparse vapor_fraction_left}
-  []
 []
 
 [Preconditioning]
@@ -175,7 +110,7 @@ exit_V = 1e-2
     variable = 'mixtureVelocity vaporFraction'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = ${replace pts}
+    num_points = 201
     sort_by = id
   []
 []
