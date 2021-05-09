@@ -6,10 +6,14 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// Engy-5310: Computational Continuum Transport Phenomena
+// UMass Lowell, Nuclear Chemical Engineering
+// https://github.com/dpploy/engy-5310
 
 #include "EquationFluxBC.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", EquationFluxBC);
+registerMooseObject("Engy5310App-FIXME", EquationFluxBC);
 
 defineLegacyParams(EquationFluxBC);
 
@@ -24,8 +28,8 @@ EquationFluxBC::validParams()
   return params;
 }
 
-EquationFluxBC::EquationFluxBC(const InputParameters & parameters)
-  : IntegratedBC(parameters),
+EquationFluxBC::EquationFluxBC(const InputParameters & parameters):
+    IntegratedBC(parameters),
     _param1(getParam<Real>("param1")),
     _param2(getParam<Real>("param2"))
 {

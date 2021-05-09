@@ -29,7 +29,5 @@ protected:
   const Real _rhoV;
   const Real _rhoL;
 
-  // Coupled variables
-  const VariableValue & _velocity;
-  const VariableGradient & _gradVelocity;
+  // No coupled variables
 };

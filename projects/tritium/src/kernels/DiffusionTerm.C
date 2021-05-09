@@ -30,7 +30,7 @@ InputParameters validParams<DiffusionTerm>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($$), with the weak form of $$.");
-  params.addParam<Real>("diffCoeff",1.0,"DiffusionTerm Coefficient");
+  params.addParam<Real>("diffCoeff",0,"DiffusionTerm Coefficient");
   return params;
 }
 	

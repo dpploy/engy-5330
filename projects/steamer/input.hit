@@ -1,17 +1,23 @@
-# Engy-5310 Problem 1: Poisson 1D FEM
+
+# Engy-5310 Project: Steamer
 # UMass Lowell Nuclear Chemical Engineering
 # Prof. Valmor F. de Almeida
-# 29Mar21 20:24:18
+# Sat May  1 12:18:50 PM EST 2021
+#
 
 # Parameters
-xmin = 0.00000e+00
-xmax = 1.00000e+01
-diff_coeff = 1.00000e+01
-source_s = 0.0e-5
-rho_l = 1000.0000
-rho_v = 1.00000
-mixture_velocity_left = 0.9367
-vapor_fraction_left = 0.0
+xmin = 0.00000e+00  # [m]
+xmax = 2.50000e+01  # [m]
+diff_coeff = 2.00000e-9 # [unit]
+artificial_viscosity = 1e-7 # [unit] this should be small enough but not zero
+source_s = .2 # [unit] #no Conv at 125
+rho_l = 1000.0000 # [kg/m^3]
+rho_v = 1.00000   # [kg/m^3]
+mixture_velocity_left = 0.1 # [m/s]
+vapor_fraction_left = 0  # []
+pts = 101
+
+exit_V = 1e-2
 
 [Mesh]
   [1d]
@@ -19,7 +25,8 @@ vapor_fraction_left = 0.0
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 50
+    nx = 100
+    #elem_type = edge3
   []
 []
 
@@ -27,24 +34,72 @@ vapor_fraction_left = 0.0
   [mixtureVelocity]
     order = first
     family = lagrange
-    initial_condition = ${fparse mixture_velocity_left}
+    #initial_condition = ${fparse mixture_velocity_left}
+    [InitialCondition]
+      type = InitialGuess
+      bias = ${replace mixture_velocity_left}
+      coefficient = 100
+    []
   []
   [vaporFraction]
     order = first
     family = lagrange
+    #initial_condition = 0.5
+    [InitialCondition]
+      type = InitialGuess
+      bias = 0.9
+      coefficient = 0
+    []
   []
 []
 
+# Tests
+#[AuxVariables]
+#  [vaporFraction]
+#    order = first
+#    family = lagrange
+#    [InitialCondition]
+#      type = InitialGuess
+#      coefficient = ${fparse 1/100}
+#      bias = 0
+#    []
+#  []
+#  [mixtureVelocity]
+#    order = first
+#    family = lagrange
+#    [InitialCondition]
+#      type = InitialGuess
+#      #coefficient = ${fparse 9/10}
+#      coefficient = ${fparse 0}
+#      bias = ${replace mixture_velocity_left}
+#    []
+#  []
+#[]
+
+#[Functions]
+#  [alpha]
+#    type = ParsedFunction
+#    value = 1.0/10 * x
+#    #vars = 'alpha'
+#    #vals = '16'
+#  []
+#[]
+
 [Kernels]
-  [mixture]
+  [mixture-convection]
     type = MixtureMassBalDivergence
     variable = mixtureVelocity     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
   []
+  [mixture-artificial-viscosity]
+    type = ArtificialViscosity
+    variable = mixtureVelocity
+    viscosity = ${replace artificial_viscosity}
+  []
   [vapor-convection]
-    type = VaporDriftFluxDiffusion
+    type = VaporConvection
     variable = vaporFraction     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
@@ -66,19 +121,32 @@ vapor_fraction_left = 0.0
 []
 
 [BCs]
-  [entry-vapor-fraction]
-    type = DirichletBC
-    variable = vaporFraction
-    boundary = left
-    value = 0.00000e+00
-  []
   [entry-mixture-velocity]
     type = DirichletBC
     variable = mixtureVelocity
     boundary = left
     value = ${fparse mixture_velocity_left}
   []
-  [exit]
+  [exit-mixture-velocity]
+    type = NeumannBC
+    variable = mixtureVelocity
+    boundary = right
+    value = ${replace exit_V}
+  []
+  # Test
+  #[exit-mixture-velocity]
+  #  type = VacuumBC
+  #  variable = mixtureVelocity
+  #  boundary = right
+  #  alpha = 1
+  #[]
+  [entry-vapor-fraction]
+    type = DirichletBC
+    variable = vaporFraction
+    boundary = left
+    value = ${replace vapor_fraction_left}
+  []
+  [exit-vapor-fraction]
     type = NeumannBC
     variable = vaporFraction
     boundary = right
@@ -93,7 +161,7 @@ vapor_fraction_left = 0.0
     full = true
     solve_type = 'NEWTON'
     petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
-    petsc_options_value = 'lu  9.9999999999999995474811182588626e-07               ds'
+    petsc_options_value = 'lu  1e-8          ds'
   []
 []
 [Executioner]
@@ -107,7 +175,7 @@ vapor_fraction_left = 0.0
     variable = 'mixtureVelocity vaporFraction'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = 51
+    num_points = ${replace pts}
     sort_by = id
   []
 []

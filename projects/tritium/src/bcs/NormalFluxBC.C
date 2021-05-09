@@ -34,7 +34,9 @@ NormalFluxBC::NormalFluxBC(const InputParameters & parameters)
 Real
 NormalFluxBC::computeQpResidual()
 {
-  return _transferCoeff * (_u[_qp] - _reference) * _test[_i][_qp];
+
+  return -_transferCoeff * (_u[_qp] - _reference) * _test[_i][_qp];
+
   
 }
 
@@ -42,6 +44,9 @@ Real
 NormalFluxBC::computeQpJacobian()
 {
 
- return _transferCoeff * _phi[_j][_qp] * _test[_i][_qp];
+
+ return -_transferCoeff * _phi[_j][_qp] * _test[_i][_qp];
+
+
   
 }
