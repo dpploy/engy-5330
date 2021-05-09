@@ -6,15 +6,17 @@
 xmin = 1.00000e-01
 xmax = 1.00000e+03
 diff_coeff1 = 2.04000e+00
-diff_coeff2 = 2.04000e+00
+diff_coeff2 = .05000e+00
 diff_coeff3 = 2.04000e+00
 u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
-sigma_a = 0.13
-sigma_s12 = 0.03
-sigma_s13 = 0.01
-sigma_s23 = 0.08
+sigma_r1 = 0.13
+sigma_r2 = 0.08
+sigma_r3 = 0.03
+sigma_s12 = 0.08
+sigma_s13 = 0.05
+sigma_s23 = 0.04
 
 [Problem]
   type = FEProblem
@@ -27,7 +29,7 @@ sigma_s23 = 0.08
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 1000
+    nx = 5000
     elem_type = edge3
   []
 []
@@ -41,12 +43,12 @@ sigma_s23 = 0.08
   [u2]
     order = second
     family = lagrange
-    initial_condition = ${replace u_left}
+    initial_condition = 0.0
   []
   [u3]
     order = second
     family = lagrange
-    initial_condition = ${replace u_left}
+    initial_condition = 0.0
   []
 []
 
@@ -69,24 +71,25 @@ sigma_s23 = 0.08
   [absorption-term-1]
     type = AbsorptionTerm
     variable = u1     # produced quantity
-    sigmaA = ${replace sigma_a}
+    sigmaA = ${replace sigma_r1}
   []
   [absorption-term-2]
     type = AbsorptionTerm
     variable = u2     # produced quantity
-    sigmaA = ${replace sigma_a}
+    sigmaA = ${replace sigma_r2}
   []
   [absorption-term-3]
     type = AbsorptionTerm
     variable = u3     # produced quantity
-    sigmaA = ${replace sigma_a}
+    sigmaA = ${replace sigma_r3}
   []
   [source-term-1]
     type = SourceTerm
     variable = u1
     coupledGroupA = u1
+    sigma_sa = ${fparse -sigma_s12} # Is loss term so negative
     coupledGroupB = u1
-    sigma_sb = -0.03 # Is loss term so negative
+    sigma_sb = ${fparse -sigma_s13} # Is loss term so negative
   []
   [source-term-2]
     type = SourceTerm
@@ -94,15 +97,15 @@ sigma_s23 = 0.08
     coupledGroupA = u1
     sigma_sa = ${replace sigma_s12}
     coupledGroupB = u3
-    sigma_sb = -0.08 # Is loss term so negative
+    sigma_sb = ${fparse -sigma_s23} # Is loss term so negative
   []
   [source-term-3]
     type = SourceTerm
     variable = u3
     coupledGroupA = u1
-    sigma_sa = ${replace sigma_s13}
+    sigma_sa = ${fparse sigma_s13} # Is loss term so negative
     coupledGroupB = u2
-    sigma_sb = ${replace sigma_s23}
+    sigma_sb = ${fparse sigma_s23} # Is loss term so negative
   []
 []
 
