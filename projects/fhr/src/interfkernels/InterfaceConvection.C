@@ -45,7 +45,7 @@ InterfaceConvection::computeQpResidual(Moose::DGResidualType type)
     // Primary residual = h * (u_primary - u_neighbor) + k / T = 0
     // Weak form for primary: (u_primary - k*u_neighbor, test)
     case Moose::Element:
-      r = (_convectionCoeff * (_u[_qp] - _neighbor_value[_qp]) - (- _conductivity * _grad_u[_qp])) * _test[_i][_qp];
+      r = (_convectionCoeff * (_u[_qp] - _neighbor_value[_qp]) + ( _conductivity * _grad_u[_qp])) * _test[_i][_qp];
       //r = (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test[_i][_qp];
       break;
 
@@ -53,7 +53,7 @@ InterfaceConvection::computeQpResidual(Moose::DGResidualType type)
     // negative sign because the integration direction is opposite.
     case Moose::Neighbor:
       //r = - (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test_neighbor[_i][_qp];
-      r = (_convectionCoeff * (_u[_qp] - _neighbor_value[_qp]) - (- _neighborConductivity * _grad_neighbor_value[_qp])) * - _test_neighbor[_i][_qp]; 
+      r = (_convectionCoeff * (_u[_qp] - _neighbor_value[_qp]) + ( _neighborConductivity * _grad_neighbor_value[_qp])) * - _test_neighbor[_i][_qp]; 
       break;
   }
   return r;
@@ -66,10 +66,10 @@ InterfaceConvection::computeQpJacobian(Moose::DGJacobianType type)
   switch (type)
   {
     case Moose::ElementElement:
-      jac = _test[_i][_qp] * (_convectionCoeff * _phi[_j][_qp] - (- _grad_phi[_j][_qp] * _conductivity));
+      jac = _test[_i][_qp] * (_convectionCoeff * _phi[_j][_qp] + ( _grad_phi[_j][_qp] * _conductivity));
       break;
     case Moose::NeighborNeighbor:
-      jac = -_test_neighbor[_i][_qp] * (_convectionCoeff * - _phi_neighbor[_j][_qp] -(- _grad_phi_neighbor[_j][_qp] * _neighborConductivity));
+      jac = -_test_neighbor[_i][_qp] * (_convectionCoeff * - _phi_neighbor[_j][_qp] + (_grad_phi_neighbor[_j][_qp] * _neighborConductivity));
       break;
     case Moose::NeighborElement:
       jac = -_test_neighbor[_i][_qp] * (_convectionCoeff * (_phi[_j][_qp]));//_phi[_j][_qp];
