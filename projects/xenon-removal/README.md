@@ -15,20 +15,18 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/readme-domain.png" title="Pipe Domain"> |
-| <img width="380" src="pics/readme-result.png" title="Pipe Domain"> |
-
-
-|  |
-|:---:|
 | <img width="380" src="pics/pipe_domain.PNG" title="Concentration of Xenon in Salt"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
-
+| <p style="text-align:center;"><b>Pipe Domain.</b></p> |
 
 |  |
 |:---:|
-| <img width="380" src="pics/readme-domain.png" title="Concentration of Xenon in Helium"> |
-| <img width="380" src="pics/readme-result.png" title="Concentration of Xenon in Helium"> |
+| <img width="380" src="pics/xenon_in_salt.PNG" title="Concentration of Xenon in Salt"> |
+| <p style="text-align:center;"><b>Concentration of Xenon in Salt.</b></p> |
+
+|  |
+|:---:|
+| <img width="380" src="pics/xenon_in_helium.PNG" title="Concentration of Xenon in Helium"> |
+| <p style="text-align:center;"><b>Concentration of Xenon in Helium.</b></p> |
 
 
 References:
