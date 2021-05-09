@@ -8,6 +8,10 @@
 //* https://www.gnu.org/licenses/lgpl-2.1.html
 //
 // https://github.com/dpploy/engy-5310
+//
+// Engy-5310: Computational Continuum Transport Phenomena
+// UMass Lowell, Nuclear Chemical Engineering
+// https://github.com/dpploy/engy-5310
 
 #include "FluxComponent.h"
 
