@@ -13,21 +13,22 @@
 
 #pragma once
 
-#include "IntegratedBC.h"
+#include "InterfaceKernel.h"
 
-class EquationFluxBC : public IntegratedBC
+/**
+ * DG kernel for interfacing normal flux between two variables on adjacent blocks
+ */
+class InterfaceNormalFluxContinuity : public InterfaceKernel
 {
 public:
   static InputParameters validParams();
 
-  EquationFluxBC(const InputParameters & parameters);
+  InterfaceNormalFluxContinuity(const InputParameters & parameters);
 
 protected:
-  virtual Real computeQpResidual() override;
-  virtual Real computeQpJacobian() override;
+  virtual Real computeQpResidual(Moose::DGResidualType type) override;
+  virtual Real computeQpJacobian(Moose::DGJacobianType type) override;
 
-private:
-  // Parameters of the flux boundary condition. Rename and/or add parameter names below.
-  Real _param1;
-  Real _param2;
+  Real _diffCoeff;
+  Real _diffCoeffNeighbor;
 };
