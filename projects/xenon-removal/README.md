@@ -22,7 +22,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |  |
 |:---:|
 | <img width="380" src="pics/pipe_domain.PNG" title="Concentration of Xenon in Salt"> |
-| <img width="380" src="pics/pipe_domain.PNG" title="Concentration of Xenon in Salt"> |
+
 
 |  |
 |:---:|
