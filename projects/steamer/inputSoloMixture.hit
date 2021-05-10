@@ -13,7 +13,7 @@ source_s = 1 # [unit]
 rho_l = 1000.0000 # [kg/m^3]
 rho_v = 1.00000   # [kg/m^3]
 mixture_velocity_left = 0.9367 # [m/s]
-vapor_fraction_left = 0.0  # []
+vapor_fraction_left = 0.5  # []
 
 [Mesh]
   [1d]
@@ -56,8 +56,9 @@ vapor_fraction_left = 0.0  # []
     family = lagrange
     [InitialCondition]
       type = InitialGuess
-      coefficient = ${fparse 4/100}
-      bias = 0
+      #coefficient = ${fparse 4/100}
+	  coefficient = 0
+      bias = ${replace vapor_fraction_left}
     []
   []
 #  [mixtureVelocity]
@@ -70,15 +71,6 @@ vapor_fraction_left = 0.0  # []
 #      bias = ${replace mixture_velocity_left}
 #    []
 #  []
-[]
-
-[Functions]
-  [alpha]
-    type = ParsedFunction
-    value = x*6.0/25
-    #vars = 'alpha'
-    #vals = '16'
-  []
 []
 
 [Kernels]
