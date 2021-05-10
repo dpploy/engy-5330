@@ -25,9 +25,11 @@ vapor_fraction_left = 0.1  # []
 []
 
 [Variables]
+
  [vaporFraction]
    order = first
    family = lagrange
+   #initial_condition = 0.5
    [InitialCondition]
      type = InitialGuess
      bias = 0.5
@@ -43,6 +45,7 @@ vapor_fraction_left = 0.1  # []
     family = lagrange
     [InitialCondition]
       type = InitialGuess
+      #coefficient = ${fparse 9/10}
       coefficient = ${fparse 4/100}
       bias = ${replace mixture_velocity_left}
     []
@@ -72,7 +75,7 @@ vapor_fraction_left = 0.1  # []
    type = NeumannBC
    variable = vaporFraction
    boundary = right
-   value = 0
+   value = ${fparse vapor_fraction_left}
  []
 []
 
