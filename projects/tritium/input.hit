@@ -1,11 +1,8 @@
-
 # Tritium Transport: Poisson 2D FEM
 # UMass Lowell Nuclear Chemical Engineering
 # Student :Anthony Bowers
 # Personal Instructor (PI):Dr. Shubash Sharma
 # Date: 5/3/2021
-
-
 
 # Parameters [cm]
 xmin = 0
@@ -23,14 +20,18 @@ flux_exit = 0   # Tritium is completely removed before leaving outflow
 u_inlet = 3.6e-07   #Concentration of Tritium in the bulk fluid at inlet
 velocity = '0.054570811700249126 0 0' #Velocity of fluid taken from RE 10,000 
 flux_center= 0
+<<<<<<< HEAD
+mass_transfer_coeff= 4.27e-06
+ambient_conc = 0
+=======
 Mass_transfer_coeff= 7.592406807894097e-06
 Ambient_conc = 0
+>>>>>>> anthony
 
 [Problem]
   type = FEProblem
-   coord_type = RZ
-   rz_coord_axis = X  #Revolve around the x axis (y is now radius)
-   
+  coord_type = RZ
+  rz_coord_axis = X  #Revolve around the x axis (y is now radius)
 []
 
 [Mesh]
@@ -41,14 +42,10 @@ Ambient_conc = 0
     xmax = ${replace xmax}
     ymin = ${replace ymin}
     ymax = ${replace ymax}
-    
-	
-	
+
 	nx=${replace n_felem_x}
 	ny=${replace n_felem_y}
 	elem_type=${replace mesh_type}
-   
-	
   []
 []
 
@@ -58,18 +55,17 @@ Ambient_conc = 0
     family = lagrange
   []
 []
-[AuxVariables]
-  
-   [diffFluxU_axial]
-    order = FIRST
-    family = MONOMIAL
-	[]
-	[diffFluxU_radius]
-    order = FIRST
-    family = MONOMIAL
-	[]
-[]
 
+[AuxVariables]
+   [diffFluxU_axial]
+     order = FIRST
+     family = MONOMIAL
+   []
+   [diffFluxU_radius]
+     order = FIRST
+     family = MONOMIAL
+   []
+[]
 
 [Kernels]
   [diffusion-term]
@@ -116,8 +112,8 @@ Ambient_conc = 0
  type = NormalFluxBC           # Diffusion of Tritium into SS316 is limited by the mass transfer through pipe
  variable = u
  boundary = top    
- transferCoeff = ${replace Mass_transfer_coeff}			# estimated mass transfer coeff(see Excel Sheet) [cm/s]
- reference = ${replace Ambient_conc}  #inside pipe no tritium (boundary acts as a sink)
+ transferCoeff = ${replace mass_transfer_coeff}			# estimated mass transfer coeff(see Excel Sheet) [cm/s]
+ reference = ${replace ambient_conc}  #inside pipe no tritium (boundary acts as a sink)
  []
  [center]                           #center line of bulk fuel salt
   type = NeumannBC				    #DirichletBc was imposed by the assumption that at tritium is removed in the secondary fluid
@@ -171,7 +167,6 @@ Ambient_conc = 0
    
 []
 
-
 [Outputs]
   console = true
   [tecplot]
@@ -195,6 +190,4 @@ Ambient_conc = 0
     show = 'radial-line'
     file_base = out-radial
   []
-
-  
 []
