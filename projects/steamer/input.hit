@@ -1,23 +1,22 @@
-
 # Engy-5310 Project: Steamer
 # UMass Lowell Nuclear Chemical Engineering
-# Nikolaus R. Kemper and Jack J. F. Kennedy
+# Prof. Valmor F. de Almeida
 # Sat May  1 12:18:50 PM EST 2021
 #
 
 # Parameters
 xmin = 0.00000e+00  # [m]
 xmax = 2.50000e+01  # [m]
-diff_coeff = 2.00000e-9 # [m-2/s]
-artificial_viscosity = 1e-7 # [unit] Artificial term to "smooth" boundary layer effects
-source_s = .2 # [kg/s] Rate of mass transfer to vapor phase i.e rate of vaporization
+diff_coeff = 2.00000e-6 # [unit]
+artificial_viscosity = 1e-7 # [unit] this should be small enough but not zero
+source_s = 1.1 # [unit] #no Conv at 125
 rho_l = 1000.0000 # [kg/m^3]
 rho_v = 1.00000   # [kg/m^3]
-mixture_velocity_left = 0.1 # [m/s] Initial value
-vapor_fraction_left = 0  # Initial value
-pts = 101
+mixture_velocity_left = 0.9376 # [m/s]
+vapor_fraction_left = 0  # []
+pts = 51
+alpha_end=.999
 
-exit_V = 1e-2
 
 [Mesh]
   [1d]
@@ -25,7 +24,7 @@ exit_V = 1e-2
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 100
+    nx = 10000
     #elem_type = edge3
   []
 []
@@ -53,42 +52,10 @@ exit_V = 1e-2
   []
 []
 
-# Tests
-#[AuxVariables]
-#  [vaporFraction]
-#    order = first
-#    family = lagrange
-#    [InitialCondition]
-#      type = InitialGuess
-#      coefficient = ${fparse 1/100}
-#      bias = 0
-#    []
-#  []
-#  [mixtureVelocity]
-#    order = first
-#    family = lagrange
-#    [InitialCondition]
-#      type = InitialGuess
-#      #coefficient = ${fparse 9/10}
-#      coefficient = ${fparse 0}
-#      bias = ${replace mixture_velocity_left}
-#    []
-#  []
-#[]
-
-#[Functions]
-#  [alpha]
-#    type = ParsedFunction
-#    value = 1.0/10 * x
-#    #vars = 'alpha'
-#    #vals = '16'
-#  []
-#[]
-
 [Kernels]
   [mixture-convection]
     type = MixtureMassBalDivergence
-    variable = mixtureVelocity
+    variable = mixtureVelocity     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
     vaporFraction = vaporFraction
@@ -100,14 +67,14 @@ exit_V = 1e-2
   []
   [vapor-convection]
     type = VaporConvection
-    variable = vaporFraction
+    variable = vaporFraction     
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
     velocity = mixtureVelocity
   []
   [vapor-driftflux-diffusion]
     type = VaporDriftFluxDiffusion
-    variable = vaporFraction
+    variable = vaporFraction 
     diffCoeff = ${replace diff_coeff}
     rhoV = ${replace rho_v}
     rhoL = ${replace rho_l}
@@ -131,15 +98,8 @@ exit_V = 1e-2
     type = NeumannBC
     variable = mixtureVelocity
     boundary = right
-    value = ${replace exit_V}
+    value = ${fparse mixture_velocity_left*rho_l*(rho_l-rho_v)/((alpha_end*rho_v+(1-alpha_end)*rho_l)*(alpha_end*rho_v+(1-alpha_end)*rho_l))/xmax*artificial_viscosity}
   []
-  # Test
-  #[exit-mixture-velocity]
-  #  type = VacuumBC
-  #  variable = mixtureVelocity
-  #  boundary = right
-  #  alpha = 1
-  #[]
   [entry-vapor-fraction]
     type = DirichletBC
     variable = vaporFraction
