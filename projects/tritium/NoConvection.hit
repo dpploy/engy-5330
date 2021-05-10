@@ -1,37 +1,33 @@
-# Tritium Transport: Poisson 2D FEM
+
+# Engy-5310 Problem: Poisson 2D FEM
 # UMass Lowell Nuclear Chemical Engineering
-# Student :Anthony Bowers
-# Personal Instructor (PI):Dr. Shubash Sharma
-# Date: 5/3/2021
+# Prof. Valmor F. de Almeida
+# 11Apr21 15:22:32
 
 # Parameters [cm]
 xmin = 0
 xmax = 150 
 ymin = 0
 ymax = 7.5
-diff_coeff =  0.0054570811700249125 #Diffusion of Tritium in Bulk Fluid
+diff_coeff =  .000266493 #Diffusion of Tritium in Bulk Fluid
 source_s = 0
 mesh_type=QUAD9
-n_felem_x=250
-n_felem_y=250
+n_felem_x=50
+n_felem_y=100
 
 degree=Second
 flux_exit = 0   # Tritium is completely removed before leaving outflow
 u_inlet = 3.6e-07   #Concentration of Tritium in the bulk fluid at inlet
-velocity = '0.054570811700249126 0 0' #Velocity of fluid taken from RE 10,000 
+velocity = '0 0 0' #Velocity of fluid taken from RE 10,000 
 flux_center= 0
-<<<<<<< HEAD
-mass_transfer_coeff= 4.27e-06
-ambient_conc = 0
-=======
-Mass_transfer_coeff= 7.592406807894097e-06
+Mass_transfer_coeff= 0.0023462780080220212
 Ambient_conc = 0
->>>>>>> anthony
 
 [Problem]
   type = FEProblem
-  coord_type = RZ
-  rz_coord_axis = X  #Revolve around the x axis (y is now radius)
+   coord_type = RZ
+   rz_coord_axis = X  #Revolve around the x axis (y is now radius)
+   
 []
 
 [Mesh]
@@ -42,10 +38,14 @@ Ambient_conc = 0
     xmax = ${replace xmax}
     ymin = ${replace ymin}
     ymax = ${replace ymax}
-
+    
+	
+	
 	nx=${replace n_felem_x}
 	ny=${replace n_felem_y}
 	elem_type=${replace mesh_type}
+   
+	
   []
 []
 
@@ -55,17 +55,18 @@ Ambient_conc = 0
     family = lagrange
   []
 []
-
 [AuxVariables]
+  
    [diffFluxU_axial]
-     order = FIRST
-     family = MONOMIAL
-   []
-   [diffFluxU_radius]
-     order = FIRST
-     family = MONOMIAL
-   []
+    order = FIRST
+    family = MONOMIAL
+	[]
+	[diffFluxU_radius]
+    order = FIRST
+    family = MONOMIAL
+	[]
 []
+
 
 [Kernels]
   [diffusion-term]
@@ -112,14 +113,14 @@ Ambient_conc = 0
  type = NormalFluxBC           # Diffusion of Tritium into SS316 is limited by the mass transfer through pipe
  variable = u
  boundary = top    
- transferCoeff = ${replace mass_transfer_coeff}			# estimated mass transfer coeff(see Excel Sheet) [cm/s]
- reference = ${replace ambient_conc}  #inside pipe no tritium (boundary acts as a sink)
+ transferCoeff = ${replace Mass_transfer_coeff}			# estimated mass transfer coeff(see Excel Sheet) [cm/s]
+ reference = ${replace Ambient_conc}  #inside pipe no tritium (boundary acts as a sink)
  []
  [center]                           #center line of bulk fuel salt
-  type = NeumannBC				    #DirichletBc was imposed by the assumption that at tritium is removed in the secondary fluid
+  type = DirichletBC				    #DirichletBc was imposed by the assumption that at tritium is removed in the secondary fluid
   variable = u                      # our unknown variable from the [Variables] block
   boundary = bottom
-  value = ${replace flux_center}				
+  value = ${replace u_inlet}				
  []
   
   [outflow]
@@ -129,10 +130,10 @@ Ambient_conc = 0
     value = ${replace flux_exit}
   []
   [inflow]
-    type = DirichletBC
+    type = NeumannBC
     variable = u
     boundary = left
-    value = ${replace u_inlet}
+    value = 0
 
   []
 []
@@ -142,6 +143,7 @@ Ambient_conc = 0
   solve_type = 'PJFNK'
   petsc_options_iname = '-pc_type -pc_hypre_type'
   petsc_options_value = 'hypre boomeramg'
+ 
 []
 
 [VectorPostprocessors]
@@ -161,11 +163,12 @@ Ambient_conc = 0
     variable = 'u diffFluxU_radius'    # output data
     start_point = '${fparse (xmax)} ${replace ymin} 0'
     end_point = '${fparse (xmax)} ${replace ymax} 0'
-    num_points = 51
+    num_points = 50
     sort_by = id
   []
    
 []
+
 
 [Outputs]
   console = true
@@ -176,18 +179,20 @@ Ambient_conc = 0
    [vtk]
     type = VTK
     execute_on = 'final'
-    file_base = out
+    file_base = out-noconvec
   []
   [axial-line]
     type = CSV
     execute_on = 'final'
     show = 'axial-line'
-    file_base = out-axial
+    file_base = out-axial-noconvec
   []
   [radial-line]
     type = CSV
     execute_on = 'final'
     show = 'radial-line'
-    file_base = out-radial
+    file_base = out-radial-noconvec
   []
+
+  
 []
