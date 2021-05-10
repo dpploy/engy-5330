@@ -163,6 +163,7 @@ ConvectionCoeff = 605
     neighborConductivity = ${replace therm_cond_salt}
    []
    [normal-flux]
+    construct_side_list_from_node_list = true
     type = InterfaceFlux
     variable = T1
     neighbor_var = T2

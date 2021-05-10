@@ -10,8 +10,9 @@ ymin = 0 #m
 ymax = 12 #m
 therm_cond_fuel = 80 #w/m-k
 source_s = 0 # no source
-u_left = 600 # initial temp of 600 k
-convectionCoeff = 605
+u_left = 500 # initial temp of 600 k
+ConvectionCoeff = -16563
+InterfaceCoeff = -705
 
 # calculate exterior heat transfer coefficient
 #t_high = 700 + 373.15
@@ -75,27 +76,31 @@ convectionCoeff = 605
     type = NormalFluxBC
     variable = T
     boundary = left
-    convectionCoeff = -45000
+    convectionCoeff = ${replace ConvectionCoeff}
     zmax = ${replace ymax}
     function = 'z'
   []
   [west]
     type = NeumannBC
+    #type = NormalFluxBC
+    #convectionCoeff = ${replace InterfaceCoeff}
+    #zmax = ${replace ymax}
+    #function = 'z'
     variable = T
     boundary = right
-    value = 5
+    value = 0.7
   []
   [south]
-    type = DirichletBC
-    variable = T
-    boundary = bottom
-    value = 600
-  []
-  [north]
     type = NeumannBC
     variable = T
     boundary = top
     value = 0
+  []
+  [north]
+    type = DirichletBC
+    variable = T
+    boundary = bottom
+    value = 600
   []
 []
 

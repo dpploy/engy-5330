@@ -10,8 +10,8 @@ ymin = 0 #m
 ymax = 12 #m
 therm_cond_fuel = 80 #w/m-k
 source_s = 0 # no source
-u_left = 600 # initial temp of 600 k
-convectionCoeff = 605
+u_left = 800 # initial temp of 600 k
+ConvectionCoeff = -16289.00
 
 # calculate exterior heat transfer coefficient
 #t_high = 700 + 373.15
@@ -59,7 +59,7 @@ convectionCoeff = 605
   [T]
     order = first
     family = lagrange
-    initial_condition = ${fparse (u_left)/1}
+    #initial_condition = ${fparse (u_left)/1}
   []
 []
 
@@ -71,13 +71,13 @@ convectionCoeff = 605
     heatCapacity = 2
     velocity = '0'
     radius = 0.1
-    n = 2
+    n = 10.768
     vmax = 2
   []
   [heat-conduction-salt]
     type = HeatConduction
     variable = T
-    thermCond = 1
+    thermCond = 80
   []
 []
 
@@ -87,6 +87,8 @@ convectionCoeff = 605
     type = NeumannBC
     variable = T
     boundary = left
+    #convectionCoeff = ${replace ConvectionCoeff}
+    #function = 'z' 
     value = -5
   []
   [west]
