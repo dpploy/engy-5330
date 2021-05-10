@@ -18,11 +18,11 @@ n_felem_y=250
 degree=Second
 flux_exit = 0   # Tritium is completely removed before leaving outflow
 u_inlet = 3.6e-07   #Concentration of Tritium in the bulk fluid at inlet
-velocity = '0.0054570811700249125 0 0' #Velocity of fluid taken from RE 10,000 
+velocity = '0.00545 0 0' #Velocity of fluid taken from RE 10,000 
 flux_center= 0
 ambient_conc = 0
-Mass_transfer_coeff= 7.592406807894097e-06
-Ambient_conc = 0
+mass_transfer_coeff= 7.592e-06
+
 
 
 [Problem]
