@@ -15,7 +15,7 @@ ymax = 7.5
 diff_coeff =  .000266493 #Diffusion of Tritium in Bulk Fluid
 source_s = 0
 mesh_type=QUAD9
-n_felem_x=1
+n_felem_x=100
 n_felem_y=250
 
 degree=Second
@@ -141,12 +141,23 @@ Ambient_conc = 0
   []
 []
 
+
+[Preconditioning]
+ active = 'fdp-newt-full'
+ [fdp-newt-full]
+  type = FDP
+  full = true
+  solve_type = 'NEWTON'
+  petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+  petsc_options_value = 'lu 1e-8     ds'
+
+	[]
+ []
+ 
 [Executioner]
-  type = Steady
-  solve_type = 'PJFNK'
-  petsc_options_iname = '-pc_type -pc_hypre_type'
-  petsc_options_value = 'hypre boomeramg'
+ type = Steady
 []
+
 
 [VectorPostprocessors]
  [axial-line]
