@@ -24,7 +24,7 @@ InputParameters validParams<SourceTerm>()
   return params;
 }
 
-SourceTerm::SourceTerm(const InputParameters & parameters): 
+SourceTerm::SourceTerm(const InputParameters & parameters):
     Kernel(parameters),
     _coupledGroupA(coupledValue("coupledGroupA")),
     _coupledGroupB(coupledValue("coupledGroupB")),

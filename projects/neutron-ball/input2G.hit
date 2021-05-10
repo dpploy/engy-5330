@@ -1,16 +1,23 @@
 # Engy-5310 Problem 1: Poisson 1D FEM Neutron Diffusion Equation
-# UMass Lowell Nuclear Chemical Engineering
+# UMass Lowell Energy Engineering
 # Paul Johnson
 
 # Parameters
 xmin = 1.00000e-01
 xmax = 1.00000e+03
-diff_coeff = 2.04000e+00
+diff_coeff1 = 5.95
+diff_coeff2 = 0.37000e+00
+diff_coeff3 = 3.78000e+00
 u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
-sigma_a = 0.13
-sigma_s12 = 0.07
+# transfer_coeff_right = 1/2
+sigma_r1 = 0.13
+sigma_r2 = 0.28
+sigma_r3 = 0.08
+sigma_s12 = 0.1
+sigma_s13 = 0.002
+sigma_s23 = 0.05
 
 [Problem]
   type = FEProblem
@@ -23,47 +30,120 @@ sigma_s12 = 0.07
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 1000
-    elem_type = edge3
+    nx = 5000
+    elem_type = EDGE4
   []
 []
 
 [Variables]
-  [u]
-    order = second
+  [u1]
+    order = third
+    family = lagrange
+    initial_condition = ${replace u_left}
+  []
+  [u2]
+    order = third
+    family = lagrange
+    initial_condition = ${replace u_left}
+  []
+  [u3]
+    order = third
     family = lagrange
     initial_condition = ${replace u_left}
   []
 []
 
 [Kernels]
-  [diffusion-term]
+  [diffusion-term-1]
     type = DiffusionTerm
-    variable = u     # produced quantity
-    diffCoeff = ${replace diff_coeff}
+    variable = u1     # produced quantity
+    diffCoeff = ${replace diff_coeff1}
   []
-  [absorption-term]
+  [diffusion-term-2]
+    type = DiffusionTerm
+    variable = u2     # produced quantity
+    diffCoeff = ${replace diff_coeff2}
+  []
+  [diffusion-term-3]
+    type = DiffusionTerm
+    variable = u3     # produced quantity
+    diffCoeff = ${replace diff_coeff3}
+  []
+  [absorption-term-1]
     type = AbsorptionTerm
-    variable = u     # produced quantity
-    sigmaA = ${replace sigma_a}
+    variable = u1     # produced quantity
+    sigmaA = ${replace sigma_r1}
   []
-  [source-term]
-    variable = u
-    Sigma_s12 = ${replace Sigma_s12}
-    # sourceS = 0
+  [absorption-term-2]
+    type = AbsorptionTerm
+    variable = u2     # produced quantity
+    sigmaA = ${replace sigma_r2}
+  []
+  [absorption-term-3]
+    type = AbsorptionTerm
+    variable = u3     # produced quantity
+    sigmaA = ${replace sigma_r3}
+  []
+  [source-term-1]
+    type = SourceTerm
+    variable = u1
+    coupledGroupA = u1
+    sigma_sa = ${fparse -sigma_s12} # Is loss term so negative
+    coupledGroupB = u1
+    sigma_sb = ${fparse -sigma_s13} # Is loss term so negative
+  []
+  [source-term-2]
+    type = SourceTerm
+    variable = u2
+    coupledGroupA = u1
+    sigma_sa = ${replace sigma_s12}
+    coupledGroupB = u3
+    sigma_sb = ${fparse -sigma_s23} # Is loss term so negative
+  []
+  [source-term-3]
+    type = SourceTerm
+    variable = u3
+    coupledGroupA = u1
+    sigma_sa = ${fparse sigma_s13} # Is loss term so negative
+    coupledGroupB = u2
+    sigma_sb = ${fparse sigma_s23} # Is loss term so negative
   []
 []
 
 [BCs]
-  [entry-u]
+  [entry-u1]
     type = DirichletBC
-    variable = u
+    variable = u1
     boundary = left
     value = ${replace u_left}
   []
-  [exit-u]
+  [exit-u1]
     type = NeumannBC
-    variable = u
+    variable = u1
+    boundary = right
+      value = 0.0
+  []
+  [entry-u2]
+    type = DirichletBC
+    variable = u2
+    boundary = left
+    value = 0
+  []
+  [exit-u2]
+    type = NeumannBC
+    variable = u2
+    boundary = right
+      value = 0.0
+  []
+  [entry-u3]
+    type = DirichletBC
+    variable = u3
+    boundary = left
+    value = 0
+  []
+  [exit-u3]
+    type = NeumannBC
+    variable = u3
     boundary = right
       value = 0.0
   []
@@ -88,10 +168,10 @@ sigma_s12 = 0.07
   [x-data]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'u'    # output data
+    variable = 'u1 u2 u3'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = 6001
+    num_points = 12001
     sort_by = id
   []
 []
@@ -100,7 +180,7 @@ sigma_s12 = 0.07
   console = true
   [file-x-data]
     type = CSV
-    file_base = 'output2G'
+    file_base = 'output1G'
     execute_on = 'final'
     show = 'x-data'
   []

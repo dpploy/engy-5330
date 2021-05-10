@@ -6,17 +6,18 @@
 xmin = 1.00000e-01
 xmax = 1.00000e+03
 diff_coeff1 = 2.04000e+00
-diff_coeff2 = .05000e+00
+diff_coeff2 = 2.04000e+00
 diff_coeff3 = 2.04000e+00
 u_left = 4.17000e+00
 velocity = 2.393E+09
 transfer_coeff_right = velocity/2
+# transfer_coeff_right = 1/2
 sigma_r1 = 0.13
-sigma_r2 = 0.08
-sigma_r3 = 0.03
-sigma_s12 = 0.08
-sigma_s13 = 0.05
-sigma_s23 = 0.04
+sigma_r2 = 0.00
+sigma_r3 = 0.00
+sigma_s12 = 0.00
+sigma_s13 = 0.00
+sigma_s23 = 0.00
 
 [Problem]
   type = FEProblem
@@ -29,24 +30,24 @@ sigma_s23 = 0.04
     dim = 1
     xmin = ${replace xmin}
     xmax = ${replace xmax}
-    nx = 5000
-    elem_type = edge3
+    nx = 3000
+    elem_type = EDGE4
   []
 []
 
 [Variables]
   [u1]
-    order = second
+    order = third
     family = lagrange
     initial_condition = ${replace u_left}
   []
   [u2]
-    order = second
+    order = third
     family = lagrange
     initial_condition = 0.0
   []
   [u3]
-    order = second
+    order = third
     family = lagrange
     initial_condition = 0.0
   []
@@ -170,7 +171,7 @@ sigma_s23 = 0.04
     variable = 'u1 u2 u3'    # output data
     start_point = '${replace xmin} 0 0'
     end_point = '${replace xmax} 0 0'
-    num_points = 6001
+    num_points = 12001
     sort_by = id
   []
 []
