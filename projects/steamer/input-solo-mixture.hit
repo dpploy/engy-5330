@@ -9,7 +9,7 @@ xmin = 0.00000e+00  # [m]
 xmax = 2.50000e+01  # [m]
 rho_l = 1000.0000 # [kg/m^3]
 rho_v = 1.00000   # [kg/m^3]
-mixture_velocity_left = 0.1 # [m/s]
+mixture_velocity_left = 0.9367 # [m/s]
 artificial_viscosity = .05 # [Pa-s] Artificial term to "smooth" boundary layer effects
 alpha_end = .98
 
