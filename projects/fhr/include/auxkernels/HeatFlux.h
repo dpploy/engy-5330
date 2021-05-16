@@ -6,17 +6,24 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//*
+//* Engy-5310: Computational Continuum Transport Phenomena
+//* UMass Lowell, Nuclear Chemical Engineering
+//* https://github.com/dpploy/engy-5310
 
 #pragma once
 
 #include "AuxKernel.h"
 
-class DiffusionFluxComponent : public AuxKernel
+/**
+ * Auxiliary kernel responsible for computing the flux of a variable.
+ */
+class HeatFlux : public VectorAuxKernel
 {
 public:
   static InputParameters validParams();
 
-  DiffusionFluxComponent(const InputParameters & parameters);
+  HeatFlux(const InputParameters & parameters);
 
 protected:
   /**
@@ -24,15 +31,11 @@ protected:
    * every quadrature point.  For Nodal Auxiliary variables those quadrature
    * points coincide with the nodes.
    */
-  virtual Real computeValue() override;
-  
-  /// Will hold 0, 1, or 2 corresponding to x, y, or z.
-  int _component;
+  virtual RealVectorValue computeValue() override;
 
-  /// The derivative of a coupled variable
-  const VariableGradient & _gradVariableName_component;
+  /// The gradient of a coupled variable
+  const VariableGradient & _gradU;
 
   /// Add here other parameters needed
-  Real _param1;
-  Real _param2;
+  Real _thCondCoeff;
 };  
