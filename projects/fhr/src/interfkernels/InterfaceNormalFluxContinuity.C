@@ -25,9 +25,9 @@ InterfaceNormalFluxContinuity::validParams()
 }
 
 InterfaceNormalFluxContinuity::InterfaceNormalFluxContinuity(const InputParameters & parameters):
-    InterfaceKernel(parameters),
-    _thermCond(getParam<Real>("thermCond")),
-    _thermCondNeighbor(getParam<Real>("thermCondNeighbor"))
+  InterfaceKernel(parameters),
+  _thermCond(getParam<Real>("thermCond")),
+  _thermCondNeighbor(getParam<Real>("thermCondNeighbor"))
 {
 }
 
@@ -42,7 +42,7 @@ InterfaceNormalFluxContinuity::computeQpResidual(Moose::DGResidualType type)
   Real qNeighborN = qNeighbor * normalNeighbor;
 
   // While on the neighbor side compute quantities on the primary side
-  RealVectorValue qElement = - _thermCondNeighbor * _grad_u[_qp];
+  RealVectorValue qElement = - _thermCond * _grad_u[_qp];
   RealVectorValue normal = _normals[_qp];
   Real qElementN = qElement * normal;
 

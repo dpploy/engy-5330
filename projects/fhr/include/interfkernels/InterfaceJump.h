@@ -26,6 +26,8 @@ protected:
   virtual Real computeQpResidual(Moose::DGResidualType type) override;
   virtual Real computeQpJacobian(Moose::DGJacobianType type) override;
 
-  /// Jump coefficient
-  Real _kCoeff;
+  /// Model coefficients
+  Real _transferCoeff;
+  Real _adsorptionCoeff;
+  Real _thermCondCoeff;
 };

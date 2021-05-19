@@ -21,33 +21,47 @@ InputParameters
 InterfaceJump::validParams()
 {
   InputParameters params = InterfaceKernel::validParams();
-  params.addRequiredParam<Real>("kCoeff", "Jump coefficient k >= 0");
-  params.addClassDescription("Jump u_primary = k u_neighbor");
+  params.addClassDescription("Wall heat convection transport");
+  params.addRequiredParam<Real>("transferCoeff", "Heat transfer coefficient");
+  params.addRequiredParam<Real>("adsorptionCoeff", "Adsorption coefficient");
+  params.addRequiredParam<Real>("thermCondCoeff", "Primary thermal conductivity coefficient");
   return params;
 }
 
 InterfaceJump::InterfaceJump(const InputParameters & parameters): 
-    InterfaceKernel(parameters), 
-    _kCoeff(getParam<Real>("kCoeff"))
+  InterfaceKernel(parameters), 
+  _transferCoeff(getParam<Real>("transferCoeff")),
+  _adsorptionCoeff(getParam<Real>("adsorptionCoeff")),
+  _thermCondCoeff(getParam<Real>("thermCondCoeff"))
 {
 }
 
 Real
 InterfaceJump::computeQpResidual(Moose::DGResidualType type)
 {
+  Real C = _adsorptionCoeff;
+  Real h = _transferCoeff;
+  Real k = _thermCondCoeff;
+
+  RealVectorValue q_primary = - k * _grad_u[_qp];
+  RealVectorValue normal = _normals[_qp];
+  Real qn_primary = q_primary * normal;
+
   Real r = 0;
   switch (type)
   {
-    // Primary residual = u_primary - k * u_neighbor
-    // Weak form for primary: (u_primary - k*u_neighbor, test)
+    // Primary residual = (1-C) * u_neighbor - u_primary + 1/h * qn_primary
+    // Weak form for primary: ( (1-C) * u_neighbor - u_primary + 1/h * qn_primary, test)
     case Moose::Element:
-      r = (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test[_i][_qp];
+
+      r = ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test[_i][_qp];
       break;
 
-    // Neighbor residual: -(u_primary - k * u_neighbor, test_neighbor),
+    // Neighbor residual: - ((1-C) * u_neighbor - u_primary + 1/h * qn_primary, test_neighbor)
     // negative sign because the integration direction is opposite.
     case Moose::Neighbor:
-      r = - (_u[_qp] - _kCoeff * _neighbor_value[_qp]) * _test_neighbor[_i][_qp];
+
+      r = - ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test_neighbor[_i][_qp];
       break;
   }
   return r;
@@ -63,13 +77,13 @@ InterfaceJump::computeQpJacobian(Moose::DGJacobianType type)
       jac = _test[_i][_qp] * _phi[_j][_qp];
       break;
     case Moose::NeighborNeighbor:
-      jac = -_test_neighbor[_i][_qp] * -_kCoeff * _phi_neighbor[_j][_qp];
+      jac = -_test_neighbor[_i][_qp] * -1 * _phi_neighbor[_j][_qp];
       break;
     case Moose::NeighborElement:
       jac = -_test_neighbor[_i][_qp] * _phi[_j][_qp];
       break;
     case Moose::ElementNeighbor:
-      jac = _test[_i][_qp] * -_kCoeff * _phi_neighbor[_j][_qp];
+      jac = _test[_i][_qp] * 1 * _phi_neighbor[_j][_qp];
       break;
   }
   return jac;
