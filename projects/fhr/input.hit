@@ -4,13 +4,27 @@
   rz_coord_axis = Y
 []
 [Mesh]
-  [omega]
+  [omega1]
     type = GeneratedMeshGenerator
     dim = 1
     xmin = 0
-    xmax = 0.04
-    nx = 25
+    xmax = 0.01
+    nx = 50
     elem_type = edge3
+  []
+  [omega2]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.01
+    xmax = 0.04
+    nx = 100
+    elem_type = edge3
+  []
+  [omega]
+    type = StitchedMeshGenerator
+    inputs = 'omega1 omega2'
+    stitch_boundaries_pairs = 'right left'
+    clear_stitched_boundary_ids = true
   []
   [mod1]
     type = SubdomainBoundingBoxGenerator
@@ -66,84 +80,88 @@
 []
 [AuxVariables]
   [heatFluxCoolant]
+    block = omega_1
     order = first
     family = monomial_vec
   []
   [heatFluxCoolant_r]
+    block = omega_1
     order = first
     family = monomial
   []
   [heatFluxFuel]
+    block = omega_2
     order = first
     family = monomial_vec
   []
   [heatFluxFuel_r]
+    block = omega_2
     order = first
     family = monomial
   []
 []
 [Kernels]
   [heat-conduction-coolant]
-    block = omega_1
     type = HeatConduction
+    block = omega_1
     variable = tempCoolant
     thermCond = 1
   []
   [heat-convection-coolant]
-    block = omega_1
     type = HeatConvection
+    block = omega_1
     variable = tempCoolant
     massDensity = 3500
     heatCapacity = 2400
     velocity = '0 0 1'
   []
   [artificial-sink-coolant]
-    block = omega_1
     type = NuclearHeat
+    block = omega_1
     variable = tempCoolant
     sourceS = -2000000.0
   []
   [heat-conduction-fuel]
-    block = omega_2
     type = HeatConduction
+    block = omega_2
     variable = tempFuel
     thermCond = 250
   []
   [nuclear-heat-fuel]
-    block = omega_2
     type = NuclearHeat
+    block = omega_2
     variable = tempFuel
     sourceS = 10000000.0
   []
 []
 [AuxKernels]
   [heat-flux-coolant]
-    block = omega_1
     type = HeatFlux
+    block = omega_1
     field = tempCoolant
     thCondCoeff = 1
     variable = heatFluxCoolant
     execute_on = timestep_end
   []
   [heat-flux-coolant-r]
-    block = omega_1
     type = VectorVariableComponentAux
+    block = omega_1
     vector_variable = heatFluxCoolant
     component = x
     variable = heatFluxCoolant_r
     execute_on = timestep_end
   []
   [heat-flux-fuel]
-    block = omega_2
     type = HeatFlux
+    block = omega_2
     field = tempFuel
     thCondCoeff = 250
     variable = heatFluxFuel
     execute_on = timestep_end
   []
   [heat-flux-fuel-r]
-    block = omega_2
     type = VectorVariableComponentAux
+    block = omega_2
     vector_variable = heatFluxFuel
     component = x
     variable = heatFluxFuel_r
@@ -152,16 +170,17 @@
 []
 [BCs]
   [center-line]
-    type = DirichletBC
+    type = NeumannBC
     variable = tempCoolant
     boundary = omega_1_left
-    value = 585.15
+    value = 0
   []
   [ro]
-    type = DirichletBC
+    type = NormalHeatFluxBC
     variable = tempFuel
     boundary = omega_2_right
-    value = 400
+    refTempFunc = refTempFunc
+    transferCoeff = 1000
   []
 []
 [Functions]
@@ -172,11 +191,18 @@
     vals = 730.15
   []
 []
+[Preconditioning]
+  active = fdp-newt-full
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = NEWTON
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  1e-8          ds'
+  []
+[]
 [Executioner]
   type = Steady
-  solve_type = PJFNK
-  petsc_options_iname = '-pc_type -pc_hypre_type'
-  petsc_options_value = 'hypre boomeramg'
 []
 [VectorPostprocessors]
   [omega_1]
@@ -184,17 +210,17 @@
     execute_on = 'timestep_end final'
     variable = 'tempCoolant heatFluxCoolant_r'
     start_point = '0 0 0'
-    end_point = '0.0099 0 0'
-    num_points = 21
+    end_point = '0.00995 0 0'
+    num_points = 101
     sort_by = id
   []
   [omega_2]
     type = LineValueSampler
     execute_on = 'timestep_end final'
     variable = 'tempFuel heatFluxFuel_r'
-    start_point = '0.0101 0 0'
+    start_point = '0.01005 0 0'
     end_point = '0.04 0 0'
-    num_points = 31
+    num_points = 201
     sort_by = id
   []
 []
@@ -205,6 +231,9 @@
     file_base = output
     execute_on = final
   []
+[]
+[Debug]
+  show_var_residual_norms = true
 []
 [InterfaceKernels]
   [normal-heat-flux-continuity]
@@ -220,6 +249,8 @@
     variable = tempCoolant
     neighbor_var = tempFuel
     boundary = interface_12
-    kCoeff = 0.5
+    transferCoeff = 1000
+    adsorptionCoeff = 0.0
+    thermCondCoeff = 1
   []
 []
