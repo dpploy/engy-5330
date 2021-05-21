@@ -6,6 +6,10 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//*
+//* Engy-5310: Computational Continuum Transport Phenomena
+//* UMass Lowell, Nuclear Chemical Engineering
+//* https://github.com/dpploy/engy-5310
 
 #pragma once
 
@@ -13,23 +17,20 @@
 
 class Function;
 
-class NormalFluxBC : public IntegratedBC
+class NormalHeatFluxBC : public IntegratedBC
 {
 public:
   static InputParameters validParams();
 
-  NormalFluxBC(const InputParameters & parameters);
+  NormalHeatFluxBC(const InputParameters & parameters);
 
 protected:
   virtual Real computeQpResidual() override;
   virtual Real computeQpJacobian() override;
 
 private:
-  const Function & _func;
 
   // User variables
-  Real _convectionCoeff;
-  Real _bias;
-  Real _zmax;
-
+  const Function & _refTempFunc;
+  Real _transferCoeff;
 };

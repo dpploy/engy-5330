@@ -6,6 +6,10 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//*
+//* Engy-5310: Computational Continuum Transport Phenomena
+//* UMass Lowell, Nuclear Chemical Engineering
+//* https://github.com/dpploy/engy-5310
 
 #include "NuclearHeat.h"
 
@@ -16,12 +20,13 @@ InputParameters validParams<NuclearHeat>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("Nuclear heat source term");
-  params.addParam<Real>("sourceS",1.0,"Nuclear heating power");
+  params.addParam<Real>("sourceS", 1.0, "Nuclear heating power density");
   return params;
 }
 
-NuclearHeat::NuclearHeat(const InputParameters & parameters) : Kernel(parameters),
-    sourceS(getParam<Real>("sourceS"))
+NuclearHeat::NuclearHeat(const InputParameters & parameters): 
+  Kernel(parameters),
+  sourceS(getParam<Real>("sourceS"))
 {
 }
 

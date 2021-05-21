@@ -1,134 +1,256 @@
-# Engy-5310 Problem: Poisson 2D FEM
-# UMass Lowell Nuclear Chemical Engineering
-# Prof. Valmor F. de Almeida
-# 25Apr21 19:25:00
-
-# Parameters
-xmin = 0
-xmax = 0.014
-ymin = 0
-ymax = 12
-therm_cond_fuel = 80
-source_s = 0
-u_left = 600
-
 [Problem]
   type = FEProblem
   coord_type = RZ
   rz_coord_axis = Y
 []
-
 [Mesh]
-  [2d]
+  [omega1]
     type = GeneratedMeshGenerator
-    dim = 2
-    xmin = ${replace xmin}
-    xmax = ${replace xmax}
-    ymin = ${replace ymin}
-    ymax = ${replace ymax}
-    nx = 25
-    ny = 225
+    dim = 1
+    xmin = 0
+    xmax = 0.01
+    nx = 50
+    elem_type = edge3
+  []
+  [omega2]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.01
+    xmax = 0.04
+    nx = 100
+    elem_type = edge3
+  []
+  [omega]
+    type = StitchedMeshGenerator
+    inputs = 'omega1 omega2'
+    stitch_boundaries_pairs = 'right left'
+    clear_stitched_boundary_ids = true
+  []
+  [mod1]
+    type = SubdomainBoundingBoxGenerator
+    input = omega
+    block_id = 1
+    block_name = omega_1
+    bottom_left = '0 0 0'
+    top_right = '0.01 1 0'
+  []
+  [mod2]
+    type = SubdomainBoundingBoxGenerator
+    input = mod1
+    block_id = 2
+    block_name = omega_2
+    bottom_left = '0.01 0 0'
+    top_right = '0.04 1 0'
+  []
+  [mod3]
+    type = SideSetsBetweenSubdomainsGenerator
+    input = mod2
+    primary_block = omega_1
+    paired_block = omega_2
+    new_boundary = interface_12
+  []
+  [mod4]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod3
+    block = omega_1
+    normal = '-1 0 0'
+    new_boundary = omega_1_left
+  []
+  [mod5]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod4
+    block = omega_2
+    normal = '1 0 0'
+    new_boundary = omega_2_right
   []
 []
-
 [Variables]
-  [T]
-    order = first
+  [tempCoolant]
+    block = omega_1
+    order = second
     family = lagrange
-    initial_condition = ${fparse (u_left)/1}
+    initial_condition = 730.15
+  []
+  [tempFuel]
+    block = omega_2
+    order = second
+    family = lagrange
+    initial_condition = 730.15
   []
 []
-
+[AuxVariables]
+  [heatFluxCoolant]
+    block = omega_1
+    order = first
+    family = monomial_vec
+  []
+  [heatFluxCoolant_r]
+    block = omega_1
+    order = first
+    family = monomial
+  []
+  [heatFluxFuel]
+    block = omega_2
+    order = first
+    family = monomial_vec
+  []
+  [heatFluxFuel_r]
+    block = omega_2
+    order = first
+    family = monomial
+  []
+[]
 [Kernels]
-  [heat-conduction-salt]
+  [heat-conduction-coolant]
     type = HeatConduction
-    variable = T     
-    thermCond = ${replace therm_cond_fuel}
+    block = omega_1
+    variable = tempCoolant
+    thermCond = 1
+  []
+  [heat-convection-coolant]
+    type = HeatConvection
+    block = omega_1
+    variable = tempCoolant
+    massDensity = 3500
+    heatCapacity = 2400
+    velocity = '0 0 1'
+  []
+  [artificial-sink-coolant]
+    type = NuclearHeat
+    block = omega_1
+    variable = tempCoolant
+    sourceS = -2000000.0
+  []
+  [heat-conduction-fuel]
+    type = HeatConduction
+    block = omega_2
+    variable = tempFuel
+    thermCond = 250
+  []
+  [nuclear-heat-fuel]
+    type = NuclearHeat
+    block = omega_2
+    variable = tempFuel
+    sourceS = 10000000.0
   []
 []
-
+[AuxKernels]
+  [heat-flux-coolant]
+    type = HeatFlux
+    block = omega_1
+    field = tempCoolant
+    thCondCoeff = 1
+    variable = heatFluxCoolant
+    execute_on = timestep_end
+  []
+  [heat-flux-coolant-r]
+    type = VectorVariableComponentAux
+    block = omega_1
+    vector_variable = heatFluxCoolant
+    component = x
+    variable = heatFluxCoolant_r
+    execute_on = timestep_end
+  []
+  [heat-flux-fuel]
+    type = HeatFlux
+    block = omega_2
+    field = tempFuel
+    thCondCoeff = 250
+    variable = heatFluxFuel
+    execute_on = timestep_end
+  []
+  [heat-flux-fuel-r]
+    type = VectorVariableComponentAux
+    block = omega_2
+    vector_variable = heatFluxFuel
+    component = x
+    variable = heatFluxFuel_r
+    execute_on = timestep_end
+  []
+[]
 [BCs]
-  [east]
+  [center-line]
     type = NeumannBC
-    variable = T
-    boundary = left
-    value = -5
-  []
-  [west]
-    type = NeumannBC
-    variable = T
-    boundary = right
-    value = 5
-  []
-  [south]
-    type = DirichletBC
-    variable = T
-    boundary = bottom
-    value = 600
-  []
-  [north]
-    type = NeumannBC
-    variable = T
-    boundary = top
+    variable = tempCoolant
+    boundary = omega_1_left
     value = 0
   []
+  [ro]
+    type = NormalHeatFluxBC
+    variable = tempFuel
+    boundary = omega_2_right
+    refTempFunc = refTempFunc
+    transferCoeff = 1000
+  []
 []
-
+[Functions]
+  [refTempFunc]
+    type = ParsedFunction
+    value = temp_ref
+    vars = temp_ref
+    vals = 730.15
+  []
+[]
 [Preconditioning]
-  active = 'fdp-newt-full'
+  active = fdp-newt-full
   [fdp-newt-full]
     type = FDP
     full = true
-    solve_type = 'NEWTON'
-    petsc_options_iname = '-pc_type -mat_fd_coloring_err'
-    petsc_options_value = 'lu 9.9999999e-07'
+    solve_type = NEWTON
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  1e-8          ds'
   []
 []
 [Executioner]
   type = Steady
-  #solve_type = 'PJFNK'
-  #petsc_options_iname = '-pc_type -pc_hypre_type'
-  #petsc_options_value = 'hypre boomeramg'
 []
-
 [VectorPostprocessors]
-  [x-line]
+  [omega_1]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'T'    # output data
-    start_point = '${replace xmin} ${fparse (ymax+ymin)/2} 0'
-    end_point = '${replace xmax} ${fparse (ymax+ymin)/2} 0'
-    num_points = 20
+    variable = 'tempCoolant heatFluxCoolant_r'
+    start_point = '0 0 0'
+    end_point = '0.00995 0 0'
+    num_points = 101
     sort_by = id
   []
-  [y-line]
+  [omega_2]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'T'    # output data
-    start_point = '${fparse (xmax+xmin)/2} ${replace ymin} 0'
-    end_point = '${fparse (xmax+xmin)/2} ${replace ymax} 0'
-    num_points = 20
+    variable = 'tempFuel heatFluxFuel_r'
+    start_point = '0.01005 0 0'
+    end_point = '0.04 0 0'
+    num_points = 201
     sort_by = id
   []
 []
-
 [Outputs]
   console = true
-  [vtk]
-    type = VTK
+  [csv]
+    type = CSV
+    file_base = output
     execute_on = final
-    file_base = out
   []
-  [x]
-    type = CSV
-    execute_on = 'final'
-    show = 'x-line'
-    file_base = out-x
+[]
+[Debug]
+  show_var_residual_norms = true
+[]
+[InterfaceKernels]
+  [normal-heat-flux-continuity]
+    type = InterfaceNormalFluxContinuity
+    variable = tempCoolant
+    neighbor_var = tempFuel
+    boundary = interface_12
+    thermCond = 1
+    thermCondNeighbor = 250
   []
-  [y]
-    type = CSV
-    execute_on = 'final'
-    show = 'y-line'
-    file_base = out-y
+  [temperature-jump]
+    type = InterfaceJump
+    variable = tempCoolant
+    neighbor_var = tempFuel
+    boundary = interface_12
+    transferCoeff = 1000
+    adsorptionCoeff = 0.0
+    thermCondCoeff = 1
   []
 []
