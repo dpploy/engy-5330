@@ -6,19 +6,25 @@
 [Mesh]
   [omega1]
     type = GeneratedMeshGenerator
-    dim = 1
+    dim = 2
     xmin = 0
     xmax = 0.01
     nx = 50
-    elem_type = edge3
+    elem_type = quad9
+    ymin = 0.0
+    ymax = 0.1
+    ny = 20
   []
   [omega2]
     type = GeneratedMeshGenerator
-    dim = 1
+    dim = 2
     xmin = 0.01
     xmax = 0.04
     nx = 100
-    elem_type = edge3
+    elem_type = quad9
+    ymin = 0.0
+    ymax = 0.1
+    ny = 20
   []
   [omega]
     type = StitchedMeshGenerator
@@ -63,6 +69,34 @@
     normal = '1 0 0'
     new_boundary = omega_2_right
   []
+  [mod6]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod5
+    block = omega_1
+    normal = '0 -1 0'
+    new_boundary = omega_1_bottom
+  []
+  [mod7]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod6
+    block = omega_1
+    normal = '0 1 0'
+    new_boundary = omega_1_top
+  []
+  [mod8]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod7
+    block = omega_2
+    normal = '0 -1 0'
+    new_boundary = omega_2_bottom
+  []
+  [mod9]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod8
+    block = omega_2
+    normal = '0 1 0'
+    new_boundary = omega_2_top
+  []
 []
 [Variables]
   [tempCoolant]
@@ -99,6 +133,16 @@
     order = first
     family = monomial
   []
+  [heatFluxCoolant_z]
+    block = omega_1
+    order = first
+    family = monomial
+  []
+  [heatFluxFuel_z]
+    block = omega_2
+    order = first
+    family = monomial
+  []
 []
 [Kernels]
   [heat-conduction-coolant]
@@ -113,13 +157,7 @@
     variable = tempCoolant
     massDensity = 3500
     heatCapacity = 2400
-    velocity = '0 0 1'
-  []
-  [artificial-sink-coolant]
-    type = NuclearHeat
-    block = omega_1
-    variable = tempCoolant
-    sourceS = -2000000.0
+    velocity = '0 0.0 0'
   []
   [heat-conduction-fuel]
     type = HeatConduction
@@ -167,6 +205,22 @@
     variable = heatFluxFuel_r
     execute_on = timestep_end
   []
+  [heat-flux-coolant-z]
+    type = VectorVariableComponentAux
+    block = omega_1
+    vector_variable = heatFluxCoolant
+    component = y
+    variable = heatFluxCoolant_z
+    execute_on = timestep_end
+  []
+  [heat-flux-fuel-z]
+    type = VectorVariableComponentAux
+    block = omega_2
+    vector_variable = heatFluxFuel
+    component = y
+    variable = heatFluxFuel_z
+    execute_on = timestep_end
+  []
 []
 [BCs]
   [center-line]
@@ -181,6 +235,24 @@
     boundary = omega_2_right
     refTempFunc = refTempFunc
     transferCoeff = 1000
+  []
+  [coolant-inflow]
+    type = DirichletBC
+    variable = tempCoolant
+    boundary = omega_1_bottom
+    value = 673.15
+  []
+  [coolant-outflow]
+    type = NeumannBC
+    variable = tempCoolant
+    boundary = omega_1_top
+    value = 0
+  []
+  [fuel-bottom-top]
+    type = NeumannBC
+    variable = tempFuel
+    boundary = 'omega_2_bottom omega_2_top'
+    value = 0
   []
 []
 [Functions]
@@ -208,18 +280,18 @@
   [omega_1]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'tempCoolant heatFluxCoolant_r'
-    start_point = '0 0 0'
-    end_point = '0.00995 0 0'
+    variable = 'tempCoolant heatFluxCoolant_r heatFluxCoolant_z'
+    start_point = '0 0.05 0'
+    end_point = '0.00995 0.05 0'
     num_points = 101
     sort_by = id
   []
   [omega_2]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'tempFuel heatFluxFuel_r'
-    start_point = '0.01005 0 0'
-    end_point = '0.04 0 0'
+    variable = 'tempFuel heatFluxFuel_r heatFluxFuel_z'
+    start_point = '0.01005 0.05 0'
+    end_point = '0.04 0.05 0'
     num_points = 201
     sort_by = id
   []
@@ -249,7 +321,7 @@
     variable = tempCoolant
     neighbor_var = tempFuel
     boundary = interface_12
-    transferCoeff = 1000
+    transferCoeff = 1000000000000
     adsorptionCoeff = 0.0
     thermCondCoeff = 1
   []
