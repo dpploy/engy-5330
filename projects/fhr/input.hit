@@ -1,8 +1,8 @@
-[Problem]
-  type = FEProblem
-  coord_type = RZ
-  rz_coord_axis = Y
-[]
+#[Problem]
+#  type = FEProblem
+#  coord_type = RZ
+#  rz_coord_axis = Y
+#[]
 [Mesh]
   [omega1]
     type = GeneratedMeshGenerator
@@ -13,7 +13,7 @@
     elem_type = quad9
     ymin = 0.0
     ymax = 0.1
-    ny = 20
+    ny = 30
   []
   [omega2]
     type = GeneratedMeshGenerator
@@ -24,7 +24,7 @@
     elem_type = quad9
     ymin = 0.0
     ymax = 0.1
-    ny = 20
+    ny = 30
   []
   [omega]
     type = StitchedMeshGenerator
@@ -240,7 +240,7 @@
     type = DirichletBC
     variable = tempCoolant
     boundary = omega_1_bottom
-    value = 673.15
+    value = 623.15
   []
   [coolant-outflow]
     type = NeumannBC
@@ -280,7 +280,7 @@
   [omega_1]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'tempCoolant heatFluxCoolant_r heatFluxCoolant_z'
+    variable = 'tempCoolant heatFluxCoolant_r'
     start_point = '0 0.05 0'
     end_point = '0.00995 0.05 0'
     num_points = 101
@@ -289,7 +289,7 @@
   [omega_2]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'tempFuel heatFluxFuel_r heatFluxFuel_z'
+    variable = 'tempFuel heatFluxFuel_r'
     start_point = '0.01005 0.05 0'
     end_point = '0.04 0.05 0'
     num_points = 201
@@ -302,6 +302,11 @@
     type = CSV
     file_base = output
     execute_on = final
+  []
+  [vtk]
+    type = VTK
+    execute_on = final
+    file_base = out
   []
 []
 [Debug]
@@ -321,7 +326,7 @@
     variable = tempCoolant
     neighbor_var = tempFuel
     boundary = interface_12
-    transferCoeff = 1000000000000
+    transferCoeff = 100
     adsorptionCoeff = 0.0
     thermCondCoeff = 1
   []

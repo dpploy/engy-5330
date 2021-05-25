@@ -54,14 +54,14 @@ InterfaceJump::computeQpResidual(Moose::DGResidualType type)
     // Weak form for primary: ( (1-C) * u_neighbor - u_primary + 1/h * qn_primary, test)
     case Moose::Element:
 
-      r = ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test[_i][_qp];
+      r = - ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test[_i][_qp];
       break;
 
     // Neighbor residual: - ((1-C) * u_neighbor - u_primary + 1/h * qn_primary, test_neighbor)
     // negative sign because the integration direction is opposite.
     case Moose::Neighbor:
 
-      r = - ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test_neighbor[_i][_qp];
+      r = ((1.0-C) * _neighbor_value[_qp] - _u[_qp] + 1.0/h * qn_primary) * _test_neighbor[_i][_qp];
       break;
   }
   return r;
