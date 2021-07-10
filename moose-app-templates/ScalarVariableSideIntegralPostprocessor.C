@@ -6,10 +6,14 @@
 //*
 //* Licensed under LGPL 2.1, please see LICENSE for details
 //* https://www.gnu.org/licenses/lgpl-2.1.html
+//
+// Engy-5310: Computational Continuum Transport Phenomena
+// UMass Lowell, Nuclear Chemical Engineering
+// https://github.com/dpploy/engy-5310
 
 #include "ScalarVariableSideIntegralPostProcessor.h"
 
-registerMooseObject("Engy5310PXApp-FIXME", ScalarVariableSideIntegralPostProcessor);
+registerMooseObject("Engy5310App-FIXME", ScalarVariableSideIntegralPostProcessor);
 
 defineLegacyParams(ScalarVariableSideIntegralPostProcessor);
 
@@ -24,9 +28,8 @@ ScalarVariableSideIntegralPostProcessor::validParams()
   return params;
 }
 
-ScalarVariableSideIntegralPostProcessor::ScalarVariableSideIntegralPostProcessor(
-    const InputParameters & parameters)
-  : SideIntegralPostprocessor(parameters),
+ScalarVariableSideIntegralPostProcessor::ScalarVariableSideIntegralPostProcessor(const InputParameters & parameters):
+    SideIntegralPostprocessor(parameters),
     MooseVariableInterface<Real>(this,
                                  false,
                                  "variable",

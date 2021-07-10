@@ -29,6 +29,6 @@ protected:
   const Real _rhoL;
 
   // Coupled variables
-  const VariableValue & _vaporFraction;
-  const VariableGradient & _gradVaporFraction;
+  const VariableValue & _velocity;
+  const VariableGradient & _gradVelocity;
 };
