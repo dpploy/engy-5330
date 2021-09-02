@@ -6,11 +6,11 @@
 ![Website](https://img.shields.io/website/https/github.com/dpploy/engy-5310.svg)
 [![Size](https://img.shields.io/github/repo-size/dpploy/engy-5310.svg?label=size&style=flat)](https://github.com/dpploy/engy-5310)
 
-   + [University of Massachusetts Lowell](https://www.uml.edu/), Spring 2021
+   + [University of Massachusetts Lowell](https://www.uml.edu/), Fall 2021
    + [Dept. of Chemical Engineering](https://www.uml.edu/Engineering/Chemical/) (Nuclear Energy Program)
    + [Prof. Valmor F. de Almeida](https://www.uml.edu/Engineering/Chemical/faculty/de-Almeida-Valmor.aspx) (valmor_dealmeida@uml.edu)
 
-The goal of this course is to present an unified treatment of continuum transport phenomena using computational finite element methods. Therefore serving as a foundation for simulation of coupled fluid flow (multiphase), thermo-mechanics, heat transfer, radiation, reactive mass transfer and electromagnetics. The computational framework used is open source and based on [MOOSE: Multiphysics Object-Oriented Simulation Environment](https://mooseframework.inl.gov/). Time-dependent, three-dimensional models will be the end-target of this course, therefore necessary topics in parallel computing will be covered. Basic knowledge of transport phenomena is required in addition to computer programming skills of one or more object oriented languages (*e.g.* C++ or/and Python).
+The goal of this course is to present an unified treatment of continuum transport phenomena using computational finite element methods. Therefore serving as a foundation for simulation of coupled fluid flow (multiphase), thermo-mechanics, heat transfer, radiation, reactive mass transfer and electromagnetics. The computational framework used is open source and based on [MOOSE: Multiphysics Object-Oriented Simulation Environment](https://mooseframework.inl.gov/). Steady-state, three-dimensional models will be the end-target of this course, therefore necessary topics in parallel computing will be covered. Basic knowledge of transport phenomena is required in addition to computer programming skills of one or more object oriented languages (*e.g.* C++ or/and Python).
 
 This three-credit lecture course over fifteen weeks, consists of Jupyter notebooks used for lectures (see `notebooks/`).
 
