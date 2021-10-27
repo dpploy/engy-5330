@@ -4,6 +4,8 @@
 *.PNG
 *.svg
 toolkit.py
+moose-toolkit.py
+engy_5310
 *solution*
 *.swp
 p*moose*
