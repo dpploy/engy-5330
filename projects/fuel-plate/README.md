@@ -1,4 +1,4 @@
-# Heated Plate
+# Fuel Plate
 
 UMass Lowell Fall 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
