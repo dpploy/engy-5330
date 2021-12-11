@@ -1,0 +1,103 @@
+[Problem]
+  type = FEProblem
+  coord_type = XYZ
+[]
+[Mesh]
+  [omega]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0
+    xmax = 0.05
+    nx = 1
+    elem_type = edge3
+  []
+[]
+[Variables]
+  [tempPlate]
+    order = second
+    family = lagrange
+    initial_condition = 192.575
+  []
+[]
+[AuxVariables]
+  [heatFluxPlate]
+    order = first
+    family = monomial_vec
+  []
+  [heatFluxPlate_x]
+    order = first
+    family = monomial
+  []
+[]
+[Kernels]
+  [diffusion-term]
+    type = HeatConduction
+    variable = tempPlate
+    thermCond = 6.096
+  []
+  [source-term]
+    type = HeatSource
+    variable = tempPlate
+    sourceS = 56.818
+  []
+[]
+[AuxKernels]
+  [heat-flux-plate]
+    type = HeatFlux
+    field = tempPlate
+    thCondCoeff = 6.096
+    variable = heatFluxPlate
+    execute_on = timestep_end
+  []
+  [heat-flux-plate-x]
+    type = VectorVariableComponentAux
+    vector_variable = heatFluxPlate
+    component = x
+    variable = heatFluxPlate_x
+    execute_on = timestep_end
+  []
+[]
+[BCs]
+  [entry-u]
+    type = NeumannBC
+    variable = tempPlate
+    boundary = left
+    value = 0
+  []
+  [exit-u]
+    type = DirichletBC
+    variable = tempPlate
+    boundary = right
+    value = 385.15
+  []
+[]
+[Executioner]
+  type = Steady
+  solve_type = PJFNK
+  petsc_options_iname = '-pc_type -pc_hypre_type'
+  petsc_options_value = 'hypre boomeramg'
+  l_max_its = 20
+  l_tol = 1e-05
+  nl_max_its = 15
+  nl_rel_tol = 1e-08
+  nl_abs_tol = 1e-08
+[]
+[VectorPostprocessors]
+  [omega]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'tempPlate heatFluxPlate_x'
+    start_point = '0 0 0'
+    end_point = '0.05 0 0'
+    num_points = 20
+    sort_by = id
+  []
+[]
+[Outputs]
+  console = true
+  [csv]
+    type = CSV
+    file_base = output
+    execute_on = final
+  []
+[]
