@@ -8,7 +8,7 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Fheated-plate%2Freport.ipynb)
 
- >[Andrew Hamel](https://github.com/anhamel), and [prof. Sukesh Aghara](url) <br>
+ >[Andrew Hamel](https://github.com/anhamel), [Lohith Annadevula](https://github.com/L-Annadevula), and [prof. Sukesh Aghara](url) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
