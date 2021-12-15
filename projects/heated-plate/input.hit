@@ -223,7 +223,7 @@
     variable = 'tempPlate heatFluxPlate_x'
     start_point = '0.0 0 0'
     end_point = '0.00126365 0 0'
-    num_points = 10
+    num_points = 7
     sort_by = id
   []
   [omega_2]
@@ -232,7 +232,7 @@
     variable = 'tempCoolant heatFluxCoolant_x'
     start_point = '0.0012763499999999999 0 0'
     end_point = '0.00508 0 0'
-    num_points = 10
+    num_points = 21
     sort_by = id
   []
 []
