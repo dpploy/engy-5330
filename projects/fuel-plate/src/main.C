@@ -24,7 +24,7 @@ main(int argc, char * argv[])
   MooseInit init(argc, argv);
 
   // Register this application's MooseApp and any it depends on
-  FuelPlateTestApp::registerApps();
+  FuelPlateApp::registerApps();
 
   // Create an instance of the application and store it in a smart pointer for easy cleanup
   std::shared_ptr<MooseApp> app = AppFactory::createAppShared("FuelPlateApp", argc, argv);
