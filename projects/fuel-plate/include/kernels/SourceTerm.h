@@ -12,12 +12,6 @@
 #include "Kernel.h"
 
 /**
- * The forward declaration is so that we can declare the validParams() function
- * before we actually define the class... that way the definition isn't lost
- * at the bottom of the file.
- */
-
-/**
  * This kernel implements a source function:
  *
  * $S(x) v$
