@@ -1,0 +1,238 @@
+[Problem]
+  type = FEProblem
+  coord_type = XYZ
+[]
+[Mesh]
+  [omega1]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0
+    xmax = 10.0
+    nx = 8
+    elem_type = edge3
+  []
+  [omega2]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 10.0
+    xmax = 100
+    nx = 15
+    elem_type = edge3
+  []
+  [omega]
+    type = StitchedMeshGenerator
+    inputs = 'omega1 omega2'
+    stitch_boundaries_pairs = 'right left'
+    clear_stitched_boundary_ids = true
+  []
+  [mod1]
+    type = SubdomainBoundingBoxGenerator
+    input = omega
+    block_id = 1
+    block_name = omega_1
+    bottom_left = '0 0 0'
+    top_right = '10.0 1 0'
+  []
+  [mod2]
+    type = SubdomainBoundingBoxGenerator
+    input = mod1
+    block_id = 2
+    block_name = omega_2
+    bottom_left = '10.0 0 0'
+    top_right = '100 1 0'
+  []
+  [mod3]
+    type = SideSetsBetweenSubdomainsGenerator
+    input = mod2
+    primary_block = omega_1
+    paired_block = omega_2
+    new_boundary = interface_12
+  []
+  [mod4]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod3
+    block = omega_1
+    normal = '-1 0 0'
+    new_boundary = left
+  []
+  [mod5]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod4
+    block = omega_2
+    normal = '1 0 0'
+    new_boundary = right
+  []
+[]
+[Variables]
+  [uFuel]
+    block = omega_1
+    order = second
+    family = lagrange
+    initial_condition = 10
+  []
+  [uCoolant]
+    block = omega_2
+    order = second
+    family = lagrange
+    initial_condition = 10
+  []
+[]
+[AuxVariables]
+  [diffFluxFuel]
+    block = omega_1
+    order = first
+    family = monomial_vec
+  []
+  [diffFluxFuel_x]
+    block = omega_1
+    order = first
+    family = monomial
+  []
+  [diffFluxCoolant]
+    block = omega_2
+    order = first
+    family = monomial_vec
+  []
+  [diffFluxCoolant_x]
+    block = omega_2
+    order = first
+    family = monomial
+  []
+[]
+[Kernels]
+  [diffusion-fuel]
+    type = DiffusionTerm
+    block = omega_1
+    variable = uFuel
+    diffCoeff = 1.0
+  []
+  [source-fuel]
+    type = SourceTerm
+    block = omega_1
+    variable = uFuel
+    sourceSlope = 0.000412983684
+  []
+  [diffusion-coolant]
+    type = DiffusionTerm
+    block = omega_2
+    variable = uCoolant
+    diffCoeff = 1.0
+  []
+  [source-coolant]
+    type = SourceTerm
+    block = omega_2
+    variable = uCoolant
+    sourceSlope = -0.00011150646347215516
+  []
+[]
+[InterfaceKernels]
+  [normal-flux-continuity]
+    type = InterfaceNormalFluxContinuity
+    variable = uFuel
+    neighbor_var = uCoolant
+    boundary = interface_12
+    diffCoeff = 1.0
+    diffCoeffNeighbor = 1.0
+  []
+  [u-jump]
+    type = InterfaceJump
+    variable = uFuel
+    neighbor_var = uCoolant
+    boundary = interface_12
+    transferCoeff = 10000000000.0
+    adsorptionCoeff = 0.0
+    diffCoeff = 1.0
+  []
+[]
+[AuxKernels]
+  [diffusion-flux-fuel]
+    type = DiffusionFlux
+    block = omega_1
+    field = uFuel
+    diffCoeff = 1.0
+    variable = diffFluxFuel
+    execute_on = timestep_end
+  []
+  [diffusion-flux-fuel-x]
+    type = VectorVariableComponentAux
+    block = omega_1
+    vector_variable = diffFluxFuel
+    component = x
+    variable = diffFluxFuel_x
+    execute_on = timestep_end
+  []
+  [diffusion-flux-coolant]
+    type = DiffusionFlux
+    block = omega_2
+    field = uCoolant
+    diffCoeff = 1.0
+    variable = diffFluxCoolant
+    execute_on = timestep_end
+  []
+  [diffusion-flux-coolant-x]
+    type = VectorVariableComponentAux
+    block = omega_2
+    vector_variable = diffFluxCoolant
+    component = x
+    variable = diffFluxCoolant_x
+    execute_on = timestep_end
+  []
+[]
+[BCs]
+  [center-line]
+    type = NeumannBC
+    variable = uFuel
+    boundary = left
+    value = 0
+  []
+  [x-b]
+    type = NormalFluxBC
+    variable = uCoolant
+    boundary = right
+    transferCoeff = -0.2
+  []
+[]
+[Preconditioning]
+  active = fdp-newt-full
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = NEWTON
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  1e-8          ds'
+  []
+[]
+[Executioner]
+  type = Steady
+[]
+[VectorPostprocessors]
+  [omega_1]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'uFuel diffFluxFuel_x'
+    start_point = '0 0 0'
+    end_point = '9.95 0 0'
+    num_points = 17
+    sort_by = id
+  []
+  [omega_2]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'uCoolant diffFluxCoolant_x'
+    start_point = '10.049999999999999 0 0'
+    end_point = '100 0 0'
+    num_points = 31
+    sort_by = id
+  []
+[]
+[Outputs]
+  console = true
+  [csv]
+    type = CSV
+    file_base = output
+    execute_on = final
+  []
+[]
+[Debug]
+  show_var_residual_norms = true
+[]
