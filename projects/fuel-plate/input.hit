@@ -8,7 +8,7 @@
     dim = 1
     xmin = 0
     xmax = 10.0
-    nx = 3
+    nx = 8
     elem_type = edge3
   []
   [omega2]
@@ -16,7 +16,7 @@
     dim = 1
     xmin = 10.0
     xmax = 100
-    nx = 10
+    nx = 15
     elem_type = edge3
   []
   [omega]
@@ -68,13 +68,13 @@
     block = omega_1
     order = second
     family = lagrange
-    initial_condition = 1
+    initial_condition = 10
   []
   [uCoolant]
     block = omega_2
     order = second
     family = lagrange
-    initial_condition = 1
+    initial_condition = 10
   []
 []
 [AuxVariables]
@@ -186,10 +186,10 @@
     value = 0
   []
   [x-b]
-    type = DirichletBC
+    type = NormalFluxBC
     variable = uCoolant
     boundary = right
-    value = 0
+    transferCoeff = -0.2
   []
 []
 [Preconditioning]
@@ -212,7 +212,7 @@
     variable = 'uFuel diffFluxFuel_x'
     start_point = '0 0 0'
     end_point = '9.95 0 0'
-    num_points = 7
+    num_points = 17
     sort_by = id
   []
   [omega_2]
@@ -221,7 +221,7 @@
     variable = 'uCoolant diffFluxCoolant_x'
     start_point = '10.049999999999999 0 0'
     end_point = '100 0 0'
-    num_points = 21
+    num_points = 31
     sort_by = id
   []
 []
