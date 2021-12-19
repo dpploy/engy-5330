@@ -13,7 +13,7 @@
 
 #include "EquationFluxBC.h"
 
-registerMooseObject("Engy5310P1App", EquationFluxBC);
+registerMooseObject("FIRESBrickApp", EquationFluxBC);
 
 defineLegacyParams(EquationFluxBC);
 

@@ -13,7 +13,7 @@
 
 #include "InterfaceNormalFluxContinuity.h"
 
-registerMooseObject("Engy5310P1App", InterfaceNormalFluxContinuity);
+registerMooseObject("FIRESBrickApp", InterfaceNormalFluxContinuity);
 
 InputParameters
 InterfaceNormalFluxContinuity::validParams()

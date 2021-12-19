@@ -13,7 +13,7 @@
 
 #include "InterfacePartition.h"
 
-registerMooseObject("Engy5310P1App", InterfacePartition);
+registerMooseObject("FIRESBrickApp", InterfacePartition);
 
 defineLegacyParams(InterfacePartition);
 
