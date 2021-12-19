@@ -6,17 +6,17 @@
   [omega1]
     type = GeneratedMeshGenerator
     dim = 1
-    xmin = 0
-    xmax = 10.0
-    nx = 8
+    xmin = 0.0
+    xmax = 0.125
+    nx = 3
     elem_type = edge3
   []
   [omega2]
     type = GeneratedMeshGenerator
     dim = 1
-    xmin = 10.0
-    xmax = 100
-    nx = 15
+    xmin = 0.125
+    xmax = 3.091
+    nx = 12
     elem_type = edge3
   []
   [omega]
@@ -30,16 +30,16 @@
     input = omega
     block_id = 1
     block_name = omega_1
-    bottom_left = '0 0 0'
-    top_right = '10.0 1 0'
+    bottom_left = '0.0 0 0'
+    top_right = '0.125 1 0'
   []
   [mod2]
     type = SubdomainBoundingBoxGenerator
     input = mod1
     block_id = 2
     block_name = omega_2
-    bottom_left = '10.0 0 0'
-    top_right = '100 1 0'
+    bottom_left = '0.125 0 0'
+    top_right = '3.091 1 0'
   []
   [mod3]
     type = SideSetsBetweenSubdomainsGenerator
@@ -70,7 +70,7 @@
     family = lagrange
     initial_condition = 10
   []
-  [uCoolant]
+  [uReflector]
     block = omega_2
     order = second
     family = lagrange
@@ -88,12 +88,12 @@
     order = first
     family = monomial
   []
-  [diffFluxCoolant]
+  [diffFluxReflector]
     block = omega_2
     order = first
     family = monomial_vec
   []
-  [diffFluxCoolant_x]
+  [diffFluxReflector_x]
     block = omega_2
     order = first
     family = monomial
@@ -110,26 +110,26 @@
     type = SourceTerm
     block = omega_1
     variable = uFuel
-    sourceSlope = 0.000412983684
+    sourceSlope = 115.27923924670651
   []
-  [diffusion-coolant]
+  [diffusion-reflector]
     type = DiffusionTerm
     block = omega_2
-    variable = uCoolant
+    variable = uReflector
     diffCoeff = 1.0
   []
-  [source-coolant]
+  [source-reflector]
     type = SourceTerm
     block = omega_2
-    variable = uCoolant
-    sourceSlope = -0.00011150646347215516
+    variable = uReflector
+    sourceSlope = -1.1150646347215516
   []
 []
 [InterfaceKernels]
   [normal-flux-continuity]
     type = InterfaceNormalFluxContinuity
     variable = uFuel
-    neighbor_var = uCoolant
+    neighbor_var = uReflector
     boundary = interface_12
     diffCoeff = 1.0
     diffCoeffNeighbor = 1.0
@@ -137,7 +137,7 @@
   [u-jump]
     type = InterfaceJump
     variable = uFuel
-    neighbor_var = uCoolant
+    neighbor_var = uReflector
     boundary = interface_12
     transferCoeff = 10000000000.0
     adsorptionCoeff = 0.0
@@ -161,20 +161,20 @@
     variable = diffFluxFuel_x
     execute_on = timestep_end
   []
-  [diffusion-flux-coolant]
+  [diffusion-flux-reflector]
     type = DiffusionFlux
     block = omega_2
-    field = uCoolant
+    field = uReflector
     diffCoeff = 1.0
-    variable = diffFluxCoolant
+    variable = diffFluxReflector
     execute_on = timestep_end
   []
-  [diffusion-flux-coolant-x]
+  [diffusion-flux-reflector-x]
     type = VectorVariableComponentAux
     block = omega_2
-    vector_variable = diffFluxCoolant
+    vector_variable = diffFluxReflector
     component = x
-    variable = diffFluxCoolant_x
+    variable = diffFluxReflector_x
     execute_on = timestep_end
   []
 []
@@ -186,10 +186,10 @@
     value = 0
   []
   [x-b]
-    type = NormalFluxBC
-    variable = uCoolant
+    type = DirichletBC
     boundary = right
-    transferCoeff = -0.2
+    value = 9.999999999999999e-09
+    variable = uReflector
   []
 []
 [Preconditioning]
@@ -210,18 +210,18 @@
     type = LineValueSampler
     execute_on = 'timestep_end final'
     variable = 'uFuel diffFluxFuel_x'
-    start_point = '0 0 0'
-    end_point = '9.95 0 0'
-    num_points = 17
+    start_point = '0.0 0 0'
+    end_point = '0.124375 0 0'
+    num_points = 7
     sort_by = id
   []
   [omega_2]
     type = LineValueSampler
     execute_on = 'timestep_end final'
-    variable = 'uCoolant diffFluxCoolant_x'
-    start_point = '10.049999999999999 0 0'
-    end_point = '100 0 0'
-    num_points = 31
+    variable = 'uReflector diffFluxReflector_x'
+    start_point = '0.125625 0 0'
+    end_point = '3.091 0 0'
+    num_points = 25
     sort_by = id
   []
 []
