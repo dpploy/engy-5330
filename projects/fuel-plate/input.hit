@@ -8,7 +8,7 @@
     dim = 1
     xmin = 0.0
     xmax = 0.125
-    nx = 5
+    nx = 3
     elem_type = edge3
   []
   [omega2]
@@ -16,7 +16,7 @@
     dim = 1
     xmin = 0.125
     xmax = 3.091
-    nx = 6
+    nx = 12
     elem_type = edge3
   []
   [omega]
@@ -212,7 +212,7 @@
     variable = 'uFuel diffFluxFuel_x'
     start_point = '0.0 0 0'
     end_point = '0.124375 0 0'
-    num_points = 11
+    num_points = 7
     sort_by = id
   []
   [omega_2]
@@ -221,7 +221,7 @@
     variable = 'uReflector diffFluxReflector_x'
     start_point = '0.125625 0 0'
     end_point = '3.091 0 0'
-    num_points = 13
+    num_points = 25
     sort_by = id
   []
 []
