@@ -28,8 +28,15 @@
   [source-term]
     type = SourceTerm
     variable = u
-    sourceS = 97902.44
-    coupledVariable = u
+    sourceSFunc = sourceSFunc
+  []
+[]
+[Functions]
+  [sourceSFunc]
+    type = ParsedFunction
+    value = 'a*x + b'
+    vars = 'a  b'
+    vals = '185543  156940'
   []
 []
 [AuxVariables]
@@ -63,17 +70,15 @@
     type = NormalHeatFluxBC
     variable = u
     boundary = left
-    bias = 0
     transferCoeff = -10
-    refTempFunc = 20
+    refTemp = 20
   []
   [exit-u]
     type = NormalHeatFluxBC
     variable = u
     boundary = right
-    bias = 0
     transferCoeff = -10
-    refTempFunc = 40
+    refTemp = 40
   []
 []
 [Executioner]
