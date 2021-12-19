@@ -14,7 +14,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/HeatedPlate.png" title="My result"> |
+| <img width="380" src="HeatedPlate.png" title="My result"> |
 | <p style="text-align:center;"><b>Heat transfer between a heated plate, a fluid channel, and an unheated plate.</b></p> |
 
 
