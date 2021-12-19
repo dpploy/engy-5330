@@ -19,7 +19,7 @@
  * script with an "App" suffix. If you ran "stork.sh Example", then the argument here 
  * becomes "ExampleApp". The second argument is the name of the C++ class you created.
  */
-registerMooseObject("Engy5310P1App", SourceTerm);
+registerMooseObject("FIRESBrickApp", SourceTerm);
 
 /**
  * This function defines the valid parameters for

@@ -15,7 +15,7 @@
 
 #include "FluxComponent.h"
 
-registerMooseObject("Engy5310P1App", FluxComponent);
+registerMooseObject("FIRESBrickApp", FluxComponent);
 
 defineLegacyParams(FluxComponent);
 

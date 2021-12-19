@@ -14,7 +14,7 @@
 #include "NormalHeatFluxBC.h"
 #include "Function.h"
 
-registerMooseObject("Engy5310P1App", NormalHeatFluxBC);
+registerMooseObject("FIRESBrickApp", NormalHeatFluxBC);
 
 defineLegacyParams(NormalHeatFluxBC);
 

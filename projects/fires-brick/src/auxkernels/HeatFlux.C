@@ -13,7 +13,7 @@
 
 #include "HeatFlux.h"
 
-registerMooseObject("Engy5310P1App", HeatFlux);
+registerMooseObject("FIRESBrickApp", HeatFlux);
 
 InputParameters
 HeatFlux::validParams()
