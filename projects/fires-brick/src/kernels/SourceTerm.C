@@ -12,6 +12,7 @@
 // https://github.com/dpploy/engy-5310
 
 #include "SourceTerm.h"
+#include "Function.h"
 
 /**
  * All MOOSE based object classes you create must be registered using this macro. 
@@ -30,22 +31,21 @@ InputParameters validParams<SourceTerm>()
 {
   InputParameters params = validParams<Kernel>();
   params.addClassDescription("The equation term ($...$), with the weak form of $...$.");
-  params.addParam<Real>("sourceS",1.0,"Equation Term Coefficient");
+  params.addRequiredParam<FunctionName>("sourceSFunc", "Profile function");
   return params;
 }
 
 SourceTerm::SourceTerm(const InputParameters & parameters) : Kernel(parameters),
-    // Set the coefficient for the equation term
-    _sourceS(getParam<Real>("sourceS"))
+    // Set the coefficient for the equation 
+    _sourceSFunc(getFunction("sourceSFunc"))
 {
 }
 
 Real
 SourceTerm::computeQpResidual()
 {
-  
-return _sourceS * _test[_i][_qp];
-
+  Real sourceS = _sourceSFunc.value(_t, _q_point[_qp]);
+  return sourceS * _test[_i][_qp];
 }
 
 Real

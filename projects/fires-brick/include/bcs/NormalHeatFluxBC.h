@@ -15,8 +15,6 @@
 
 #include "IntegratedBC.h"
 
-class Function;
-
 class NormalHeatFluxBC : public IntegratedBC
 {
 public:
@@ -31,6 +29,6 @@ protected:
 private:
 
   // User variables
-  const Function & _refTempFunc;
+  Real _refTemp;
   Real _transferCoeff;
 };

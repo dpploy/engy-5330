@@ -13,6 +13,8 @@
 
 #include "Kernel.h"
 
+class Function;
+
 class SourceTerm : public Kernel
 {
 public:
@@ -26,6 +28,6 @@ protected:
   /// Jacobian diagonal
   virtual Real computeQpJacobian() override;
 
-  /// User variables e.g.
-  const Real _sourceS;
+  /// User variables
+  const Function & _sourceSFunc;
 };

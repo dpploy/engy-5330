@@ -12,7 +12,6 @@
 //* https://github.com/dpploy/engy-5310
 
 #include "NormalHeatFluxBC.h"
-#include "Function.h"
 
 registerMooseObject("FIRESBrickApp", NormalHeatFluxBC);
 
@@ -23,14 +22,14 @@ NormalHeatFluxBC::validParams()
 {
   InputParameters params = IntegratedBC::validParams();
   params.addClassDescription("Robin type heat normal flux boundary condition.");
-  params.addRequiredParam<FunctionName>("refTempFunc", "Profile function");
   params.addParam<Real>("transferCoeff", 0.0, "Heat transfer coefficient");
+  params.addParam<Real>("refTemp", 0.0, "Reference temperature");
   return params;
 }
 
 NormalHeatFluxBC::NormalHeatFluxBC(const InputParameters & parameters): 
   IntegratedBC(parameters),
-  _refTempFunc(getFunction("refTempFunc")),
+  _refTemp(getParam<Real>("refTemp")),
   _transferCoeff(getParam<Real>("transferCoeff"))
 {
 }
@@ -39,9 +38,7 @@ Real
 NormalHeatFluxBC::computeQpResidual()
 {
  // Residual
- Real refTemp = _refTempFunc.value(_t, _q_point[_qp]);
-
- return _transferCoeff * (_u[_qp] - refTemp) * _test[_i][_qp];
+ return _transferCoeff * (_u[_qp] - _refTemp) * _test[_i][_qp];
 }
 
 Real
