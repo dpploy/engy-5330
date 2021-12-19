@@ -110,7 +110,7 @@
     type = SourceTerm
     block = omega_1
     variable = uFuel
-    sourceSlope = 4.12983684
+    sourceSlope = 115.27923924670651
   []
   [diffusion-reflector]
     type = DiffusionTerm
@@ -188,7 +188,7 @@
   [x-b]
     type = DirichletBC
     boundary = right
-    value = 1e-06
+    value = 9.999999999999999e-09
     variable = uReflector
   []
 []
