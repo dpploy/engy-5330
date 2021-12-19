@@ -34,7 +34,6 @@ Real
 DiffusionTerm::computeQpResidual()
 {
   RealVectorValue q = - _diffCoeff * _grad_u[_qp];
-
  // Residual
   return - q * _grad_test[_i][_qp];
 }
