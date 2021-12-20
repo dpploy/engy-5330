@@ -8,7 +8,7 @@
     dim = 1
     xmin = 0
     xmax = 0.05
-    nx = 6
+    nx = 10
     elem_type = edge3
   []
 []
