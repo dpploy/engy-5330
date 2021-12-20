@@ -8,7 +8,7 @@
     dim = 1
     xmin = 0
     xmax = 0.05
-    nx = 6
+    nx = 10
     elem_type = edge3
   []
 []
@@ -28,7 +28,7 @@
   [source-term]
     type = SourceTerm
     variable = u
-    sourceS = 97902.44
+    sourceS = 156940
     coupledVariable = u
   []
 []
@@ -88,7 +88,7 @@
   nl_abs_tol = 1e-08
 []
 [VectorPostprocessors]
-  [Both_Robin]
+  [Robin_constant]
     type = LineValueSampler
     execute_on = 'timestep_end final'
     variable = 'u diffFluxU_r'

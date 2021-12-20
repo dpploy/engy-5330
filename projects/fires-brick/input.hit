@@ -93,7 +93,7 @@
   nl_abs_tol = 1e-08
 []
 [VectorPostprocessors]
-  [Both_Robin]
+  [Robin_variable]
     type = LineValueSampler
     execute_on = 'timestep_end final'
     variable = 'u diffFluxU_r'
