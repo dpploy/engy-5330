@@ -16,7 +16,7 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 |:---:|
 | <img width="380" src="pics/domain.png" title="Domain"> |
 | <p style="text-align:center;"><b>Explain this domain.</b></p> |
-|<img width="380" src="pics/results.png" title="Domain"> |
+|<img width="600" src="pics/results.png" title="Domain"> |
 | <p style="text-align:center;"><b>Explain this plot and change the title above it.</b></p> |
 
 References:
