@@ -14,8 +14,13 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 |  |
 |:---:|
-| <img width="380" src="pics/domain.png" title="My result"> |
-| <p style="text-align:center;"><b>Caption.</b></p> |
+| <img width="380" src="HeatedPlate.png" title="My result"> |
+| <p style="text-align:center;"><b>Heat transfer between a heated plate, a fluid channel, and an unheated plate.</b></p> |
+
+|  |
+|:---:|
+| <img width="380" src="3Domain_Neumann_Neumann.png" title="My result"> |
+| <p style="text-align:center;"><b>No-flux Neumann boundary conditions with a heat source in the left plate and an equivalent sink in the fluid channel.</b></p> |
 
 
 References:

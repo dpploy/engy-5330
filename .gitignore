@@ -1,7 +1,5 @@
 # local
 *~
-#*.png
-*.PNG
 *.svg
 toolkit.py
 moose-toolkit.py
