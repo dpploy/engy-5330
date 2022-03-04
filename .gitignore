@@ -6,6 +6,8 @@ moose-toolkit.py
 engy_5310
 *solution*
 *.swp
+*.png
+*.PNG
 p*moose*
 engy5310p*
 test*
