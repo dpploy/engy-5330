@@ -1,0 +1,108 @@
+[Problem]
+  type = FEProblem
+  coord_type = XYZ
+[]
+[Mesh]
+  [omega]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0
+    xmax = 0.05
+    nx = 10
+    elem_type = edge3
+  []
+[]
+[Variables]
+  [u]
+    order = second
+    family = lagrange
+    initial_condition = 30.0
+  []
+[]
+[Kernels]
+  [diffusion-term]
+    type = DiffusionTerm
+    variable = u
+    diffCoeff = 31
+  []
+  [source-term]
+    type = SourceTerm
+    variable = u
+    sourceS = 156940
+    coupledVariable = u
+  []
+[]
+[AuxVariables]
+  [diffFluxU]
+    order = first
+    family = monomial_vec
+  []
+  [diffFluxU_r]
+    order = first
+    family = monomial
+  []
+[]
+[AuxKernels]
+  [heat-flux-fuel]
+    type = HeatFlux
+    field = u
+    thCondCoeff = 31
+    variable = diffFluxU
+    execute_on = timestep_end
+  []
+  [heat-flux-fuel-r]
+    type = VectorVariableComponentAux
+    vector_variable = diffFluxU
+    component = x
+    variable = diffFluxU_r
+    execute_on = timestep_end
+  []
+[]
+[BCs]
+  [entry-u]
+    type = NormalHeatFluxBC
+    variable = u
+    boundary = left
+    bias = 0
+    transferCoeff = -10
+    refTempFunc = 20
+  []
+  [exit-u]
+    type = NormalHeatFluxBC
+    variable = u
+    boundary = right
+    bias = 0
+    transferCoeff = -10
+    refTempFunc = 40
+  []
+[]
+[Executioner]
+  type = Steady
+  solve_type = PJFNK
+  petsc_options_iname = '-pc_type -pc_hypre_type'
+  petsc_options_value = 'hypre boomeramg'
+  l_max_its = 20
+  l_tol = 1e-05
+  nl_max_its = 15
+  nl_rel_tol = 1e-08
+  nl_abs_tol = 1e-08
+[]
+[VectorPostprocessors]
+  [Robin_constant]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'u diffFluxU_r'
+    start_point = '0 0 0'
+    end_point = '0.05 0 0'
+    num_points = 2000
+    sort_by = id
+  []
+[]
+[Outputs]
+  console = true
+  [csv]
+    type = CSV
+    file_base = output
+    execute_on = final
+  []
+[]

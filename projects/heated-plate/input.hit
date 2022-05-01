@@ -1,0 +1,249 @@
+[Problem]
+  type = FEProblem
+  coord_type = XYZ
+[]
+[Mesh]
+  [omega1]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.0
+    xmax = 0.00127
+    nx = 3
+    elem_type = edge3
+  []
+  [omega2]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.00127
+    xmax = 0.00508
+    nx = 10
+    elem_type = edge3
+  []
+  [omega]
+    type = StitchedMeshGenerator
+    inputs = 'omega1 omega2'
+    stitch_boundaries_pairs = 'right left'
+    clear_stitched_boundary_ids = true
+  []
+  [mod1]
+    type = SubdomainBoundingBoxGenerator
+    input = omega
+    block_id = 1
+    block_name = omega_1
+    bottom_left = '0.0 0 0'
+    top_right = '0.00127 1 0'
+  []
+  [mod2]
+    type = SubdomainBoundingBoxGenerator
+    input = mod1
+    block_id = 2
+    block_name = omega_2
+    bottom_left = '0.00127 0 0'
+    top_right = '0.00508 1 0'
+  []
+  [mod3]
+    type = SideSetsBetweenSubdomainsGenerator
+    input = mod2
+    primary_block = omega_1
+    paired_block = omega_2
+    new_boundary = interface_12
+  []
+  [mod4]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod3
+    block = omega_1
+    normal = '-1 0 0'
+    new_boundary = omega_1_left
+  []
+  [mod5]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod4
+    block = omega_2
+    normal = '1 0 0'
+    new_boundary = omega_2_right
+  []
+[]
+[Variables]
+  [tempPlate]
+    block = omega_1
+    order = second
+    family = lagrange
+    initial_condition = 1
+  []
+  [tempCoolant]
+    block = omega_2
+    order = second
+    family = lagrange
+    initial_condition = 1
+  []
+[]
+[AuxVariables]
+  [heatFluxPlate]
+    block = omega_1
+    order = first
+    family = monomial_vec
+  []
+  [heatFluxPlate_x]
+    block = omega_1
+    order = first
+    family = monomial
+  []
+  [heatFluxCoolant]
+    block = omega_2
+    order = first
+    family = monomial_vec
+  []
+  [heatFluxCoolant_x]
+    block = omega_2
+    order = first
+    family = monomial
+  []
+[]
+[Kernels]
+  [heat-conduction-plate]
+    type = HeatConduction
+    block = omega_1
+    variable = tempPlate
+    thermCond = 240.0
+  []
+  [heat-source-plate]
+    type = HeatSource
+    block = omega_1
+    variable = tempPlate
+    sourceS = 3467247.091974499
+  []
+  [heat-conduction-coolant]
+    type = HeatConduction
+    block = omega_2
+    variable = tempCoolant
+    thermCond = 0.6
+  []
+  [heat-convection-coolant]
+    type = HeatConvection
+    block = omega_2
+    variable = tempCoolant
+    massDensity = 1000.7894031536096
+    heatCapacity = 4168.0
+    velocity = '0.0 0.001 0.0'
+  []
+[]
+[InterfaceKernels]
+  [normal-heat-flux-continuity]
+    type = InterfaceNormalFluxContinuity
+    variable = tempPlate
+    neighbor_var = tempCoolant
+    boundary = interface_12
+    thermCond = 240.0
+    thermCondNeighbor = 0.6
+  []
+  [temperature-jump]
+    type = InterfaceJump
+    variable = tempPlate
+    neighbor_var = tempCoolant
+    boundary = interface_12
+    transferCoeff = 1000000000000000.0
+    adsorptionCoeff = 0
+    thermCondCoeff = 240.0
+  []
+[]
+[AuxKernels]
+  [heat-flux-plate]
+    type = HeatFlux
+    block = omega_1
+    field = tempPlate
+    thCondCoeff = 240.0
+    variable = heatFluxPlate
+    execute_on = timestep_end
+  []
+  [heat-flux-plate-x]
+    type = VectorVariableComponentAux
+    block = omega_1
+    vector_variable = heatFluxPlate
+    component = x
+    variable = heatFluxPlate_x
+    execute_on = timestep_end
+  []
+  [heat-flux-coolant]
+    type = HeatFlux
+    block = omega_2
+    field = tempCoolant
+    thCondCoeff = 0.6
+    variable = heatFluxCoolant
+    execute_on = timestep_end
+  []
+  [heat-flux-coolant-x]
+    type = VectorVariableComponentAux
+    block = omega_2
+    vector_variable = heatFluxCoolant
+    component = x
+    variable = heatFluxCoolant_x
+    execute_on = timestep_end
+  []
+[]
+[BCs]
+  [center-line]
+    type = NeumannBC
+    variable = tempPlate
+    boundary = omega_1_left
+    value = 0
+  []
+  [x_i_r]
+    type = NormalHeatFluxBC
+    variable = tempCoolant
+    boundary = omega_2_right
+    refTempFunc = refTempFunc
+    transferCoeff = 1000
+  []
+[]
+[Functions]
+  [refTempFunc]
+    type = ParsedFunction
+    value = temp_ref
+    vars = temp_ref
+    vals = 298.15
+  []
+[]
+[Preconditioning]
+  active = fdp-newt-full
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = NEWTON
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  1e-8          ds'
+  []
+[]
+[Executioner]
+  type = Steady
+[]
+[VectorPostprocessors]
+  [omega_1]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'tempPlate heatFluxPlate_x'
+    start_point = '0.0 0 0'
+    end_point = '0.00126365 0 0'
+    num_points = 7
+    sort_by = id
+  []
+  [omega_2]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'tempCoolant heatFluxCoolant_x'
+    start_point = '0.0012763499999999999 0 0'
+    end_point = '0.00508 0 0'
+    num_points = 21
+    sort_by = id
+  []
+[]
+[Outputs]
+  console = true
+  [csv]
+    type = CSV
+    file_base = output
+    execute_on = final
+  []
+[]
+[Debug]
+  show_var_residual_norms = true
+[]

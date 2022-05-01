@@ -1,0 +1,238 @@
+[Problem]
+  type = FEProblem
+  coord_type = XYZ
+[]
+[Mesh]
+  [omega1]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.0
+    xmax = 0.125
+    nx = 3
+    elem_type = edge3
+  []
+  [omega2]
+    type = GeneratedMeshGenerator
+    dim = 1
+    xmin = 0.125
+    xmax = 3.091
+    nx = 12
+    elem_type = edge3
+  []
+  [omega]
+    type = StitchedMeshGenerator
+    inputs = 'omega1 omega2'
+    stitch_boundaries_pairs = 'right left'
+    clear_stitched_boundary_ids = true
+  []
+  [mod1]
+    type = SubdomainBoundingBoxGenerator
+    input = omega
+    block_id = 1
+    block_name = omega_1
+    bottom_left = '0.0 0 0'
+    top_right = '0.125 1 0'
+  []
+  [mod2]
+    type = SubdomainBoundingBoxGenerator
+    input = mod1
+    block_id = 2
+    block_name = omega_2
+    bottom_left = '0.125 0 0'
+    top_right = '3.091 1 0'
+  []
+  [mod3]
+    type = SideSetsBetweenSubdomainsGenerator
+    input = mod2
+    primary_block = omega_1
+    paired_block = omega_2
+    new_boundary = interface_12
+  []
+  [mod4]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod3
+    block = omega_1
+    normal = '-1 0 0'
+    new_boundary = left
+  []
+  [mod5]
+    type = SideSetsAroundSubdomainGenerator
+    input = mod4
+    block = omega_2
+    normal = '1 0 0'
+    new_boundary = right
+  []
+[]
+[Variables]
+  [uFuel]
+    block = omega_1
+    order = second
+    family = lagrange
+    initial_condition = 10
+  []
+  [uReflector]
+    block = omega_2
+    order = second
+    family = lagrange
+    initial_condition = 10
+  []
+[]
+[AuxVariables]
+  [diffFluxFuel]
+    block = omega_1
+    order = first
+    family = monomial_vec
+  []
+  [diffFluxFuel_x]
+    block = omega_1
+    order = first
+    family = monomial
+  []
+  [diffFluxReflector]
+    block = omega_2
+    order = first
+    family = monomial_vec
+  []
+  [diffFluxReflector_x]
+    block = omega_2
+    order = first
+    family = monomial
+  []
+[]
+[Kernels]
+  [diffusion-fuel]
+    type = DiffusionTerm
+    block = omega_1
+    variable = uFuel
+    diffCoeff = 1.0
+  []
+  [source-fuel]
+    type = SourceTerm
+    block = omega_1
+    variable = uFuel
+    sourceSlope = 115.27923924670651
+  []
+  [diffusion-reflector]
+    type = DiffusionTerm
+    block = omega_2
+    variable = uReflector
+    diffCoeff = 1.0
+  []
+  [source-reflector]
+    type = SourceTerm
+    block = omega_2
+    variable = uReflector
+    sourceSlope = -1.1150646347215516
+  []
+[]
+[InterfaceKernels]
+  [normal-flux-continuity]
+    type = InterfaceNormalFluxContinuity
+    variable = uFuel
+    neighbor_var = uReflector
+    boundary = interface_12
+    diffCoeff = 1.0
+    diffCoeffNeighbor = 1.0
+  []
+  [u-jump]
+    type = InterfaceJump
+    variable = uFuel
+    neighbor_var = uReflector
+    boundary = interface_12
+    transferCoeff = 10000000000.0
+    adsorptionCoeff = 0.0
+    diffCoeff = 1.0
+  []
+[]
+[AuxKernels]
+  [diffusion-flux-fuel]
+    type = DiffusionFlux
+    block = omega_1
+    field = uFuel
+    diffCoeff = 1.0
+    variable = diffFluxFuel
+    execute_on = timestep_end
+  []
+  [diffusion-flux-fuel-x]
+    type = VectorVariableComponentAux
+    block = omega_1
+    vector_variable = diffFluxFuel
+    component = x
+    variable = diffFluxFuel_x
+    execute_on = timestep_end
+  []
+  [diffusion-flux-reflector]
+    type = DiffusionFlux
+    block = omega_2
+    field = uReflector
+    diffCoeff = 1.0
+    variable = diffFluxReflector
+    execute_on = timestep_end
+  []
+  [diffusion-flux-reflector-x]
+    type = VectorVariableComponentAux
+    block = omega_2
+    vector_variable = diffFluxReflector
+    component = x
+    variable = diffFluxReflector_x
+    execute_on = timestep_end
+  []
+[]
+[BCs]
+  [center-line]
+    type = NeumannBC
+    variable = uFuel
+    boundary = left
+    value = 0
+  []
+  [x-b]
+    type = DirichletBC
+    boundary = right
+    value = 9.999999999999999e-09
+    variable = uReflector
+  []
+[]
+[Preconditioning]
+  active = fdp-newt-full
+  [fdp-newt-full]
+    type = FDP
+    full = true
+    solve_type = NEWTON
+    petsc_options_iname = '-pc_type -mat_fd_coloring_err -mat_fd_type'
+    petsc_options_value = 'lu  1e-8          ds'
+  []
+[]
+[Executioner]
+  type = Steady
+[]
+[VectorPostprocessors]
+  [omega_1]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'uFuel diffFluxFuel_x'
+    start_point = '0.0 0 0'
+    end_point = '0.124375 0 0'
+    num_points = 7
+    sort_by = id
+  []
+  [omega_2]
+    type = LineValueSampler
+    execute_on = 'timestep_end final'
+    variable = 'uReflector diffFluxReflector_x'
+    start_point = '0.125625 0 0'
+    end_point = '3.091 0 0'
+    num_points = 25
+    sort_by = id
+  []
+[]
+[Outputs]
+  console = true
+  [csv]
+    type = CSV
+    file_base = output
+    execute_on = final
+  []
+[]
+[Debug]
+  show_var_residual_norms = true
+[]
