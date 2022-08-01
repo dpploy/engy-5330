@@ -4,7 +4,7 @@ UMass Lowell Fall 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
 Engy-5310: Computational Continuum Transport Phenomena
 
-View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/blob/main/projects/fires-brick/reporti_moose.ipynb)
+View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/blob/main/projects/fires-brick/report_moose.ipynb)
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Ffires-brick%2Freport_moose.ipynb)
 
