@@ -1,4 +1,4 @@
-# Engy-5310 Computational Continuum Transport Phenomena
+# Engy-5310 Computational Transport Phenomena
 
 [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5310/tree/main/notebooks/)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/main)
