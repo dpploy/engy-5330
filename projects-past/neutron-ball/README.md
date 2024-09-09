@@ -9,7 +9,7 @@ View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/j
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5330/HEAD?filepath=projects%2Fneutron-ball%2Freport.ipynb)
 
  >[Paul Johnson](https://github.com/marmolRBG
-), and [Prof. Sukesh Aghara](https://github.com/xxx) <br>
+), and [Prof. Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
  >University of Massachusetts Lowell, USA <br>
 
