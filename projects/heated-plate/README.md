@@ -6,7 +6,7 @@ Engy-5330: Computational Continuum Transport Phenomena
 
 View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5330/blob/main/projects/heated-plate/report.ipynb)
 
-Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5310/HEAD?filepath=projects%2Fheated-plate%2Freport.ipynb)
+Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5330/HEAD?filepath=projects%2Fheated-plate%2Freport.ipynb)
 
  >[Andrew Hamel](https://github.com/anhamel), [Lohith Annadevula](https://github.com/L-Annadevula), and [prof. Sukesh Aghara](url) <br>
  >[Dept. of Chemical Engineering (Nuclear Energy)](xxx) <br>
