@@ -4,7 +4,7 @@ UMass Lowell Spring 2021 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
 Engy-5310: Computational Continuum Transport Phenomena
 
-View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5330/blob/main/projects/xenon-removal/report.ipynb)
+View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5330/blob/main/projects-past/xenon-removal/report.ipynb)
 
 Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5330/HEAD?filepath=projects%2Fxenon-removal%2Freport.ipynb)
 
