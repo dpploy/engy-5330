@@ -2,11 +2,11 @@
 
 UMass Lowell Fall 2020 <br>
 Dept. of Chemical Engineering, Nuclear Program <br>
-Engy-4390: Nuclear Systems Design and Analysis
+Engy-5330: Computational Transport Phenomena
 
 View the project on `NBViewer`: [![NBViewer](https://raw.githubusercontent.com/jupyter/design/master/logos/Badges/nbviewer_badge.svg)](https://nbviewer.jupyter.org/github/dpploy/engy-5330/blob/main/projects-past/steamer/report.ipynb)
 
-Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5330/HEAD?filepath=projects%2Fsteamer%2Freport.ipynb)
+Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/dpploy/engy-5330/HEAD?filepath=projects-past%2Fsteamer%2Freport.ipynb)
 
  >[Jack Kennedy](https://github.com/xxxx), [Nik Kemper](https://github.com/xxxx) and [prof. Valmor F. de Almeida](https://github.com/dealmeidavf) <br>
  >[Dept. of Chemical Engineering (Nuclear Program)](https://www.uml.edu/Engineering/Chemical/faculty/de-Almeida-Valmor.aspx) <br>
@@ -25,6 +25,6 @@ Run the project on `Binder`: [![Binder](https://mybinder.org/badge_logo.svg)](ht
 
 References:
 
- + [Eng-5310: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5330)
+ + [Eng-5330: Computational Continuum Transport Phenomena: course notes](https://github.com/dpploy/engy-5330)
  + [Multiphysics Object-Oriented Simulation Environment (MOOSE)](https://mooseframework.inl.gov/)
 
