@@ -8,8 +8,8 @@ moose-toolkit.py
 engy_5310
 *solution*
 *.swp
-*.png
-*.PNG
+#*.png
+#*.PNG
 p*moose*
 engy5310p*
 test*
@@ -101,7 +101,7 @@ temp_print_trace.*
 *.svg
 *.gif
 *.tif
-*.jpg
+#*.jpg
 *.tiff
 *.ps
 *.bmp
